@@ -1,0 +1,94 @@
+.step-nav {
+    margin-bottom: 30px;
+}
+
+.step-nav__steps {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.step-nav__step {
+    position: relative;
+    padding: 15px 0;
+    border-top: 1px solid #b1b4b6;
+    padding-left: 40px;
+}
+
+.step-nav__number {
+    position: absolute;
+    left: 0;
+    display: inline-block;
+    width: 26px;
+    height: 26px;
+    background-color: #fff;
+    border: 2px solid #1d70b8;
+    color: #1d70b8;
+    font-family: "GDS Transport", arial, sans-serif;
+    font-size: 16px;
+    font-weight: bold;
+    line-height: 23px;
+    text-align: center;
+    border-radius: 50%;
+}
+
+.step-nav__title {
+    display: inline-block;
+    font-size: 19px;
+    line-height: 1.31579;
+    font-weight: bold;
+}
+
+.step-nav__button {
+    color: #1d70b8;
+    background: none;
+    border: 0;
+    padding: 0;
+    font-size: 14px;
+    font-family: "GDS Transport", arial, sans-serif;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-decoration: underline;
+    display: block;
+    margin-top: 5px;
+    margin-left: 0;
+}
+
+.step-nav__button:hover {
+    text-decoration: none;
+}
+
+.step-nav__button[aria-expanded="true"] {
+    content: "Hide";
+}
+
+.step-nav__content {
+    display: none;
+    margin-top: 15px;
+}
+
+.step-nav__content[aria-hidden="false"] {
+    display: block;
+}
+
+/* Show all steps button */
+.step-nav-button {
+    font-family: "GDS Transport", arial, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.25;
+    display: inline-block;
+    padding: 0;
+    border: 0;
+    color: #1d70b8;
+    background: none;
+    cursor: pointer;
+    -webkit-appearance: none;
+    text-decoration: underline;
+    margin-bottom: 30px;
+}
+
+.step-nav-button:hover {
+    color: #003078;
+    text-decoration: none;
+}

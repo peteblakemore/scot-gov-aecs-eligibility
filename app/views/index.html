@@ -6,14 +6,11 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-
-    {% include "govuk-prototype-kit/includes/homepage-top.njk" %}
-
     <div class="ds_wrapper">
         <main id="main-content" class="ds_layout  ds_layout--article">
             <div class="ds_layout__header">
                 <header class="ds_page-header">
-                    <h1 class="ds_page-header__title">AECS Scheme Options Checker</h1>
+                    <h1 class="ds_page-header__title">{{ serviceName }}</h1>
                 </header>
             </div>
 
@@ -22,13 +19,21 @@
                     <li class="ds_task-list-group__section">
                         <h2 class="ds_task-list-heading">Prototype versions</h2>
                         <ul class="ds_task-list">
+                          <li class="ds_task-list__task" id="version1">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="version-1/start">Version 2 - Search by BRN for multiple holdings</a>
+                                </h3>
+                            </div>
+                            <div class="ds_task-list__task-status" aria-hidden="true">In progress</div>
+                          </li>
                             <li class="ds_task-list__task" id="version1">
                                 <div class="ds_task-list__task-details">
                                     <h3 class="ds_task-list__task-heading">
-                                        <a class="ds_task-list__task-link" href="start">Version 1</a>
+                                        <a class="ds_task-list__task-link" href="version-1/start">Version 1 - MVP spreadsheet functionality</a>
                                     </h3>
                                 </div>
-                                <div class="ds_task-list__task-status" aria-hidden="true">Latest</div>
+                                <div class="ds_task-list__task-status" aria-hidden="true">Ready for testing</div>
                             </li>
                         </ul>
                     </li>

@@ -5,3 +5,13 @@
 
 // Add extra styles here
 @import "components/step-nav";
+
+.ds_task-list__task-status-container {
+    display: flex;
+    gap: 0.5rem; /* Adjust the gap as needed */
+}
+
+.ds_task-list__task-status--latest {
+    background-color: #1d70b8;
+    color: #fff;
+}

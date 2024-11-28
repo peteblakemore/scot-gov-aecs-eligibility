@@ -353,7 +353,24 @@
 <!-- Move the script here, after the main content -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get the audit mappings
+        // First check if user selected "no" for audit
+        const auditAnswer = sessionStorage.getItem('audit-answer');
+        
+        // If they selected "no", don't show the filter UI and keep standard layout
+        if (auditAnswer === 'no') {
+            // Remove the sidebar layout classes
+            document.querySelector('.ds_page__content').classList.remove('ds_page__content');
+            document.querySelector('.ds_layout__content--narrow').remove();
+            
+            // Keep the two-thirds width for results
+            const contentDiv = document.querySelector('.ds_layout__content--wide');
+            contentDiv.classList.remove('ds_layout__content--wide');
+            contentDiv.classList.add('ds_layout__content');
+            contentDiv.style.maxWidth = '66.666%';  // Keep two-thirds width
+            return;
+        }
+
+        // Otherwise, continue with the filter UI setup as before
         const auditMappings = {
             'Carbon': [
                 'Wild Bird Seed for Farmland Birds',

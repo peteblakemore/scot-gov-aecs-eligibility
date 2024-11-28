@@ -121,8 +121,12 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelector('form').addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // If "Yes" is selected, store the audit selections
-        if (document.getElementById('audit-yes').checked) {
+        // Store whether user selected yes or no
+        const auditAnswer = document.querySelector('input[name="audit"]:checked').value;
+        sessionStorage.setItem('audit-answer', auditAnswer);
+        
+        // If they selected yes, store the audit selections
+        if (auditAnswer === 'yes') {
             const selectedAudits = Array.from(document.querySelectorAll('input[name="wfp-audit[]"]:checked'))
                 .map(cb => cb.value);
             sessionStorage.setItem('wfp-audit', JSON.stringify(selectedAudits));

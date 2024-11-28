@@ -144,3 +144,13 @@
 .ds_layout__content--wide {
     flex: 0 0 66.666%;
 }
+
+.ds_task-list__task-status-container {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.ds_task-list__task-status--latest {
+    background-color: #0065bd;
+    color: #fff;
+}

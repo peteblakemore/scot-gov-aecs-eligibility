@@ -1,0 +1,87 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}AECS eligibility checker{% endblock %}
+
+{# Use an empty siteBrandingTitle block to only show the Scottish Government logo for site branding #}
+{% block siteBrandingTitle %}
+<div class="ds_site-branding__title">
+    {{ serviceName }}
+</div>
+{% endblock %}
+
+{# Use an empty siteSearch block to hide the search from the header #}
+{% block siteSearch %}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">Apply for AECS funding: step by step</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <p>Check what you need to do to apply for AECS funding.</p>
+
+            <button class="step-nav-button" aria-expanded="false">Show all steps</button>
+
+            <div class="step-nav">
+                <ol class="step-nav__steps">
+                    <li class="step-nav__step">
+                        <span class="step-nav__number">1</span>
+                        <span class="step-nav__title">Register with RPID</span>
+                        <button class="step-nav__button" aria-expanded="false">Show</button>
+                        <div class="step-nav__content" aria-hidden="true">
+                            <p>You must register with Rural Payments and Inspections Division (RPID) before you can apply for any rural funding.</p>
+                            <p><a target="_blank" href="https://account.ruralpayments.org/publicsite/futures/register/">Register with RPID online</a></p>
+                        </div>
+                    </li>
+
+                    <li class="step-nav__step">
+                        <span class="step-nav__number">2</span>
+                        <span class="step-nav__title">Get a Business Reference Number (BRN)</span>
+                        <button class="step-nav__button" aria-expanded="false">Show</button>
+                        <div class="step-nav__content" aria-hidden="true">
+                            <p>Your BRN is a unique reference number that identifies your business.</p>
+                            <p><a target="_blank" href="https://www.ruralpayments.org/topics/your-business/business-registration/">Apply for a BRN</a></p>
+                        </div>
+                    </li>
+
+                    <li class="step-nav__step">
+                        <span class="step-nav__number">3</span>
+                        <span class="step-nav__title">Check which scheme options you can apply for</span>
+                        <button class="step-nav__button" aria-expanded="false">Show</button>
+                        <div class="step-nav__content" aria-hidden="true">
+                            <p>Find out which AECS options are available for your land.</p>
+                            <p><a href="start">Check scheme options</a></p>
+                        </div>
+                    </li>
+
+                    <li class="step-nav__step">
+                        <span class="step-nav__number">4</span>
+                        <span class="step-nav__title">Plan your application</span>
+                        <button class="step-nav__button" aria-expanded="false">Show</button>
+                        <div class="step-nav__content" aria-hidden="true">
+                            <p>Read the scheme guidance and get help from your local RPID office or farm advisor.</p>
+                            <p><a target="_blank" href="https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/agri-environment-climate-scheme-full-guidance-menu/">Read the AECS guidance</a></p>
+                            <p><a target="_blank" href="https://www.ruralpayments.org/topics/contact-us/">Find your local RPID office</a></p>
+                        </div>
+                    </li>
+
+                    <li class="step-nav__step">
+                        <span class="step-nav__number">5</span>
+                        <span class="step-nav__title">Submit your application</span>
+                        <button class="step-nav__button" aria-expanded="false">Show</button>
+                        <div class="step-nav__content" aria-hidden="true">
+                            <p>Applications must be submitted through Rural Payments and Services before the deadline.</p>
+                            <p><a target="_blank" href="https://www.ruralpayments.org/">Apply online</a></p>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="/public/javascripts/step-nav.js"></script>
+{% endblock %}

@@ -1,0 +1,141 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}AECS eligibility checker{% endblock %}
+
+{# Use an empty siteBrandingTitle block to only show the Scottish Government logo for site branding #}
+{% block siteBrandingTitle %}
+<div class="ds_site-branding__title">
+    {{ serviceName }}
+</div>
+{% endblock %}
+
+{# Use an empty siteSearch block to hide the search from the header #}
+{% block siteSearch %}{% endblock %}
+
+
+{# Back link - in place of breadcrumbs #}
+{% block breadcrumbs %}
+<div class="ds_wrapper">
+    <a class="ds_back-link" href="start">Back</a>
+</div>
+{% endblock %}
+
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title ds_!_margin-bottom--4">Whole Farm Plan audit</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <form method="post">
+                <div class="ds_question">
+                    <fieldset>
+                        <legend class="ds_!_margin-bottom--4">Have you completed a Whole Farm Plan audit in the last 3 years?</legend>
+
+                        <div class="ds_field-group">
+                            <div class="ds_radio">
+                                <input class="ds_radio__input" id="audit-yes" name="audit" type="radio" value="yes" data-aria-controls="audit-types">
+                                <label class="ds_radio__label" for="audit-yes">Yes, I have completed a Whole Farm Plan audit</label>
+                            </div>
+                            
+                            <div class="ds_!_margin-bottom--4 ds_!_padding-left--2" id="audit-types" class="fully-hidden">
+                                <div class="ds_inset-text  ds_!_margin-bottom--4 ds_!_padding-left--4">
+                                    <div class="ds_inset-text__text">
+                                        <fieldset>
+                                            <legend>Which audits have you completed?</legend>
+                                            <p class="ds_hint-text">Select all that apply</p>
+
+                                            <div class="ds_checkbox">
+                                                <input class="ds_checkbox__input" id="carbon" name="wfp-audit[]" type="checkbox" value="Carbon">
+                                                <label class="ds_checkbox__label" for="carbon">Carbon audit</label>
+                                            </div>
+
+                                            <div class="ds_checkbox">
+                                                <input class="ds_checkbox__input" id="biodiversity" name="wfp-audit[]" type="checkbox" value="Biodiversity">
+                                                <label class="ds_checkbox__label" for="biodiversity">Biodiversity audit</label>
+                                            </div>
+
+                                            <div class="ds_checkbox">
+                                                <input class="ds_checkbox__input" id="soil" name="wfp-audit[]" type="checkbox" value="Soil Management">
+                                                <label class="ds_checkbox__label" for="soil">Soil audit</label>
+                                            </div>
+
+                                            <div class="ds_checkbox">
+                                                <input class="ds_checkbox__input" id="water" name="wfp-audit[]" type="checkbox" value="Water Management">
+                                                <label class="ds_checkbox__label" for="water">Water audit</label>
+                                            </div>
+
+                                            <div class="ds_checkbox">
+                                                <input class="ds_checkbox__input" id="air" name="wfp-audit[]" type="checkbox" value="Air Quality">
+                                                <label class="ds_checkbox__label" for="air">Air quality audit</label>
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ds_radio">
+                                <input class="ds_radio__input" id="audit-no" name="audit" type="radio" value="no">
+                                <label class="ds_radio__label" for="audit-no">No, I have not completed a Whole Farm Plan audit</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <button type="submit" class="ds_button">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const radioButtons = document.querySelectorAll('input[name="audit"]');
+    const revealContent = document.getElementById('audit-types');
+
+    function toggleReveal() {
+        if (document.getElementById('audit-yes').checked) {
+            revealContent.classList.remove('fully-hidden');
+        } else {
+            revealContent.classList.add('fully-hidden');
+            // Clear checkboxes when hiding
+            revealContent.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+                checkbox.checked = false;
+            });
+        }
+    }
+
+    radioButtons.forEach(radio => {
+        radio.addEventListener('change', toggleReveal);
+    });
+
+    // Initial state check
+    toggleReveal();
+});
+</script>
+
+<script type="text/javascript">
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // If "Yes" is selected, store the audit selections
+        if (document.getElementById('audit-yes').checked) {
+            const selectedAudits = Array.from(document.querySelectorAll('input[name="wfp-audit[]"]:checked'))
+                .map(cb => cb.value);
+            sessionStorage.setItem('wfp-audit', JSON.stringify(selectedAudits));
+        }
+        
+        // Redirect to the next page
+        window.location.href = 'question-location.html';
+    });
+</script>
+
+<style>
+.fully-hidden {
+    display: none;
+}
+</style>
+{% endblock %}

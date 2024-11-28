@@ -15,3 +15,58 @@
     background-color: #1d70b8;
     color: #fff;
 }
+
+.scheme-option--highlighted {
+    border-left: 4px solid #1d70b8;
+    padding-left: 15px;
+    background-color: #f8f8f8;
+}
+
+.audit-badges {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.audit-badge {
+    font-size: 14px;
+    padding: 4px 8px;
+    background-color: #1d70b8;
+    color: white;
+    border-radius: 4px;
+}
+
+// Notification banner styles
+.ds_notification {
+    background: #f3f2f1;
+    border: 5px solid #1d70b8;
+    padding: 20px;
+    margin-bottom: 30px;
+}
+
+.ds_notification--positive {
+    border-color: #00703c;
+    background: #f3f2f1;
+}
+
+.ds_notification__title {
+    font-size: 1.1em;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #0b0c0c;
+}
+
+.ds_notification__body {
+    color: #0b0c0c;
+    margin: 0;
+}
+
+.ds_notification__body ul {
+    margin-bottom: 0;
+}
+
+.ds_notification__body p {
+    color: #505a5f;
+    font-size: 0.9em;
+}

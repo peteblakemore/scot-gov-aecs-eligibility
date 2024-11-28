@@ -6,5 +6,3 @@
 window.GOVUKPrototypeKit.documentReady(() => {
   // Add JavaScript here
 })
-
-import './step-nav';

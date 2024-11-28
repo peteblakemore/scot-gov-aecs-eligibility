@@ -79,11 +79,13 @@
         const searchType = document.querySelector('input[name="search-type"]:checked').value;
         
         if (searchType === 'holding') {
-            const holdingNumber = document.getElementById('holding').value;
-            window.location.href = 'scheme-options-results_holding-number?holding=' + holdingNumber;
+            // Store the holding number and go to audit question
+            sessionStorage.setItem('holding', document.getElementById('holding').value);
+            window.location.href = 'question-wfp-audit.html';
         } else if (searchType === 'brn') {
+            // Go straight to BRN results page
             const brn = document.getElementById('brn').value;
-            window.location.href = 'scheme-options-results_brn?brn=' + brn;
+            window.location.href = 'scheme-options-results_brn.html?brn=' + brn;
         }
     });
 </script>

@@ -132,8 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
             sessionStorage.setItem('wfp-audit', JSON.stringify(selectedAudits));
         }
         
-        // Redirect to the next page
-        window.location.href = 'question-location.html';
+        // Get the holding number from sessionStorage and include it in the URL
+        const holding = sessionStorage.getItem('holding');
+        window.location.href = 'scheme-options-results_holding-number.html?holding=' + holding;
     });
 </script>
 

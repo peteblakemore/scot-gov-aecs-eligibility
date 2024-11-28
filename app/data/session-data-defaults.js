@@ -2,7 +2,7 @@ module.exports = {
 
   // Insert values here
 
-  'audit-to-options-mapping': {
+  'audit-mappings': {
     'Carbon': [
       'Wild Bird Seed for Farmland Birds',
       'Stubbles Followed by Green Manure in an Arable Rotation',

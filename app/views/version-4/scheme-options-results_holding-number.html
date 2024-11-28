@@ -445,17 +445,19 @@
             if (selectedAudits.length > 0) {
                 const auditBox = document.createElement('div');
                 auditBox.className = 'ds_filter-group';
+                const allSchemes = document.querySelectorAll('.ds_task-list__task').length;
+
                 auditBox.innerHTML = `
                     <h3 class="ds_filter-group__title">Filter by audit type</h3>
                     <div class="ds_checkboxes">
                         <div class="ds_checkbox">
                             <input class="ds_checkbox__input" id="filter-all" type="checkbox" name="filter" value="all" checked>
-                            <label class="ds_checkbox__label" for="filter-all">All schemes</label>
+                            <label class="ds_checkbox__label" for="filter-all">All schemes (${allSchemes})</label>
                         </div>
                         ${selectedAudits.map(audit => `
                             <div class="ds_checkbox">
                                 <input class="ds_checkbox__input" id="filter-${audit}" type="checkbox" name="filter" value="${audit}">
-                                <label class="ds_checkbox__label" for="filter-${audit}">${audit}</label>
+                                <label class="ds_checkbox__label" for="filter-${audit}">${audit} (${auditMappings[audit].length})</label>
                             </div>
                         `).join('')}
                     </div>

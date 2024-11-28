@@ -24,49 +24,28 @@
 
 {% block main %}
 <div class="ds_wrapper">
-    <main id="main-content" class="ds_layout  ds_layout--article">
+    <header class="ds_page-header">
+        <h1 class="ds_page-header__title">Scheme options for your farm</h1>
+    </header>
 
-        <div class="ds_layout__header">
-            <header class="ds_page-header">
-                <h1 class="ds_page-header__title">Scheme options for your farm</h1>
-            </header>
+    <!-- Wrap inset text in its own container -->
+    <div class="scheme-info">
+        <div class="ds_inset-text">
+            <div class="ds_inset-text__text">
+                Based on holding number {{ data['holding'] }}, there are 36 schemes you may be able to apply for, provided you meet the eligibility criteria.
+            </div>
+        </div>
+    </div>
 
-            <!-- Add this script to retrieve and display the audit data -->
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const auditData = sessionStorage.getItem('wfp-audit');
-                    if (auditData) {
-                        const selectedAudits = JSON.parse(auditData);
-                        if (selectedAudits.length > 0) {
-                            const auditBox = document.createElement('div');
-                            auditBox.className = 'ds_notification ds_notification--positive ds_!_margin-top--4';
-                            auditBox.innerHTML = `
-                                <div class="ds_notification__content">
-                                    <h2 class="ds_notification__title">Your selected Whole Farm Plan audit areas</h2>
-                                    <div class="ds_notification__body">
-                                        <ul class="ds_list">
-                                            ${selectedAudits.map(audit => `<li>${audit}</li>`).join('')}
-                                        </ul>
-                                        <p class="ds_!_margin-top--2">Scheme options related to your selected audits are highlighted below</p>
-                                    </div>
-                                </div>
-                            `;
-                            document.querySelector('.ds_page-header').insertAdjacentElement('afterend', auditBox);
-                        }
-                    }
-                });
-            </script>
+    <!-- Grid container for two-column layout -->
+    <div class="ds_page__content">
+        <div class="ds_layout__content--narrow">
+            <div id="filter-container">
+                <!-- Filter box will be inserted here by JavaScript -->
+            </div>
         </div>
 
-        <div class="ds_layout__content">
-            <div class="ds_inset-text">
-                <div class="ds_inset-text__text">
-                    Based on holding number {{ data['holding'] }}, there are 36 schemes you may be able to apply for, provided you meet the eligibility criteria.
-                </div>
-            </div>
-
-            <nav aria-labelledby="task-list-status" class="ds_task-list-status">
-            </nav>
+        <div class="ds_layout__content--wide">
             <ul class="ds_task-list-group">
                 <!-- Arable Section -->
                 <li class="ds_task-list-group__section">
@@ -368,13 +347,13 @@
 
             {% include "includes/step-by-step-link.njk" %}
         </div>
-    </main>
+    </div>
 </div>
 
-<!-- Add this script after the existing audit display script -->
+<!-- Move the script here, after the main content -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Get the audit mappings - use exact same values as session-data-defaults.js
+        // Get the audit mappings
         const auditMappings = {
             'Carbon': [
                 'Wild Bird Seed for Farmland Birds',
@@ -442,42 +421,68 @@
             ]
         };
 
-        // Add console.log to debug
+        // Create and add the filter UI
         const auditData = sessionStorage.getItem('wfp-audit');
-        console.log('Stored audit data:', auditData);
-        
         if (auditData) {
             const selectedAudits = JSON.parse(auditData);
-            console.log('Selected audits:', selectedAudits);
-            
-            // Find all scheme option links
-            document.querySelectorAll('.ds_task-list__task-heading a').forEach(link => {
-                const optionName = link.textContent.trim();
-                console.log('Checking option:', optionName);
-                
-                // Check if this option relates to any selected audit
-                const relatedAudits = selectedAudits.filter(audit => 
-                    auditMappings[audit] && auditMappings[audit].includes(optionName)
-                );
-                console.log('Related audits:', relatedAudits);
-                
-                if (relatedAudits.length > 0) {
-                    // Add highlighting and tooltip
-                    const taskItem = link.closest('.ds_task-list__task');
-                    taskItem.classList.add('scheme-option--highlighted');
-                    
-                    // Add audit badges
-                    const badgeContainer = document.createElement('div');
-                    badgeContainer.className = 'audit-badges';
-                    relatedAudits.forEach(audit => {
-                        const badge = document.createElement('span');
-                        badge.className = 'audit-badge';
-                        badge.textContent = audit;
-                        badgeContainer.appendChild(badge);
+            if (selectedAudits.length > 0) {
+                const auditBox = document.createElement('div');
+                auditBox.className = 'ds_notification';
+                auditBox.innerHTML = `
+                    <div class="ds_notification__content">
+                        <h2 class="ds_notification__title">Filter scheme options</h2>
+                        <div class="ds_notification__body">
+                            <div class="ds_filter-group">
+                                <button class="ds_button ds_button--small ds_button--secondary filter-button ds_button--selected" data-filter="all">
+                                    Show all options
+                                </button>
+                                ${selectedAudits.map(audit => `
+                                    <button class="ds_button ds_button--small ds_button--secondary filter-button" data-filter="${audit}">
+                                        Show ${audit} options
+                                    </button>
+                                `).join('')}
+                            </div>
+                            <p class="ds_!_margin-top--2">You previously selected these audit options: ${selectedAudits.join(', ')}</p>
+                        </div>
+                    </div>
+                `;
+                document.getElementById('filter-container').appendChild(auditBox);
+
+                // Add filter functionality
+                const filterButtons = document.querySelectorAll('.filter-button');
+                filterButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const filter = this.dataset.filter;
+                        
+                        // Update active button state
+                        filterButtons.forEach(btn => btn.classList.remove('ds_button--selected'));
+                        this.classList.add('ds_button--selected');
+                        
+                        // Apply the filter
+                        const allOptions = document.querySelectorAll('.ds_task-list__task');
+                        allOptions.forEach(option => {
+                            const optionName = option.querySelector('.ds_task-list__task-heading a').textContent.trim();
+                            
+                            if (filter === 'all') {
+                                option.style.display = '';
+                            } else {
+                                const isRelated = auditMappings[filter] && auditMappings[filter].includes(optionName);
+                                option.style.display = isRelated ? '' : 'none';
+                            }
+                        });
+
+                        // Update section visibility
+                        document.querySelectorAll('.ds_task-list-group__section').forEach(section => {
+                            const hasVisibleOptions = Array.from(section.querySelectorAll('.ds_task-list__task'))
+                                .some(option => option.style.display !== 'none');
+                            section.style.display = hasVisibleOptions ? '' : 'none';
+                        });
                     });
-                    taskItem.appendChild(badgeContainer);
-                }
-            });
+                });
+
+                // Set initial state to show all
+                document.querySelector('[data-filter="all"]').click();
+            }
         }
     });
 </script>

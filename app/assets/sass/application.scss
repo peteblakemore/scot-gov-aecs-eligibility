@@ -6,67 +6,73 @@
 // Add extra styles here
 @import "components/step-nav";
 
-.ds_task-list__task-status-container {
-    display: flex;
-    gap: 0.5rem; /* Adjust the gap as needed */
-}
-
-.ds_task-list__task-status--latest {
-    background-color: #1d70b8;
-    color: #fff;
-}
-
-.scheme-option--highlighted {
-    border-left: 4px solid #1d70b8;
-    padding-left: 15px;
-    background-color: #f8f8f8;
-}
-
-.audit-badges {
-    margin-top: 8px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.audit-badge {
-    font-size: 14px;
-    padding: 4px 8px;
-    background-color: #1d70b8;
-    color: white;
-    border-radius: 4px;
-}
-
 // Notification banner styles
 .ds_notification {
-    background: #f3f2f1;
-    border: 5px solid #1d70b8;
-    padding: 20px;
+    border-left: 4px solid #0065bd;
+    padding: 15px;
+    background-color: #f8f8f8;
     margin-bottom: 30px;
-}
-
-.ds_notification--positive {
-    border-color: #00703c;
-    background: #f3f2f1;
+    border-top: 1px solid #e5e5e5;
+    border-right: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 .ds_notification__title {
     font-size: 1.1em;
     font-weight: 700;
     margin-bottom: 15px;
-    color: #0b0c0c;
+    color: #333333;
 }
 
 .ds_notification__body {
-    color: #0b0c0c;
-    margin: 0;
+    color: #333333;
 }
 
-.ds_notification__body ul {
-    margin-bottom: 0;
+// Filter styles
+.ds_filter-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
 }
 
-.ds_notification__body p {
-    color: #505a5f;
-    font-size: 0.9em;
+.filter-button {
+    width: 100%;
+    text-align: left;
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #b1b4b6;
+    background: #fff;
+}
+
+.ds_button--selected {
+    background-color: #0065bd;
+    color: white;
+    border-color: #0065bd;
+}
+
+// Keep filter sticky
+#filter-container .ds_notification {
+    position: sticky;
+    top: 24px;
+}
+
+// Container for inset text
+.scheme-info {
+    max-width: 40em;
+    margin-bottom: 32px;
+}
+
+// Layout styles
+.ds_page__content {
+    display: flex;
+    gap: 32px;
+}
+
+.ds_layout__content--narrow {
+    flex: 0 0 33.333%;
+}
+
+.ds_layout__content--wide {
+    flex: 0 0 66.666%;
 }

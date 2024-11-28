@@ -427,61 +427,115 @@
             const selectedAudits = JSON.parse(auditData);
             if (selectedAudits.length > 0) {
                 const auditBox = document.createElement('div');
-                auditBox.className = 'ds_notification';
+                auditBox.className = 'ds_filter-group';
                 auditBox.innerHTML = `
-                    <div class="ds_notification__content">
-                        <h2 class="ds_notification__title">Filter scheme options</h2>
-                        <div class="ds_notification__body">
-                            <div class="ds_filter-group">
-                                <button class="ds_button ds_button--small ds_button--secondary filter-button ds_button--selected" data-filter="all">
-                                    Show all options
-                                </button>
-                                ${selectedAudits.map(audit => `
-                                    <button class="ds_button ds_button--small ds_button--secondary filter-button" data-filter="${audit}">
-                                        Show ${audit} options
-                                    </button>
-                                `).join('')}
-                            </div>
-                            <p class="ds_!_margin-top--2">You previously selected these audit options: ${selectedAudits.join(', ')}</p>
+                    <h3 class="ds_filter-group__title">Filter by audit type</h3>
+                    <div class="ds_checkboxes">
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="filter-all" type="checkbox" name="filter" value="all" checked>
+                            <label class="ds_checkbox__label" for="filter-all">All schemes</label>
                         </div>
+                        ${selectedAudits.map(audit => `
+                            <div class="ds_checkbox">
+                                <input class="ds_checkbox__input" id="filter-${audit}" type="checkbox" name="filter" value="${audit}">
+                                <label class="ds_checkbox__label" for="filter-${audit}">${audit}</label>
+                            </div>
+                        `).join('')}
                     </div>
+                    
                 `;
                 document.getElementById('filter-container').appendChild(auditBox);
 
-                // Add filter functionality
-                const filterButtons = document.querySelectorAll('.filter-button');
-                filterButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const filter = this.dataset.filter;
-                        
-                        // Update active button state
-                        filterButtons.forEach(btn => btn.classList.remove('ds_button--selected'));
-                        this.classList.add('ds_button--selected');
-                        
-                        // Apply the filter
-                        const allOptions = document.querySelectorAll('.ds_task-list__task');
-                        allOptions.forEach(option => {
-                            const optionName = option.querySelector('.ds_task-list__task-heading a').textContent.trim();
-                            
-                            if (filter === 'all') {
-                                option.style.display = '';
-                            } else {
-                                const isRelated = auditMappings[filter] && auditMappings[filter].includes(optionName);
-                                option.style.display = isRelated ? '' : 'none';
-                            }
-                        });
+                // Update the no results message HTML
+                const noResultsMessage = document.createElement('div');
+                noResultsMessage.className = 'ds_no-results ds_!_margin-top--4';
+                noResultsMessage.style.display = 'none';
+                noResultsMessage.innerHTML = `
+                    <div class="ds_inset-text">
+                        <div class="ds_inset-text__text">
+                            <p>Select at least one filter option to view relevant scheme options.</p>
+                        </div>
+                    </div>
+                `;
+                document.querySelector('.ds_layout__content--wide').insertBefore(noResultsMessage, document.querySelector('.ds_task-list-group'));
 
-                        // Update section visibility
-                        document.querySelectorAll('.ds_task-list-group__section').forEach(section => {
-                            const hasVisibleOptions = Array.from(section.querySelectorAll('.ds_task-list__task'))
-                                .some(option => option.style.display !== 'none');
-                            section.style.display = hasVisibleOptions ? '' : 'none';
-                        });
+                // After creating the filter UI, add this event handling code:
+                const checkboxes = document.querySelectorAll('.ds_checkbox__input');
+                const allCheckbox = document.getElementById('filter-all');
+
+                // Function to update visibility based on selected filters
+                function updateVisibility() {
+                    const selectedFilters = Array.from(checkboxes)
+                        .filter(cb => cb.checked && cb.value !== 'all')
+                        .map(cb => cb.value);
+
+                    const showAll = allCheckbox.checked;
+                    const noResultsMessage = document.querySelector('.ds_no-results');
+
+                    // If no filters are selected (including "Show all"), show the message
+                    if (!showAll && selectedFilters.length === 0) {
+                        noResultsMessage.style.display = 'block';
+                        document.querySelector('.ds_task-list-group').style.display = 'none';
+                        return;
+                    }
+
+                    // Otherwise hide the message and show filtered results
+                    noResultsMessage.style.display = 'none';
+                    document.querySelector('.ds_task-list-group').style.display = 'block';
+
+                    // Update section visibility
+                    const allOptions = document.querySelectorAll('.ds_task-list__task');
+                    allOptions.forEach(option => {
+                        const optionName = option.querySelector('.ds_task-list__task-heading a').textContent.trim();
+                        
+                        if (showAll) {
+                            option.style.display = '';
+                        } else {
+                            const isVisible = selectedFilters.some(filter => 
+                                auditMappings[filter] && auditMappings[filter].includes(optionName)
+                            );
+                            option.style.display = isVisible ? '' : 'none';
+                        }
                     });
+
+                    // Hide empty sections
+                    document.querySelectorAll('.ds_task-list-group__section').forEach(section => {
+                        const hasVisibleOptions = Array.from(section.querySelectorAll('.ds_task-list__task'))
+                            .some(option => option.style.display !== 'none');
+                        section.style.display = hasVisibleOptions ? '' : 'none';
+                    });
+                }
+
+                // Handle "Show all" checkbox
+                allCheckbox.addEventListener('change', function() {
+                    // If "Show all" is checked, check all other boxes
+                    checkboxes.forEach(cb => {
+                        if (cb !== allCheckbox) {
+                            cb.checked = this.checked;
+                        }
+                    });
+                    updateVisibility();
                 });
 
-                // Set initial state to show all
-                document.querySelector('[data-filter="all"]').click();
+                // Handle individual filter checkboxes
+                checkboxes.forEach(checkbox => {
+                    if (checkbox !== allCheckbox) {
+                        checkbox.addEventListener('change', function() {
+                            // Check if all audit checkboxes are selected
+                            const allAuditsSelected = Array.from(checkboxes)
+                                .filter(cb => cb !== allCheckbox)
+                                .every(cb => cb.checked);
+                            
+                            // Update "Show all" checkbox accordingly
+                            allCheckbox.checked = allAuditsSelected;
+                            
+                            updateVisibility();
+                        });
+                    }
+                });
+
+                // Set initial state
+                updateVisibility();
             }
         }
     });

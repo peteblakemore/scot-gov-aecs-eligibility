@@ -36,3 +36,21 @@ router.get('/version-5/scheme-options-results_holding-number', function(req, res
     res.render('version-5/scheme-options-results_holding-number');
 });
 
+// Handle question-location submission
+router.post('/version-4/question-wfp-audit', function (req, res) {
+    // Store the holding number
+    req.session.data['holding-number'] = req.body.data['holding-number'];
+    req.session.data['version'] = req.body.data['version'];
+    
+    res.render('version-4/question-wfp-audit');
+});
+
+// Handle WFP audit submission
+router.post('/version-4/scheme-options-results_holding-number', function (req, res) {
+    // Store the audit data
+    req.session.data['audit'] = req.body.data['audit'];
+    req.session.data['wfp-audit'] = req.body.data['wfp-audit'];
+    
+    res.render('version-4/scheme-options-results_holding-number');
+});
+

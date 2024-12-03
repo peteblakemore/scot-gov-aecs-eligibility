@@ -557,6 +557,11 @@
                 updateVisibility();
             }
         }
+
+        // Get and display the holding number
+        const params = new URLSearchParams(window.location.search);
+        const holdingNumber = params.get('holding') || sessionStorage.getItem('holding') || '';
+        document.getElementById('holdingNumber').textContent = holdingNumber;
     });
 </script>
 {% endblock %}

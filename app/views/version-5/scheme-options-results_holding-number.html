@@ -32,7 +32,7 @@
     <div class="scheme-info">
         <div class="ds_inset-text">
             <div class="ds_inset-text__text">
-                Based on holding number <span id="holdingNumber"></span>, there are 36 schemes you may be able to apply for, provided you meet the eligibility criteria.
+                Based on holding number <span id="holding-number"></span>, there are 36 schemes you may be able to apply for, provided you meet the eligibility criteria.
             </div>
         </div>
     </div>
@@ -966,7 +966,7 @@
         // Get and display the holding number
         const params = new URLSearchParams(window.location.search);
         const holdingNumber = params.get('holding') || sessionStorage.getItem('holding') || '';
-        document.getElementById('holdingNumber').textContent = holdingNumber;
+        document.getElementById('holding-number').textContent = holdingNumber;
     });
 </script>
 {% endblock %}

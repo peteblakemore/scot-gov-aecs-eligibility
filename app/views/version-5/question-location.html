@@ -35,11 +35,11 @@
                         </legend>
 
                         <div class="ds_question__content">
-                            <label class="ds_label" for="holding">Holding number</label>
+                            <label class="ds_label" for="holding-number">Holding number</label>
                             <p class="ds_hint-text">For example, 002/0023</p>
                             <div class="ds_input__wrapper">
-                                <input id="holding" 
-                                       name="holding" 
+                                <input id="holding-number" 
+                                       name="holding-number" 
                                        type="text" 
                                        class="ds_input  ds_input--fixed-10">
                             </div>
@@ -60,7 +60,7 @@
 <script>
     document.querySelector('form').addEventListener('submit', function(e) {
         e.preventDefault();
-        const holding = document.getElementById('holding').value;
+        const holding = document.getElementById('holding-number').value;
         sessionStorage.setItem('holding', holding);
         window.location.href = `question-wfp-audit?holding=${encodeURIComponent(holding)}`;
     });

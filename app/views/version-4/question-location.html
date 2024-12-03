@@ -16,57 +16,69 @@
 {# Back link - in place of breadcrumbs #}
 {% block breadcrumbs %}
 <div class="ds_wrapper">
-    <a class="ds_back-link" href="/start">Back</a>
+    <a class="ds_back-link" href="start">Back</a>
 </div>
 {% endblock %}
 
 
 {% block main %}
 <div class="ds_wrapper">
-    <main id="main-content" class="ds_layout  ds_layout--question-page">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title ds_!_margin-bottom--4">Find out which scheme options you could apply for</h1>
+            </header>
+        </div>
 
-        {% block mainContent %}
         <div class="ds_layout__content">
-            
-            {# Set the action attribute to the next page in your form's journey #}
-            <form action="question-wfp-audit" method="post">
-                <div class="ds_question">
+            <form method="post">
+                <div class="ds_question ds_!_margin-bottom--6">
                     <fieldset>
-                        <legend class="ds_page-header">
-                            <h1 class="ds_page-header__title">
-                                Enter your holding number
-                            </h1>
-                        </legend>
-
-                        <div class="ds_question__content">
-                            <label class="ds_label" for="holding-number">Holding number</label>
-                            <p class="ds_hint-text">For example, 002/0023</p>
-                            <div class="ds_input__wrapper">
-                                <input id="holding-number" 
-                                       name="holding-number" 
-                                       type="text" 
-                                       class="ds_input  ds_input--fixed-10">
+                        <legend>How do you want to search?</legend>
+                        
+                        <div class="ds_inset-text  ds_!_margin-bottom--4">
+                            <div class="ds_inset-text__text">
+<p>If you have one holding, search using your holding number. If you have more than one, use your Business Reference Number (BRN).</p>
                             </div>
                         </div>
-                        
+
+                        <div class="ds_field-group">
+                            <div class="ds_radio">
+                                <input class="ds_radio__input" id="search-type-holding" name="search-type" type="radio" value="holding">
+                                <label class="ds_radio__label" for="search-type-holding">Search by holding number</label>
+                                <div class="ds_reveal-content">
+                                    <label class="ds_label" for="holding">Enter your holding number</label>
+                                    <p class="ds_hint-text">For example, 002/0023</p>
+                                    <input class="ds_input ds_input--fixed-10" type="text" id="holding" name="holding">
+                                </div>
+                            </div>
+
+                            <div class="ds_radio">
+                                <input class="ds_radio__input" id="search-type-brn" name="search-type" type="radio" value="brn">
+                                <label class="ds_radio__label" for="search-type-brn">Search by Business Reference Number (BRN)</label>
+                                <div class="ds_reveal-content">
+                                    <label class="ds_label" for="brn">Enter your BRN</label>
+                                    <p class="ds_hint-text">This is 6 numbers long</p>
+                                    <input class="ds_input  ds_input--fixed-10" type="text" id="brn" name="brn" pattern="[0-9]{6}" maxlength="6">
+                                </div>
+                            </div>
+                        </div>
                     </fieldset>
                 </div>
-                <div class="button-group">
-                    <button class="ds_button  ds_button--has-icon">
-                        Next
-                        <svg class="ds_icon" aria-hidden="true" role="img"><use href="{{ assetPath }}/images/icons/icons.stack.svg#chevron_right"></use></svg>
-                    </button>
-                </div>
+
+                <button class="ds_button" type="submit">Continue</button>
             </form>
-
-            
-
-
         </div>
-        {% endblock %}
-        
     </main>
 </div>
 
+<script type="text/javascript">
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const holding = document.getElementById('holding').value;
+        sessionStorage.setItem('holding', holding);
+        window.location.href = `question-wfp-audit?holding=${encodeURIComponent(holding)}`;
+    });
+</script>
 
 {% endblock %}

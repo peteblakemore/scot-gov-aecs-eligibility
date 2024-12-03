@@ -30,17 +30,14 @@
 
 // Filter styles
 .ds_filter-group {
-    background: #ffffff;
-    // padding: 15px;
-    // border: 1px solid #fff;
-    // background-color: #ffffff;
+    background: #f8f8f8;
+    padding: 16px;
+    margin-bottom: 32px;
 }
 
 .ds_filter-group__title {
-    font-size: 19px;
-    font-weight: bold;
-    margin: 0 0 15px 0;
-    color: #333333;
+    margin-top: 0;
+    margin-bottom: 16px;
 }
 
 .ds_checkboxes {
@@ -153,4 +150,47 @@
 .ds_task-list__task-status--latest {
     background-color: #0065bd;
     color: #fff;
+}
+
+.ds_audit-toggle {
+    color: #0065bd;
+    background: none;
+    border: none;
+    padding: 0;
+    text-decoration: underline;
+    cursor: pointer;
+    margin-top: 8px;
+    font-size: 16px;
+
+    &:hover {
+        color: #00437e;
+    }
+}
+
+.ds_label {
+    color: #333333;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 4px;
+}
+
+.ds_scheme-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ds_scheme-label:not(:last-child):after {
+    content: ", ";
+}
+
+.ds_task-list__task {
+    transition: opacity 0.2s ease-in-out;
+}
+
+.ds_scheme-label {
+    background: #f8f8f8;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
 }

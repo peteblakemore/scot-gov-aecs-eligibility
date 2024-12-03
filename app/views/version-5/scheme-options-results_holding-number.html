@@ -1,0 +1,735 @@
+{# !!!! The Task list page pattern is currently being reviewed and is subject to change !!!! #}
+
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Task list{% endblock %}
+
+{# Use an empty siteBrandingTitle block to only show the Scottish Government logo for site branding #}
+{% block siteBrandingTitle %}
+<div class="ds_site-branding__title">
+    {{ serviceName }}
+</div>
+{% endblock %}
+
+{# Use an empty siteSearch block to hide the search from the header #}
+{% block siteSearch %}{% endblock %}
+
+
+{# Back link - in place of breadcrumbs #}
+{% block breadcrumbs %}
+<div class="ds_wrapper">
+    <a class="ds_back-link" href="question-location">Back</a>
+</div>
+{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <header class="ds_page-header">
+        <h1 class="ds_page-header__title">Scheme options for your farm</h1>
+    </header>
+
+    <!-- Wrap inset text in its own container -->
+    <div class="scheme-info">
+        <div class="ds_inset-text">
+            <div class="ds_inset-text__text">
+                Based on holding number {{ data['holding'] }}, there are 36 schemes you may be able to apply for, provided you meet the eligibility criteria.
+            </div>
+        </div>
+    </div>
+
+    <!-- After the inset text div and before the grid container -->
+    <div class="ds_inset-text ds_!_margin-bottom--4">
+        <div class="ds_inset-text__text">
+            <h3>Your selected improvement areas:</h3>
+            <div id="selected-improvements"></div>
+        </div>
+    </div>
+
+    <!-- Grid container for two-column layout -->
+    <div class="ds_page__content">
+        <div class="ds_layout__content--narrow">
+            <div id="filter-container">
+                <!-- Filter box will be inserted here by JavaScript -->
+            </div>
+        </div>
+
+        <div class="ds_layout__content--wide">
+            <ul class="ds_task-list-group">
+                <!-- Arable Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Arable</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Wild Bird Seed for Farmland Birds',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wild-bird-seed-for-farmland-birds/'
+                            },
+                            {
+                                name: 'Forage Brassica Crops for Farmland Birds',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/forage-brassica-crops-for-farmland-birds/'
+                            },
+                            {
+                                name: 'Stubbles Followed by Green Manure in an Arable Rotation',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/stubbles-followed-by-green-manure/'
+                            },
+                            {
+                                name: 'Retention of Winter Stubbles for Wildlife and Water Quality',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/retention-of-winter-stubbles/'
+                            },
+                            {
+                                name: 'Beetle Banks',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/beetle-banks/'
+                            },
+                            {
+                                name: 'Grass Strips in Arable Fields',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/grass-strips-in-arable-fields/'
+                            },
+                            {
+                                name: 'Water Margins in Arable Fields',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/water-margins-in-arable-fields/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Grassland Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Grassland</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Species-rich Grassland Management',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/species-rich-grassland-management/'
+                            },
+                            {
+                                name: 'Water Margins in Grassland Fields',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/water-margins-in-grassland-fields/'
+                            },
+                            {
+                                name: 'Wader and Wildlife Mown Grassland',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wader-and-wildlife-mown-grassland/'
+                            },
+                            {
+                                name: 'Wader Grazed Grassland',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wader-grazed-grassland/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Upland, peatland, moorland and heath Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Upland, peatland, moorland and heath</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Heath Management (Coastal, Serpentine, Lowland and Special Interest)',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/heath-management/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Wetland and bogs Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Wetland and bogs</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Wetland Management',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wetland-management/'
+                            },
+                            {
+                                name: 'Lowland Bog Management',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/lowland-bog-management/'
+                            },
+                            {
+                                name: 'Management of Buffer Areas for Fens and Lowland Bogs',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/management-of-buffer-areas-for-fens-and-lowland-bogs/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Farm habitats and features Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Farm habitats and features</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Management or Restoration of Hedgerows',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/management-or-restoration-of-hedgerows/'
+                            },
+                            {
+                                name: 'Habitat Mosaic Management',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/habitat-mosaic-management/'
+                            },
+                            {
+                                name: 'Managing Scrub of Conservation Value',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/managing-scrub-of-conservation-value/'
+                            },
+                            {
+                                name: 'Ancient Wood Pasture',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/ancient-wood-pasture/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Small units Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Small units</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Conservation Management of Small Units',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/conservation-management-of-small-units/'
+                            },
+                            {
+                                name: 'Cattle Management on Small Units (Introduction/Retention)',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/cattle-management-on-small-units/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Control of invasive non-native species Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Control of invasive non-native species</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Control of Invasive Non-native Plant Species',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/control-of-invasive-non-native-plant-species/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Managing water quality and flood risk Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Managing water quality and flood risk</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/converting-arable-at-risk-of-erosion-or-flooding-to-low-input-grassland/'
+                            },
+                            {
+                                name: 'Rural Sustainable Drainage Systems – Swales',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/rural-sustainable-drainage-systems-swales/'
+                            },
+                            {
+                                name: 'Rural Sustainable Drainage Systems – Wetland',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/rural-sustainable-drainage-systems-wetland/'
+                            },
+                            {
+                                name: 'Water-use Efficiency – Irrigation Lagoon',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/water-use-efficiency-irrigation-lagoon/'
+                            },
+                            {
+                                name: 'Alternative Watering',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/alternative-watering/'
+                            },
+                            {
+                                name: 'Hard Standings for Troughs and Gateways',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/hard-standings-for-troughs-and-gateways/'
+                            },
+                            {
+                                name: 'Livestock Crossing',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/livestock-crossing/'
+                            },
+                            {
+                                name: 'Livestock Tracks',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/livestock-tracks/'
+                            },
+                            {
+                                name: 'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/managing-steading-drainage-and-rural-sustainable-drainage-systems/'
+                            },
+                            {
+                                name: 'Pesticide Handling Facilities',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/pesticide-handling-facilities/'
+                            },
+                            {
+                                name: 'Rural Sustainable Drainage Systems – Retention Pond',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/rural-sustainable-drainage-systems-retention-pond/'
+                            },
+                            {
+                                name: 'Rural Sustainable Drainage Systems – Sediment Traps and Bunds',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/rural-sustainable-drainage-systems-sediment-traps-and-bunds/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+
+                <!-- Organic farming Section -->
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">Organic farming</h2>
+                    <ul class="ds_task-list">
+                        {% for item in [
+                            {
+                                name: 'Organic Farming: Conversion',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/organic-farming-conversion/'
+                            },
+                            {
+                                name: 'Organic Farming: Maintenance',
+                                url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/organic-farming-maintenance/'
+                            }
+                        ] %}
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                </h3>
+                                <p class="ds_label">Related audits: 
+                                    <span class="ds_scheme-labels">
+                                        {% for audit in ['Carbon', 'Biodiversity', 'Soil Management', 'Water Management', 'Air Quality'] %}
+                                            {% if item.name in data['audit-mappings'][audit] %}
+                                                <span class="ds_scheme-label">{{ audit }}</span>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                </p>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            </ul>
+
+            {% include "includes/step-by-step-link.njk" %}
+        </div>
+    </div>
+</div>
+
+<!-- Move the script here, after the main content -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // First check if user selected "no" for audit
+        const auditAnswer = sessionStorage.getItem('audit-answer');
+        
+        // If they selected "no", don't show the filter UI and keep standard layout
+        if (auditAnswer === 'no') {
+            // Remove the sidebar layout classes
+            document.querySelector('.ds_page__content').classList.remove('ds_page__content');
+            document.querySelector('.ds_layout__content--narrow').remove();
+            
+            // Keep the two-thirds width for results
+            const contentDiv = document.querySelector('.ds_layout__content--wide');
+            contentDiv.classList.remove('ds_layout__content--wide');
+            contentDiv.classList.add('ds_layout__content');
+            contentDiv.style.maxWidth = '66.666%';  // Keep two-thirds width
+            return;
+        }
+
+        // Create a function to sanitize IDs
+        function sanitizeId(str) {
+            return str.toLowerCase().replace(/\s+/g, '-');
+        }
+
+        // Audit mappings
+        const auditMappings = {
+            'Carbon': [
+                'Wild Bird Seed for Farmland Birds',
+                'Stubbles Followed by Green Manure in an Arable Rotation',
+                'Species-rich Grassland Management',
+                'Wetland Management',
+                'Lowland Bog Management',
+                'Management of Buffer Areas for Fens and Lowland Bogs',
+                'Ancient Wood Pasture',
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance'
+            ],
+            'Biodiversity': [
+                'Wild Bird Seed for Farmland Birds',
+                'Forage Brassica Crops for Farmland Birds',
+                'Beetle Banks',
+                'Grass Strips in Arable Fields',
+                'Species-rich Grassland Management',
+                'Wader and Wildlife Mown Grassland',
+                'Wader Grazed Grassland',
+                'Heath Management (Coastal, Serpentine, Lowland and Special Interest)',
+                'Wetland Management',
+                'Lowland Bog Management',
+                'Management of Buffer Areas for Fens and Lowland Bogs',
+                'Habitat Mosaic Management',
+                'Managing Scrub of Conservation Value',
+                'Ancient Wood Pasture',
+                'Conservation Management of Small Units',
+                'Control of Invasive Non-native Plant Species'
+            ],
+            'Soil Management': [
+                'Stubbles Followed by Green Manure in an Arable Rotation',
+                'Retention of Winter Stubbles for Wildlife and Water Quality',
+                'Grass Strips in Arable Fields',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
+                'Species-rich Grassland Management',
+                'Hard Standings for Troughs and Gateways',
+                'Livestock Tracks',
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance'
+            ],
+            'Water Management': [
+                'Water Margins in Arable Fields',
+                'Water Margins in Grassland Fields',
+                'Retention of Winter Stubbles for Wildlife and Water Quality',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
+                'Wetland Management',
+                'Management of Buffer Areas for Fens and Lowland Bogs',
+                'Alternative Watering',
+                'Rural Sustainable Drainage Systems – Swales',
+                'Rural Sustainable Drainage Systems – Wetland',
+                'Rural Sustainable Drainage Systems – Retention Pond',
+                'Rural Sustainable Drainage Systems – Sediment Traps and Bunds',
+                'Water-use Efficiency – Irrigation Lagoon',
+                'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+                'Pesticide Handling Facilities'
+            ],
+            'Air Quality': [
+                'Species-rich Grassland Management',
+                'Lowland Bog Management',
+                'Management of Buffer Areas for Fens and Lowland Bogs',
+                'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance'
+            ]
+        };
+
+        // Create and add the filter UI
+        const auditData = sessionStorage.getItem('wfp-audit');
+        if (auditData) {
+            const selectedAudits = JSON.parse(auditData);
+            if (selectedAudits.length > 0) {
+                const auditBox = document.createElement('div');
+                auditBox.className = 'ds_filter-group';
+                const allSchemes = document.querySelectorAll('.ds_task-list__task').length;
+
+                auditBox.innerHTML = `
+                    <h3 class="ds_filter-group__title">Filter by audit type</h3>
+                    <div class="ds_checkboxes">
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="filter-all" type="checkbox" name="filter" value="all" checked>
+                            <label class="ds_checkbox__label" for="filter-all">All schemes (${allSchemes})</label>
+                        </div>
+                        ${selectedAudits.map(audit => `
+                            <div class="ds_checkbox">
+                                <input class="ds_checkbox__input" id="filter-${sanitizeId(audit)}" type="checkbox" name="filter" value="${audit}">
+                                <label class="ds_checkbox__label" for="filter-${sanitizeId(audit)}">${audit} (${auditMappings[audit].length})</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                `;
+                document.getElementById('filter-container').appendChild(auditBox);
+
+                // Update the no results message HTML
+                const noResultsMessage = document.createElement('div');
+                noResultsMessage.className = 'ds_no-results ds_!_margin-top--4';
+                noResultsMessage.style.display = 'none';
+                noResultsMessage.innerHTML = `
+                    <div class="ds_inset-text">
+                        <div class="ds_inset-text__text">
+                            <p>Select at least one filter option to view relevant scheme options.</p>
+                        </div>
+                    </div>
+                `;
+                document.querySelector('.ds_layout__content--wide').insertBefore(noResultsMessage, document.querySelector('.ds_task-list-group'));
+
+                // After creating the filter UI, add this event handling code:
+                const checkboxes = document.querySelectorAll('.ds_checkbox__input');
+                const allCheckbox = document.getElementById('filter-all');
+
+                // Function to update visibility based on selected filters
+                function updateVisibility() {
+                    const selectedFilters = Array.from(checkboxes)
+                        .filter(cb => cb.checked && cb.value !== 'all')
+                        .map(cb => cb.value);
+
+                    const showAll = allCheckbox.checked;
+                    const noResultsMessage = document.querySelector('.ds_no-results');
+
+                    // If no filters are selected (including "Show all"), show the message
+                    if (!showAll && selectedFilters.length === 0) {
+                        noResultsMessage.style.display = 'block';
+                        document.querySelector('.ds_task-list-group').style.display = 'none';
+                        return;
+                    }
+
+                    // Otherwise hide the message and show filtered results
+                    noResultsMessage.style.display = 'none';
+                    document.querySelector('.ds_task-list-group').style.display = 'block';
+
+                    // Update section visibility
+                    const allOptions = document.querySelectorAll('.ds_task-list__task');
+                    allOptions.forEach(option => {
+                        const optionName = option.querySelector('.ds_task-list__task-heading a').textContent.trim();
+                        
+                        if (showAll) {
+                            option.style.display = '';
+                        } else {
+                            const isVisible = selectedFilters.some(filter => 
+                                auditMappings[filter] && auditMappings[filter].includes(optionName)
+                            );
+                            option.style.display = isVisible ? '' : 'none';
+                        }
+                    });
+
+                    // Hide empty sections
+                    document.querySelectorAll('.ds_task-list-group__section').forEach(section => {
+                        const hasVisibleOptions = Array.from(section.querySelectorAll('.ds_task-list__task'))
+                            .some(option => option.style.display !== 'none');
+                        section.style.display = hasVisibleOptions ? '' : 'none';
+                    });
+                }
+
+                // Handle "Show all" checkbox
+                allCheckbox.addEventListener('change', function() {
+                    // If "Show all" is checked, check all other boxes
+                    checkboxes.forEach(cb => {
+                        if (cb !== allCheckbox) {
+                            cb.checked = this.checked;
+                        }
+                    });
+                    updateVisibility();
+                });
+
+                // Handle individual filter checkboxes
+                checkboxes.forEach(checkbox => {
+                    if (checkbox !== allCheckbox) {
+                        checkbox.addEventListener('change', function() {
+                            // Check if all audit checkboxes are selected
+                            const allAuditsSelected = Array.from(checkboxes)
+                                .filter(cb => cb !== allCheckbox)
+                                .every(cb => cb.checked);
+                            
+                            // Update "Show all" checkbox accordingly
+                            allCheckbox.checked = allAuditsSelected;
+                            
+                            updateVisibility();
+                        });
+                    }
+                });
+
+                // Set initial state
+                updateVisibility();
+
+                // Hide all scheme labels by default and set up toggles
+                const schemeLabels = document.querySelectorAll('.ds_scheme-labels');
+                const toggleButtons = document.querySelectorAll('.ds_audit-toggle');
+
+                // First hide all labels
+                schemeLabels.forEach(labels => {
+                    labels.classList.remove('is-expanded');
+                });
+
+                // Then set up toggle functionality
+                toggleButtons.forEach(button => {
+                    button.addEventListener('click', function() {
+                        const labels = this.nextElementSibling;
+                        const isExpanded = this.getAttribute('aria-expanded') === 'true';
+                        
+                        this.setAttribute('aria-expanded', !isExpanded);
+                        this.textContent = isExpanded ? 'Show which audits this relates to' : 'Hide audits';
+                        
+                        // Toggle the is-expanded class instead of hidden attribute
+                        if (isExpanded) {
+                            labels.classList.remove('is-expanded');
+                        } else {
+                            labels.classList.add('is-expanded');
+                        }
+                    });
+                });
+            }
+        }
+
+        // Get and display selected improvements
+        const improvementsDiv = document.getElementById('selected-improvements');
+        const storedImprovements = sessionStorage.getItem('audit-improvements');
+        
+        if (storedImprovements) {
+            const improvements = JSON.parse(storedImprovements);
+            let html = '<ul class="ds_list">';
+            
+            // Define a mapping of IDs to readable labels
+            const labelMap = {
+                'energy-use': 'Energy Use',
+                'livestock-emissions': 'Livestock Emissions',
+                'crop-soil-management': 'Crop and Soil Management',
+                'transportation': 'Transportation',
+                'waste-management': 'Waste Management',
+                'habitat-management': 'Habitat Management',
+                'species-conservation': 'Species Conservation',
+                'grassland-management': 'Grassland Management',
+                'water-linked-biodiversity': 'Water-Linked Biodiversity',
+                'soil-organic-matter': 'Soil Organic Matter',
+                'soil-structure': 'Soil Structure',
+                'nutrient-management': 'Nutrient Management',
+                'soil-biodiversity': 'Soil Biodiversity',
+                'soil-testing': 'Soil Testing',
+                'water-efficiency': 'Water Efficiency',
+                'drainage-flooding': 'Drainage and Flooding',
+                'watercourse-protection': 'Watercourse Protection',
+                'water-quality': 'Water Quality',
+                'infrastructure': 'Infrastructure',
+                'dust-particulate': 'Dust and Particulate Emissions',
+                'ammonia-emissions': 'Ammonia Emissions',
+                'greenhouse-gas': 'Greenhouse Gas Emissions',
+                'odour-management': 'Odour Management'
+            };
+            
+            // For each audit type that has selections
+            Object.entries(improvements).forEach(([audit, selected]) => {
+                if (selected && selected.length > 0) {
+                    selected.forEach(improvement => {
+                        // Use the label map if available, otherwise use the ID
+                        const label = labelMap[improvement] || improvement;
+                        html += `<li>${label}</li>`;
+                    });
+                }
+            });
+            
+            html += '</ul>';
+            improvementsDiv.innerHTML = html;
+        } else {
+            improvementsDiv.innerHTML = '<p>No improvements selected</p>';
+        }
+    });
+</script>
+{% endblock %}

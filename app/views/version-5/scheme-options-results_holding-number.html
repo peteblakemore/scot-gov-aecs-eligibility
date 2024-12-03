@@ -870,6 +870,7 @@
                     const showAll = allCheckbox.checked;
                     const noResultsMessage = document.querySelector('.ds_no-results');
 
+                    // Show/hide no results message
                     if (!showAll && selectedFilters.length === 0) {
                         noResultsMessage.style.display = 'block';
                         document.querySelector('.ds_task-list-group').style.display = 'none';
@@ -879,7 +880,7 @@
                     noResultsMessage.style.display = 'none';
                     document.querySelector('.ds_task-list-group').style.display = 'block';
 
-                    // Update scheme visibility and audit labels
+                    // Update scheme visibility
                     const allOptions = document.querySelectorAll('.ds_task-list__task');
                     allOptions.forEach(option => {
                         const schemeName = option.querySelector('.ds_task-list__task-heading a').textContent.trim();
@@ -889,41 +890,39 @@
                             option.style.display = '';
                             labelContainer.style.display = 'none';
                         } else {
-                            // Check if scheme should be visible based on selected recommendations
                             const isVisible = selectedFilters.some(filter => {
-                                // Find which audit type this recommendation belongs to
                                 const auditType = Object.entries(auditRecommendationGroups)
                                     .find(([audit, recs]) => recs.includes(filter))?.[0];
-                                
-                                // Only show the scheme if:
-                                // 1. It's mapped to this recommendation AND
-                                // 2. It belongs to the same audit type as the recommendation
                                 return recommendationToSchemeMapping[filter]?.includes(schemeName) && 
                                        auditMappings[auditType]?.includes(schemeName);
                             });
 
                             option.style.display = isVisible ? '' : 'none';
-
                             if (isVisible) {
                                 labelContainer.style.display = 'block';
-                                const auditLabels = option.querySelectorAll('.ds_scheme-label');
-                                
-                                // Show all relevant audit labels for this scheme
-                                auditLabels.forEach(label => {
-                                    const auditType = label.textContent.trim();
-                                    // Show label if:
-                                    // 1. The audit type was selected in WFP audit AND
-                                    // 2. The scheme is mapped to this audit type
-                                    label.style.display = (
-                                        selectedWfpAudits.includes(auditType) && 
-                                        auditMappings[auditType]?.includes(schemeName)
-                                    ) ? 'inline-block' : 'none';
-                                });
+                                updateAuditLabels(option, schemeName);
                             }
                         }
                     });
 
                     // Hide empty sections
+                    updateSectionVisibility();
+                }
+
+                // Function to update audit labels
+                function updateAuditLabels(option, schemeName) {
+                    const auditLabels = option.querySelectorAll('.ds_scheme-label');
+                    auditLabels.forEach(label => {
+                        const auditType = label.textContent.trim();
+                        label.style.display = (
+                            selectedWfpAudits.includes(auditType) && 
+                            auditMappings[auditType]?.includes(schemeName)
+                        ) ? 'inline-block' : 'none';
+                    });
+                }
+
+                // Function to update section visibility
+                function updateSectionVisibility() {
                     document.querySelectorAll('.ds_task-list-group__section').forEach(section => {
                         const hasVisibleOptions = Array.from(section.querySelectorAll('.ds_task-list__task'))
                             .some(option => option.style.display !== 'none');
@@ -933,12 +932,14 @@
 
                 // Handle "Show all" checkbox
                 allCheckbox.addEventListener('change', function() {
-                    checkboxes.forEach(cb => {
-                        if (cb !== allCheckbox) {
-                            cb.checked = false;
-                            cb.disabled = this.checked;
-                        }
-                    });
+                    if (this.checked) {
+                        // When "Show all" is checked, uncheck other filters
+                        checkboxes.forEach(cb => {
+                            if (cb !== allCheckbox) {
+                                cb.checked = false;
+                            }
+                        });
+                    }
                     updateVisibility();
                 });
 
@@ -946,12 +947,12 @@
                 checkboxes.forEach(checkbox => {
                     if (checkbox !== allCheckbox) {
                         checkbox.addEventListener('change', function() {
-                            const anyChecked = Array.from(checkboxes)
+                            const anyFilterChecked = Array.from(checkboxes)
                                 .filter(cb => cb !== allCheckbox)
                                 .some(cb => cb.checked);
                             
-                            allCheckbox.checked = !anyChecked;
-                            allCheckbox.disabled = anyChecked;
+                            // Update "Show all" checkbox state
+                            allCheckbox.checked = !anyFilterChecked;
                             
                             updateVisibility();
                         });

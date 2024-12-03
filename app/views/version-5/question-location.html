@@ -24,12 +24,8 @@
 {% block main %}
 <div class="ds_wrapper">
     <main id="main-content" class="ds_layout  ds_layout--question-page">
-
-        {% block mainContent %}
         <div class="ds_layout__content">
-            
-            {# Set the action attribute to the next page in your form's journey #}
-            <form action="question-wfp-audit" method="post">
+            <form method="post">
                 <div class="ds_question">
                     <fieldset>
                         <legend class="ds_page-header">
@@ -39,16 +35,15 @@
                         </legend>
 
                         <div class="ds_question__content">
-                            <label class="ds_label" for="holding-number">Holding number</label>
+                            <label class="ds_label" for="holding">Holding number</label>
                             <p class="ds_hint-text">For example, 002/0023</p>
                             <div class="ds_input__wrapper">
-                                <input id="holding-number" 
-                                       name="holding-number" 
+                                <input id="holding" 
+                                       name="holding" 
                                        type="text" 
                                        class="ds_input  ds_input--fixed-10">
                             </div>
                         </div>
-                        
                     </fieldset>
                 </div>
                 <div class="button-group">
@@ -58,15 +53,16 @@
                     </button>
                 </div>
             </form>
-
-            
-
-
         </div>
-        {% endblock %}
-        
     </main>
 </div>
 
-
+<script>
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const holding = document.getElementById('holding').value;
+        sessionStorage.setItem('holding', holding);
+        window.location.href = 'question-wfp-audit';
+    });
+</script>
 {% endblock %}

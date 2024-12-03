@@ -43,6 +43,13 @@
     color: #333333;
 }
 
+.ds_filter-group__subtitle {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 24px 0 8px;
+    color: #333333;
+}
+
 .ds_checkboxes {
     display: flex;
     flex-direction: column;
@@ -153,4 +160,89 @@
 .ds_task-list__task-status--latest {
     background-color: #0065bd;
     color: #fff;
+}
+
+.ds_scheme-labels {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.ds_scheme-label {
+    background: #f8f8f8;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333333;
+    display: inline-block;
+    margin-right: 4px;
+    margin-bottom: 4px;
+}
+
+// Remove the comma after each label
+.ds_scheme-label:not(:last-child):after {
+    content: none;
+}
+
+.ds_scheme-highlight {
+    background: #e5f0f8;
+    border-left: 4px solid #0065bd;
+    padding: 16px;
+    margin: 16px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.ds_scheme-highlight__icon {
+    background: #0065bd;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.ds_scheme-highlight__text {
+    font-size: 16px;
+    color: #333333;
+}
+
+.ds_scheme-highlight__list {
+    margin: 8px 0 0;
+    padding-left: 20px;
+}
+
+// Add this to your existing styles
+.ds_task-list__task--highlighted {
+    background: #e5f0f8;
+    border-left: 4px solid #0065bd;
+    padding: 16px;
+    margin: 16px 0;
+    position: relative;
+}
+
+.ds_task-list__task--highlighted:before {
+    content: "✓";
+    position: absolute;
+    left: -12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #0065bd;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ds_task-list__task--highlighted .ds_scheme-recommendation {
+    color: #333333;
+    margin-top: 8px;
+    font-size: 16px;
 }

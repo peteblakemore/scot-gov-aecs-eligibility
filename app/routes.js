@@ -22,3 +22,17 @@ router.get('/version-4/scheme-options-results_holding-number', function(req, res
     res.render('version-4/scheme-options-results_holding-number');
 });
 
+// Add these routes for version-5
+router.post('/version-5/scheme-options-results_holding-number', function(req, res) {
+    // Store the selected audit areas in session
+    req.session.data['wfp-audit'] = req.body['wfp-audit[]'];
+    req.session.data['audit'] = req.body.audit;
+    
+    // Render the results page
+    res.render('version-5/scheme-options-results_holding-number');
+});
+
+router.get('/version-5/scheme-options-results_holding-number', function(req, res) {
+    res.render('version-5/scheme-options-results_holding-number');
+});
+

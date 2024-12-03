@@ -37,14 +37,6 @@
         </div>
     </div>
 
-    <!-- After the inset text div and before the grid container -->
-    <div class="ds_inset-text ds_!_margin-bottom--4">
-        <div class="ds_inset-text__text">
-            <h3>Your selected improvement areas:</h3>
-            <div id="selected-improvements"></div>
-        </div>
-    </div>
-
     <!-- Grid container for two-column layout -->
     <div class="ds_page__content">
         <div class="ds_layout__content--narrow">
@@ -442,29 +434,46 @@
 <!-- Move the script here, after the main content -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // First check if user selected "no" for audit
-        const auditAnswer = sessionStorage.getItem('audit-answer');
-        
-        // If they selected "no", don't show the filter UI and keep standard layout
-        if (auditAnswer === 'no') {
-            // Remove the sidebar layout classes
-            document.querySelector('.ds_page__content').classList.remove('ds_page__content');
-            document.querySelector('.ds_layout__content--narrow').remove();
-            
-            // Keep the two-thirds width for results
-            const contentDiv = document.querySelector('.ds_layout__content--wide');
-            contentDiv.classList.remove('ds_layout__content--wide');
-            contentDiv.classList.add('ds_layout__content');
-            contentDiv.style.maxWidth = '66.666%';  // Keep two-thirds width
-            return;
-        }
-
-        // Create a function to sanitize IDs
+        // Add these at the top
         function sanitizeId(str) {
             return str.toLowerCase().replace(/\s+/g, '-');
         }
 
-        // Audit mappings
+        // Define audit types and their recommendations
+        const auditRecommendationGroups = {
+            'Carbon': [
+                'livestock-emissions',
+                'crop-soil-management'
+            ],
+            'Biodiversity': [
+                'habitat-management',
+                'species-conservation',
+                'grassland-management',
+                'water-linked-biodiversity'
+            ],
+            'Soil Management': [
+                'soil-organic-matter',
+                'soil-structure',
+                'nutrient-management',
+                'soil-biodiversity',
+                'soil-testing'
+            ],
+            'Water Management': [
+                'water-efficiency',
+                'drainage-flooding',
+                'watercourse-protection',
+                'water-quality',
+                'infrastructure'
+            ],
+            'Air Quality': [
+                'dust-particulate',
+                'ammonia-emissions',
+                'greenhouse-gas',
+                'odour-management'
+            ]
+        };
+
+        // Define which schemes belong to which audits
         const auditMappings = {
             'Carbon': [
                 'Wild Bird Seed for Farmland Birds',
@@ -499,28 +508,28 @@
                 'Stubbles Followed by Green Manure in an Arable Rotation',
                 'Retention of Winter Stubbles for Wildlife and Water Quality',
                 'Grass Strips in Arable Fields',
-                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
                 'Species-rich Grassland Management',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
                 'Hard Standings for Troughs and Gateways',
                 'Livestock Tracks',
                 'Organic Farming: Conversion',
                 'Organic Farming: Maintenance'
             ],
             'Water Management': [
+                'Retention of Winter Stubbles for Wildlife and Water Quality',
                 'Water Margins in Arable Fields',
                 'Water Margins in Grassland Fields',
-                'Retention of Winter Stubbles for Wildlife and Water Quality',
-                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
                 'Wetland Management',
                 'Management of Buffer Areas for Fens and Lowland Bogs',
-                'Alternative Watering',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
                 'Rural Sustainable Drainage Systems – Swales',
                 'Rural Sustainable Drainage Systems – Wetland',
-                'Rural Sustainable Drainage Systems – Retention Pond',
-                'Rural Sustainable Drainage Systems – Sediment Traps and Bunds',
                 'Water-use Efficiency – Irrigation Lagoon',
+                'Alternative Watering',
                 'Managing Steading Drainage and Rural Sustainable Drainage Systems',
-                'Pesticide Handling Facilities'
+                'Pesticide Handling Facilities',
+                'Rural Sustainable Drainage Systems – Retention Pond',
+                'Rural Sustainable Drainage Systems – Sediment Traps and Bunds'
             ],
             'Air Quality': [
                 'Species-rich Grassland Management',
@@ -532,8 +541,272 @@
             ]
         };
 
+        // Map recommendations to schemes
+        const recommendationToSchemeMapping = {
+            // Carbon recommendations
+            'livestock-emissions': [
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance',
+                'Species-rich Grassland Management'
+            ],
+            'crop-soil-management': [
+                'Stubbles Followed by Green Manure in an Arable Rotation',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland'
+            ],
+
+            // Biodiversity recommendations
+            'habitat-management': [
+                'Heath Management (Coastal, Serpentine, Lowland and Special Interest)',
+                'Habitat Mosaic Management',
+                'Managing Scrub of Conservation Value',
+                'Ancient Wood Pasture',
+                'Species-rich Grassland Management',
+                'Management of Buffer Areas for Fens and Lowland Bogs',
+                'Conservation Management of Small Units'
+            ],
+            'species-conservation': [
+                'Wild Bird Seed for Farmland Birds',
+                'Forage Brassica Crops for Farmland Birds',
+                'Wader and Wildlife Mown Grassland',
+                'Wader Grazed Grassland',
+                'Beetle Banks',
+                'Control of Invasive Non-native Plant Species'
+            ],
+            'grassland-management': [
+                'Species-rich Grassland Management',
+                'Wader and Wildlife Mown Grassland',
+                'Wader Grazed Grassland'
+            ],
+            'water-linked-biodiversity': [
+                'Wetland Management',
+                'Lowland Bog Management',
+                'Water Margins in Arable Fields',
+                'Water Margins in Grassland Fields',
+                'Management of Buffer Areas for Fens and Lowland Bogs'
+            ],
+
+            // Soil Management recommendations
+            'soil-organic-matter': [
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance',
+                'Stubbles Followed by Green Manure in an Arable Rotation',
+                'Species-rich Grassland Management'
+            ],
+            'soil-structure': [
+                'Grass Strips in Arable Fields',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland'
+            ],
+            'nutrient-management': [
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland'
+            ],
+            'soil-biodiversity': [
+                'Species-rich Grassland Management',
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance'
+            ],
+            'soil-testing': [
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance'
+            ],
+
+            // Water Management recommendations
+            'water-efficiency': [
+                'Water-use Efficiency – Irrigation Lagoon',
+                'Alternative Watering'
+            ],
+            'drainage-flooding': [
+                'Rural Sustainable Drainage Systems – Wetland',
+                'Rural Sustainable Drainage Systems – Retention Pond',
+                'Rural Sustainable Drainage Systems – Swales',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
+                'Rural Sustainable Drainage Systems – Sediment Traps and Bunds'
+            ],
+            'watercourse-protection': [
+                'Water Margins in Arable Fields',
+                'Water Margins in Grassland Fields',
+                'Alternative Watering',
+                'Livestock Crossing',
+                'Management of Buffer Areas for Fens and Lowland Bogs'
+            ],
+            'water-quality': [
+                'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+                'Wetland Management',
+                'Lowland Bog Management',
+                'Water Margins in Arable Fields',
+                'Water Margins in Grassland Fields',
+                'Pesticide Handling Facilities'
+            ],
+            'infrastructure': [
+                'Hard Standings for Troughs and Gateways',
+                'Alternative Watering',
+                'Livestock Crossing',
+                'Livestock Tracks',
+                'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+                'Pesticide Handling Facilities'
+            ],
+
+            // Air Quality recommendations
+            'dust-particulate': [
+                'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+                'Hard Standings for Troughs and Gateways'
+            ],
+            'ammonia-emissions': [
+                'Species-rich Grassland Management',
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance'
+            ],
+            'greenhouse-gas': [
+                'Organic Farming: Conversion',
+                'Organic Farming: Maintenance',
+                'Species-rich Grassland Management'
+            ],
+            'odour-management': [
+                'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+                'Pesticide Handling Facilities'
+            ]
+        };
+
+        // Near the top of the script, add this to get the selected audits from session storage
+        const selectedWfpAudits = JSON.parse(sessionStorage.getItem('wfp-audit') || '[]');
+
+        // Add this function after your mappings
+        function validateMappings() {
+            // 1. Check all schemes have at least one audit type
+            const allSchemes = new Set();
+            Object.values(recommendationToSchemeMapping).forEach(schemes => 
+                schemes.forEach(scheme => allSchemes.add(scheme))
+            );
+
+            allSchemes.forEach(scheme => {
+                const hasAudit = Object.values(auditMappings).some(schemes => 
+                    schemes.includes(scheme)
+                );
+                if (!hasAudit) {
+                    console.error(`Validation Error: Scheme "${scheme}" has no audit type mapping`);
+                }
+            });
+
+            // 2. Check dual-audit schemes
+            const dualAuditSchemes = [
+                'Water Margins in Arable Fields',
+                'Water Margins in Grassland Fields',
+                'Wetland Management',
+                'Lowland Bog Management',
+                'Rural Sustainable Drainage Systems – Wetland'
+            ];
+
+            dualAuditSchemes.forEach(scheme => {
+                if (!auditMappings['Biodiversity'].includes(scheme) || 
+                    !auditMappings['Water Management'].includes(scheme)) {
+                    console.error(`Validation Error: Dual-audit scheme "${scheme}" is not properly mapped to both Biodiversity and Water Management`);
+                }
+            });
+
+            // 3. Check recommendation mappings
+            Object.entries(recommendationToSchemeMapping).forEach(([recommendation, schemes]) => {
+                // Find which audit type this recommendation belongs to
+                const auditType = Object.entries(auditRecommendationGroups).find(([audit, recs]) => 
+                    recs.includes(recommendation)
+                )?.[0];
+
+                if (!auditType) {
+                    console.error(`Validation Error: Recommendation "${recommendation}" not found in any audit group`);
+                    return;
+                }
+
+                schemes.forEach(scheme => {
+                    if (!auditMappings[auditType]?.includes(scheme)) {
+                        console.error(`Validation Error: Scheme "${scheme}" is mapped to ${auditType} recommendation "${recommendation}" but missing from ${auditType} audit mappings`);
+                    }
+                });
+            });
+
+            // 4. Check all schemes in audit mappings have at least one recommendation
+            Object.entries(auditMappings).forEach(([auditType, schemes]) => {
+                schemes.forEach(scheme => {
+                    const hasRecommendation = Object.entries(recommendationToSchemeMapping)
+                        .some(([rec, schemeList]) => {
+                            const recAuditType = Object.entries(auditRecommendationGroups)
+                                .find(([audit, recs]) => recs.includes(rec))?.[0];
+                            return recAuditType === auditType && schemeList.includes(scheme);
+                        });
+                    
+                    if (!hasRecommendation) {
+                        console.error(`Validation Error: Scheme "${scheme}" in ${auditType} audit has no matching recommendations`);
+                    }
+                });
+            });
+        }
+
+        // Call validation when the page loads
+        validateMappings();
+
+        // Hide all audit labels immediately when page loads
+        document.querySelectorAll('.ds_label').forEach(label => {
+            label.style.display = 'none';
+        });
+
+        // First check if user selected "no" for audit
+        const auditAnswer = sessionStorage.getItem('audit-answer');
+        
+        // If they selected "no", don't show the filter UI and keep standard layout
+        if (auditAnswer === 'no') {
+            // Remove the sidebar layout classes
+            document.querySelector('.ds_page__content').classList.remove('ds_page__content');
+            document.querySelector('.ds_layout__content--narrow').remove();
+            
+            // Keep the two-thirds width for results
+            const contentDiv = document.querySelector('.ds_layout__content--wide');
+            contentDiv.classList.remove('ds_layout__content--wide');
+            contentDiv.classList.add('ds_layout__content');
+            contentDiv.style.maxWidth = '66.666%';  // Keep two-thirds width
+            return;
+        }
+
         // Create and add the filter UI
         const auditData = sessionStorage.getItem('wfp-audit');
+        const storedImprovements = sessionStorage.getItem('audit-improvements');
+        const improvements = storedImprovements ? JSON.parse(storedImprovements) : {};
+
+        // Define a mapping of IDs to readable labels
+        const labelMap = {
+            'livestock-emissions': 'Livestock Emissions',
+            'crop-soil-management': 'Crop and Soil Management',
+            'habitat-management': 'Habitat Management',
+            'species-conservation': 'Species Conservation',
+            'grassland-management': 'Grassland Management',
+            'water-linked-biodiversity': 'Water-Linked Biodiversity',
+            'soil-organic-matter': 'Soil Organic Matter',
+            'soil-structure': 'Soil Structure',
+            'nutrient-management': 'Nutrient Management',
+            'soil-biodiversity': 'Soil Biodiversity',
+            'soil-testing': 'Soil Testing',
+            'water-efficiency': 'Water Efficiency',
+            'drainage-flooding': 'Drainage and Flooding',
+            'watercourse-protection': 'Watercourse Protection',
+            'water-quality': 'Water Quality',
+            'infrastructure': 'Infrastructure',
+            'dust-particulate': 'Dust and Particulate Emissions',
+            'ammonia-emissions': 'Ammonia Emissions',
+            'greenhouse-gas': 'Greenhouse Gas Emissions',
+            'odour-management': 'Odour Management'
+        };
+
+        // Add this just before creating the filter UI
+        if (storedImprovements) {
+            // Remove any energy-use entries from the improvements
+            Object.keys(improvements).forEach(auditType => {
+                improvements[auditType] = improvements[auditType].filter(improvement => 
+                    improvement !== 'energy-use' && 
+                    improvement !== 'transportation' && 
+                    improvement !== 'waste-management' && 
+                    labelMap[improvement]
+                );
+            });
+        }
+
         if (auditData) {
             const selectedAudits = JSON.parse(auditData);
             if (selectedAudits.length > 0) {
@@ -541,22 +814,34 @@
                 auditBox.className = 'ds_filter-group';
                 const allSchemes = document.querySelectorAll('.ds_task-list__task').length;
 
+                // Create the filter box HTML with grouped recommendations
                 auditBox.innerHTML = `
-                    <h3 class="ds_filter-group__title">Filter by audit type</h3>
+                    <h3 class="ds_filter-group__title">Filter by audit recommendations</h3>
                     <div class="ds_checkboxes">
                         <div class="ds_checkbox">
                             <input class="ds_checkbox__input" id="filter-all" type="checkbox" name="filter" value="all" checked>
                             <label class="ds_checkbox__label" for="filter-all">All schemes (${allSchemes})</label>
                         </div>
-                        ${selectedAudits.map(audit => `
-                            <div class="ds_checkbox">
-                                <input class="ds_checkbox__input" id="filter-${sanitizeId(audit)}" type="checkbox" name="filter" value="${audit}">
-                                <label class="ds_checkbox__label" for="filter-${sanitizeId(audit)}">${audit} (${auditMappings[audit].length})</label>
-                            </div>
-                        `).join('')}
                     </div>
-                    
+
+                    ${Object.entries(improvements).map(([auditType, selected]) => {
+                        if (selected && selected.length > 0) {
+                            return `
+                                <h4 class="ds_filter-group__subtitle">${auditType} recommendations</h4>
+                                <div class="ds_checkboxes">
+                                    ${selected.map(improvement => `
+                                        <div class="ds_checkbox">
+                                            <input class="ds_checkbox__input" id="filter-${improvement}" type="checkbox" name="filter" value="${improvement}">
+                                            <label class="ds_checkbox__label" for="filter-${improvement}">${labelMap[improvement]}</label>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            `;
+                        }
+                        return '';
+                    }).join('')}
                 `;
+
                 document.getElementById('filter-container').appendChild(auditBox);
 
                 // Update the no results message HTML
@@ -585,29 +870,56 @@
                     const showAll = allCheckbox.checked;
                     const noResultsMessage = document.querySelector('.ds_no-results');
 
-                    // If no filters are selected (including "Show all"), show the message
                     if (!showAll && selectedFilters.length === 0) {
                         noResultsMessage.style.display = 'block';
                         document.querySelector('.ds_task-list-group').style.display = 'none';
                         return;
                     }
 
-                    // Otherwise hide the message and show filtered results
                     noResultsMessage.style.display = 'none';
                     document.querySelector('.ds_task-list-group').style.display = 'block';
 
-                    // Update section visibility
+                    // Update scheme visibility and audit labels
                     const allOptions = document.querySelectorAll('.ds_task-list__task');
                     allOptions.forEach(option => {
-                        const optionName = option.querySelector('.ds_task-list__task-heading a').textContent.trim();
+                        const schemeName = option.querySelector('.ds_task-list__task-heading a').textContent.trim();
+                        const labelContainer = option.querySelector('.ds_label');
                         
                         if (showAll) {
                             option.style.display = '';
+                            labelContainer.style.display = 'none';
                         } else {
-                            const isVisible = selectedFilters.some(filter => 
-                                auditMappings[filter] && auditMappings[filter].includes(optionName)
-                            );
+                            // Check if scheme should be visible based on selected recommendations
+                            const isVisible = selectedFilters.some(filter => {
+                                // Find which audit type this recommendation belongs to
+                                const auditType = Object.entries(auditRecommendationGroups)
+                                    .find(([audit, recs]) => recs.includes(filter))?.[0];
+                                
+                                // Only show the scheme if:
+                                // 1. It's mapped to this recommendation AND
+                                // 2. It belongs to the same audit type as the recommendation
+                                return recommendationToSchemeMapping[filter]?.includes(schemeName) && 
+                                       auditMappings[auditType]?.includes(schemeName);
+                            });
+
                             option.style.display = isVisible ? '' : 'none';
+
+                            if (isVisible) {
+                                labelContainer.style.display = 'block';
+                                const auditLabels = option.querySelectorAll('.ds_scheme-label');
+                                
+                                // Show all relevant audit labels for this scheme
+                                auditLabels.forEach(label => {
+                                    const auditType = label.textContent.trim();
+                                    // Show label if:
+                                    // 1. The audit type was selected in WFP audit AND
+                                    // 2. The scheme is mapped to this audit type
+                                    label.style.display = (
+                                        selectedWfpAudits.includes(auditType) && 
+                                        auditMappings[auditType]?.includes(schemeName)
+                                    ) ? 'inline-block' : 'none';
+                                });
+                            }
                         }
                     });
 
@@ -621,10 +933,10 @@
 
                 // Handle "Show all" checkbox
                 allCheckbox.addEventListener('change', function() {
-                    // If "Show all" is checked, check all other boxes
                     checkboxes.forEach(cb => {
                         if (cb !== allCheckbox) {
-                            cb.checked = this.checked;
+                            cb.checked = false;
+                            cb.disabled = this.checked;
                         }
                     });
                     updateVisibility();
@@ -634,13 +946,12 @@
                 checkboxes.forEach(checkbox => {
                     if (checkbox !== allCheckbox) {
                         checkbox.addEventListener('change', function() {
-                            // Check if all audit checkboxes are selected
-                            const allAuditsSelected = Array.from(checkboxes)
+                            const anyChecked = Array.from(checkboxes)
                                 .filter(cb => cb !== allCheckbox)
-                                .every(cb => cb.checked);
+                                .some(cb => cb.checked);
                             
-                            // Update "Show all" checkbox accordingly
-                            allCheckbox.checked = allAuditsSelected;
+                            allCheckbox.checked = !anyChecked;
+                            allCheckbox.disabled = anyChecked;
                             
                             updateVisibility();
                         });
@@ -649,86 +960,7 @@
 
                 // Set initial state
                 updateVisibility();
-
-                // Hide all scheme labels by default and set up toggles
-                const schemeLabels = document.querySelectorAll('.ds_scheme-labels');
-                const toggleButtons = document.querySelectorAll('.ds_audit-toggle');
-
-                // First hide all labels
-                schemeLabels.forEach(labels => {
-                    labels.classList.remove('is-expanded');
-                });
-
-                // Then set up toggle functionality
-                toggleButtons.forEach(button => {
-                    button.addEventListener('click', function() {
-                        const labels = this.nextElementSibling;
-                        const isExpanded = this.getAttribute('aria-expanded') === 'true';
-                        
-                        this.setAttribute('aria-expanded', !isExpanded);
-                        this.textContent = isExpanded ? 'Show which audits this relates to' : 'Hide audits';
-                        
-                        // Toggle the is-expanded class instead of hidden attribute
-                        if (isExpanded) {
-                            labels.classList.remove('is-expanded');
-                        } else {
-                            labels.classList.add('is-expanded');
-                        }
-                    });
-                });
             }
-        }
-
-        // Get and display selected improvements
-        const improvementsDiv = document.getElementById('selected-improvements');
-        const storedImprovements = sessionStorage.getItem('audit-improvements');
-        
-        if (storedImprovements) {
-            const improvements = JSON.parse(storedImprovements);
-            let html = '<ul class="ds_list">';
-            
-            // Define a mapping of IDs to readable labels
-            const labelMap = {
-                'energy-use': 'Energy Use',
-                'livestock-emissions': 'Livestock Emissions',
-                'crop-soil-management': 'Crop and Soil Management',
-                'transportation': 'Transportation',
-                'waste-management': 'Waste Management',
-                'habitat-management': 'Habitat Management',
-                'species-conservation': 'Species Conservation',
-                'grassland-management': 'Grassland Management',
-                'water-linked-biodiversity': 'Water-Linked Biodiversity',
-                'soil-organic-matter': 'Soil Organic Matter',
-                'soil-structure': 'Soil Structure',
-                'nutrient-management': 'Nutrient Management',
-                'soil-biodiversity': 'Soil Biodiversity',
-                'soil-testing': 'Soil Testing',
-                'water-efficiency': 'Water Efficiency',
-                'drainage-flooding': 'Drainage and Flooding',
-                'watercourse-protection': 'Watercourse Protection',
-                'water-quality': 'Water Quality',
-                'infrastructure': 'Infrastructure',
-                'dust-particulate': 'Dust and Particulate Emissions',
-                'ammonia-emissions': 'Ammonia Emissions',
-                'greenhouse-gas': 'Greenhouse Gas Emissions',
-                'odour-management': 'Odour Management'
-            };
-            
-            // For each audit type that has selections
-            Object.entries(improvements).forEach(([audit, selected]) => {
-                if (selected && selected.length > 0) {
-                    selected.forEach(improvement => {
-                        // Use the label map if available, otherwise use the ID
-                        const label = labelMap[improvement] || improvement;
-                        html += `<li>${label}</li>`;
-                    });
-                }
-            });
-            
-            html += '</ul>';
-            improvementsDiv.innerHTML = html;
-        } else {
-            improvementsDiv.innerHTML = '<p>No improvements selected</p>';
         }
     });
 </script>

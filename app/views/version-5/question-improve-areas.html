@@ -57,17 +57,32 @@
             
             const checkboxContainer = document.createElement('div');
             checkboxContainer.className = 'ds_field-group';
+
+            // Add select all control
+            const selectAllContainer = document.createElement('div');
+            selectAllContainer.className = 'ds_checkbox  ds_!_margin-bottom--3';
+            
+            const selectAllInput = document.createElement('input');
+            selectAllInput.className = 'ds_checkbox__input';
+            selectAllInput.type = 'checkbox';
+            selectAllInput.id = `select-all-${audit.toLowerCase().replace(/\s+/g, '-')}`;
+            
+            const selectAllLabel = document.createElement('label');
+            selectAllLabel.className = 'ds_checkbox__label';
+            selectAllLabel.htmlFor = selectAllInput.id;
+            selectAllLabel.textContent = 'Select all';
+            
+            selectAllContainer.appendChild(selectAllInput);
+            selectAllContainer.appendChild(selectAllLabel);
+            checkboxContainer.appendChild(selectAllContainer);
             
             // Define improvement options based on audit type
             let options = [];
             switch(audit) {
                 case 'Carbon':
                     options = [
-                        {id: 'energy-use', label: 'Energy Use'},
                         {id: 'livestock-emissions', label: 'Livestock Emissions'},
-                        {id: 'crop-soil-management', label: 'Crop and Soil Management'},
-                        {id: 'transportation', label: 'Transportation'},
-                        {id: 'waste-management', label: 'Waste Management'}
+                        {id: 'crop-soil-management', label: 'Crop and Soil Management'}
                     ];
                     break;
                 case 'Biodiversity':
@@ -126,6 +141,27 @@
                 checkboxDiv.appendChild(input);
                 checkboxDiv.appendChild(label);
                 checkboxContainer.appendChild(checkboxDiv);
+            });
+            
+            // Add select all functionality
+            selectAllInput.addEventListener('change', function() {
+                const checkboxes = checkboxContainer.querySelectorAll(`input[name="${audit.toLowerCase()}-improvements"]`);
+                checkboxes.forEach(checkbox => {
+                    checkbox.checked = this.checked;
+                });
+                this.nextElementSibling.textContent = this.checked ? 'Deselect all' : 'Select all';
+            });
+
+            // Add individual checkbox change handler to update select all state
+            const checkboxes = checkboxContainer.querySelectorAll(`input[name="${audit.toLowerCase()}-improvements"]`);
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const allCheckboxes = Array.from(checkboxes);
+                    const allChecked = allCheckboxes.every(cb => cb.checked);
+                    const selectAll = selectAllInput;
+                    selectAll.checked = allChecked;
+                    selectAll.nextElementSibling.textContent = allChecked ? 'Deselect all' : 'Select all';
+                });
             });
             
             fieldset.appendChild(legend);

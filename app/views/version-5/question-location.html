@@ -62,7 +62,7 @@
         e.preventDefault();
         const holding = document.getElementById('holding').value;
         sessionStorage.setItem('holding', holding);
-        window.location.href = 'question-wfp-audit';
+        window.location.href = `question-wfp-audit?holding=${encodeURIComponent(holding)}`;
     });
 </script>
 {% endblock %}

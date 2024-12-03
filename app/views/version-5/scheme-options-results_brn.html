@@ -1,0 +1,538 @@
+{# !!!! The Task list page pattern is currently being reviewed and is subject to change !!!! #}
+
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Task list{% endblock %}
+
+{# Use an empty siteBrandingTitle block to only show the Scottish Government logo for site branding #}
+{% block siteBrandingTitle %}
+<div class="ds_site-branding__title">
+    {{ serviceName }}
+</div>
+{% endblock %}
+
+{# Use an empty siteSearch block to hide the search from the header #}
+{% block siteSearch %}{% endblock %}
+
+
+{# Back link - in place of breadcrumbs #}
+{% block breadcrumbs %}
+<div class="ds_wrapper">
+    <a class="ds_back-link" href="question-location">Back</a>
+</div>
+{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">Your scheme options results</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <div class="ds_inset-text">
+                <div class="ds_inset-text__text">
+                    Based on BRN {{ data['brn'] }}, we found 3 holdings. Each holding has different scheme options you may be able to apply for. This is an initial check only - your actual eligibility will depend on more detailed criteria.
+                </div>
+            </div>
+
+            <!-- Tabs inside ds_layout__content -->
+            <div class="ds_tabs" data-module="ds-tabs">
+                <nav class="ds_tabs__navigation" aria-labelledby="ds_tabs__title">
+                    <h2 id="ds_tabs__title" class="ds_tabs__title">Select a holding</h2>
+                    <ul class="ds_tabs__list" id="tablist">
+                        <li class="ds_tabs__tab">
+                            <a class="ds_tabs__tab-link" href="#holding1">Holding 002/0067</a>
+                        </li>
+                        <li class="ds_tabs__tab">
+                            <a class="ds_tabs__tab-link" href="#holding2">Holding 002/0024</a>
+                        </li>
+                        <li class="ds_tabs__tab">
+                            <a class="ds_tabs__tab-link" href="#holding3">Holding 002/0047</a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- First Holding - Mixed farm with arable and grassland -->
+                <div class="ds_tabs__content ds_tabs__content--bordered" id="holding1">
+                    <h2>Scheme options for holding 002/0067</h2>
+                    <ul class="ds_task-list-group">
+                        <!-- Arable Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Arable</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Wild Bird Seed for Farmland Birds',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wild-bird-seed-for-farmland-birds/'
+                                    },
+                                    {
+                                        name: 'Forage Brassica Crops for Farmland Birds',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/forage-brassica-crops-for-farmland-birds/'
+                                    },
+                                    {
+                                        name: 'Stubbles Followed by Green Manure in an Arable Rotation',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/stubbles-followed-by-green-manure/'
+                                    },
+                                    {
+                                        name: 'Retention of Winter Stubbles for Wildlife and Water Quality',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/retention-of-winter-stubbles/'
+                                    },
+                                    {
+                                        name: 'Beetle Banks',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/beetle-banks/'
+                                    },
+                                    {
+                                        name: 'Grass Strips in Arable Fields',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/grass-strips-in-arable-fields/'
+                                    },
+                                    {
+                                        name: 'Water Margins in Arable Fields',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/water-margins-in-arable-fields/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+        
+                        <!-- Grassland Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Grassland</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Species-rich Grassland Management',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/species-rich-grassland-management/'
+                                    },
+                                    {
+                                        name: 'Water Margins in Grassland Fields',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/water-margins-in-grassland-fields/'
+                                    },
+                                    {
+                                        name: 'Wader and Wildlife Mown Grassland',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wader-and-wildlife-mown-grassland/'
+                                    },
+                                    {
+                                        name: 'Wader Grazed Grassland',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wader-grazed-grassland/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+        
+                        <!-- Upland, peatland, moorland and heath Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Upland, peatland, moorland and heath</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Heath Management (Coastal, Serpentine, Lowland and Special Interest)',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/heath-management/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+        
+                        <!-- Wetland and bogs Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Wetland and bogs</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Wetland Management',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wetland-management/'
+                                    },
+                                    {
+                                        name: 'Lowland Bog Management',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/lowland-bog-management/'
+                                    },
+                                    {
+                                        name: 'Management of Buffer Areas for Fens and Lowland Bogs',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/management-of-buffer-areas-for-fens-and-lowland-bogs/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+        
+                        <!-- Farm habitats and features Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Farm habitats and features</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Management or Restoration of Hedgerows',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/management-or-restoration-of-hedgerows/'
+                                    },
+                                    {
+                                        name: 'Habitat Mosaic Management',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/habitat-mosaic-management/'
+                                    },
+                                    {
+                                        name: 'Managing Scrub of Conservation Value',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/managing-scrub-of-conservation-value/'
+                                    },
+                                    {
+                                        name: 'Ancient Wood Pasture',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/ancient-wood-pasture/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+        
+                        <!-- Small units Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Small units</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Conservation Management of Small Units',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/conservation-management-of-small-units/'
+                                    },
+                                    {
+                                        name: 'Cattle Management on Small Units (Introduction/Retention)',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/cattle-management-on-small-units/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+        
+                        <!-- Control of invasive non-native species Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Control of invasive non-native species</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Control of Invasive Non-native Plant Species',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/control-of-invasive-non-native-plant-species/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+        
+                        <!-- Managing water quality and flood risk Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Managing water quality and flood risk</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/converting-arable-at-risk-of-erosion-or-flooding-to-low-input-grassland/'
+                                    },
+                                    {
+                                        name: 'Rural Sustainable Drainage Systems – Swales',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/rural-sustainable-drainage-systems-swales/'
+                                    },
+                                    {
+                                        name: 'Rural Sustainable Drainage Systems – Wetland',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/rural-sustainable-drainage-systems-wetland/'
+                                    },
+                                    {
+                                        name: 'Water-use Efficiency – Irrigation Lagoon',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/water-use-efficiency-irrigation-lagoon/'
+                                    },
+                                    {
+                                        name: 'Alternative Watering',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/alternative-watering/'
+                                    },
+                                    {
+                                        name: 'Hard Standings for Troughs and Gateways',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/hard-standings-for-troughs-and-gateways/'
+                                    },
+                                    {
+                                        name: 'Livestock Crossing',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/livestock-crossing/'
+                                    },
+                                    {
+                                        name: 'Livestock Tracks',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/livestock-tracks/'
+                                    },
+                                    {
+                                        name: 'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/managing-steading-drainage-and-rural-sustainable-drainage-systems/'
+                                    },
+                                    {
+                                        name: 'Pesticide Handling Facilities',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/pesticide-handling-facilities/'
+                                    },
+                                    {
+                                        name: 'Rural Sustainable Drainage Systems – Retention Pond',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/rural-sustainable-drainage-systems-retention-pond/'
+                                    },
+                                    {
+                                        name: 'Rural Sustainable Drainage Systems – Sediment Traps and Bunds',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/rural-sustainable-drainage-systems-sediment-traps-and-bunds/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+        
+                        <!-- Organic farming Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Organic farming</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Organic Farming: Conversion',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/organic-farming-conversion/'
+                                    },
+                                    {
+                                        name: 'Organic Farming: Maintenance',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/organic-farming-maintenance/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Second Holding -->
+                <div class="ds_tabs__content ds_tabs__content--bordered" id="holding2">
+                    <h2>Scheme options for holding 002/0024</h2>
+                    <ul class="ds_task-list-group">
+                        <!-- Arable Section - Reduced options -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Arable</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Wild Bird Seed for Farmland Birds',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wild-bird-seed-for-farmland-birds/'
+                                    },
+                                    {
+                                        name: 'Retention of Winter Stubbles for Wildlife and Water Quality',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/retention-of-winter-stubbles/'
+                                    },
+                                    {
+                                        name: 'Water Margins in Arable Fields',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/water-margins-in-arable-fields/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <!-- Grassland Section - Similar to Holding 1 -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Grassland</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Species-rich Grassland Management',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/species-rich-grassland-management/'
+                                    },
+                                    {
+                                        name: 'Water Margins in Grassland Fields',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/water-margins-in-grassland-fields/'
+                                    },
+                                    {
+                                        name: 'Wader and Wildlife Mown Grassland',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wader-and-wildlife-mown-grassland/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <!-- Farm habitats Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Farm habitats and features</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Management or Restoration of Hedgerows',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/management-or-restoration-of-hedgerows/'
+                                    },
+                                    {
+                                        name: 'Habitat Mosaic Management',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/habitat-mosaic-management/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Third Holding - Upland focus -->
+                <div class="ds_tabs__content ds_tabs__content--bordered" id="holding3">
+                    <h2>Scheme options for holding 002/0047</h2>
+                    <ul class="ds_task-list-group">
+                        <!-- Upland Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Upland, peatland, moorland and heath</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Heath Management (Coastal, Serpentine, Lowland and Special Interest)',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/heath-management/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <!-- Wetland and bogs Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Wetland and bogs</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Wetland Management',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/wetland-management/'
+                                    },
+                                    {
+                                        name: 'Lowland Bog Management',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/lowland-bog-management/'
+                                    },
+                                    {
+                                        name: 'Management of Buffer Areas for Fens and Lowland Bogs',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/management-of-buffer-areas-for-fens-and-lowland-bogs/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+
+                        <!-- Small units Section -->
+                        <li class="ds_task-list-group__section">
+                            <h2 class="ds_task-list-heading">Small units</h2>
+                            <ul class="ds_task-list">
+                                {% for item in [
+                                    {
+                                        name: 'Conservation Management of Small Units',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/conservation-management-of-small-units/'
+                                    },
+                                    {
+                                        name: 'Cattle Management on Small Units (Introduction/Retention)',
+                                        url: 'https://www.ruralpayments.org/topics/all-schemes/agri-environment-climate-scheme/management-options-and-capital-items/cattle-management-on-small-units/'
+                                    }
+                                ] %}
+                                <li class="ds_task-list__task">
+                                    <div class="ds_task-list__task-details">
+                                        <h3 class="ds_task-list__task-heading">
+                                            <a class="ds_task-list__task-link" href="{{ item.url }}">{{ item.name }}</a>
+                                        </h3>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- After the step-nav div, but still within ds_layout__content -->
+            {% include "includes/step-by-step-link.njk" %}
+        </div>
+
+    </main>
+</div>
+{% endblock %}

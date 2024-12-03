@@ -1,0 +1,163 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Improve Areas{% endblock %}
+
+{% block siteBrandingTitle %}
+<div class="ds_site-branding__title">
+    {{ serviceName }}
+</div>
+{% endblock %}
+
+{% block siteSearch %}{% endblock %}
+
+{% block breadcrumbs %}
+<div class="ds_wrapper">
+    <a class="ds_back-link" href="question-wfp-audit">Back</a>
+</div>
+{% endblock %}
+
+{% block main %}
+<script>
+    // Get the selected audits from sessionStorage and parse the JSON
+    const selectedAuditsJSON = sessionStorage.getItem('wfp-audit');
+    const selected_audits = JSON.parse(selectedAuditsJSON);
+</script>
+
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title ds_!_margin-bottom--4">Which areas of the Whole Farm Plan audit would you like to improve?</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <form method="post">
+                <div id="audit-improvements">
+                    <!-- Content will be populated by JavaScript -->
+                </div>
+                <button class="ds_button" type="submit">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const auditImprovements = document.getElementById('audit-improvements');
+        
+        // For each selected audit, create a fieldset with appropriate options
+        selected_audits.forEach(audit => {
+            const fieldset = document.createElement('fieldset');
+            fieldset.className = 'ds_question';
+            
+            const legend = document.createElement('legend');
+            legend.className = 'ds_!_margin-bottom--4';
+            legend.textContent = `${audit} Improvement Areas`;
+            
+            const checkboxContainer = document.createElement('div');
+            checkboxContainer.className = 'ds_field-group';
+            
+            // Define improvement options based on audit type
+            let options = [];
+            switch(audit) {
+                case 'Carbon':
+                    options = [
+                        {id: 'energy-use', label: 'Energy Use'},
+                        {id: 'livestock-emissions', label: 'Livestock Emissions'},
+                        {id: 'crop-soil-management', label: 'Crop and Soil Management'},
+                        {id: 'transportation', label: 'Transportation'},
+                        {id: 'waste-management', label: 'Waste Management'}
+                    ];
+                    break;
+                case 'Biodiversity':
+                    options = [
+                        {id: 'habitat-management', label: 'Habitat Management'},
+                        {id: 'species-conservation', label: 'Species Conservation'},
+                        {id: 'grassland-management', label: 'Grassland Management'},
+                        {id: 'water-linked-biodiversity', label: 'Water-Linked Biodiversity'}
+                    ];
+                    break;
+                case 'Soil Management':
+                    options = [
+                        {id: 'soil-organic-matter', label: 'Soil Organic Matter'},
+                        {id: 'soil-structure', label: 'Soil Structure'},
+                        {id: 'nutrient-management', label: 'Nutrient Management'},
+                        {id: 'soil-biodiversity', label: 'Soil Biodiversity'},
+                        {id: 'soil-testing', label: 'Soil Testing'}
+                    ];
+                    break;
+                case 'Water Management':
+                    options = [
+                        {id: 'water-efficiency', label: 'Water Efficiency'},
+                        {id: 'drainage-flooding', label: 'Drainage and Flooding'},
+                        {id: 'watercourse-protection', label: 'Watercourse Protection'},
+                        {id: 'water-quality', label: 'Water Quality'},
+                        {id: 'infrastructure', label: 'Infrastructure'}
+                    ];
+                    break;
+                case 'Air Quality':
+                    options = [
+                        {id: 'dust-particulate', label: 'Dust and Particulate Emissions'},
+                        {id: 'ammonia-emissions', label: 'Ammonia Emissions'},
+                        {id: 'greenhouse-gas', label: 'Greenhouse Gas Emissions'},
+                        {id: 'odour-management', label: 'Odour Management'}
+                    ];
+                    break;
+            }
+            
+            // Create checkbox elements
+            options.forEach(option => {
+                const checkboxDiv = document.createElement('div');
+                checkboxDiv.className = 'ds_checkbox';
+                
+                const input = document.createElement('input');
+                input.className = 'ds_checkbox__input';
+                input.type = 'checkbox';
+                input.id = option.id;
+                input.name = `${audit.toLowerCase()}-improvements`;
+                input.value = option.id;
+                
+                const label = document.createElement('label');
+                label.className = 'ds_checkbox__label';
+                label.htmlFor = option.id;
+                label.textContent = option.label;
+                
+                checkboxDiv.appendChild(input);
+                checkboxDiv.appendChild(label);
+                checkboxContainer.appendChild(checkboxDiv);
+            });
+            
+            fieldset.appendChild(legend);
+            fieldset.appendChild(checkboxContainer);
+            auditImprovements.appendChild(fieldset);
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    document.querySelector('form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Create an object to store improvements for each audit type
+        const improvements = {};
+        
+        // Get all selected improvements for each audit type
+        selected_audits.forEach(audit => {
+            const checkboxes = document.querySelectorAll(`input[name="${audit.toLowerCase()}-improvements"]:checked`);
+            improvements[audit] = Array.from(checkboxes).map(cb => cb.value);
+        });
+        
+        // Add console.log to debug
+        console.log('Storing improvements:', improvements);
+        
+        // Store the selected improvements in sessionStorage
+        sessionStorage.setItem('audit-improvements', JSON.stringify(improvements));
+        
+        // Get the holding number and redirect to results page
+        const holding = sessionStorage.getItem('holding');
+        window.location.href = 'scheme-options-results_holding-number.html?holding=' + holding;
+    });
+</script>
+
+{% endblock %} 

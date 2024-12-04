@@ -246,3 +246,54 @@
     margin-top: 8px;
     font-size: 16px;
 }
+
+// Priority scheme label styling
+.ds_task-list__task-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.ds_task-list__task-heading {
+    margin: 0;
+    padding-right: 16px;
+}
+
+.ds_scheme-priority-label {
+    display: inline-block;
+    font-size: 16px;
+    background: #1d70b8;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 3px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+// Optional: Enhanced priority scheme styling
+.ds_scheme-option--priority {
+    border-left: 4px solid #1d70b8;
+    padding-left: 15px;
+    background-color: #f8f8f8;
+}
+
+// Optional: Add a priority section at the top
+.ds_scheme-options-priority {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f3f2f1;
+    border-left: 4px solid #1d70b8;
+}
+
+.ds_scheme-options-priority__heading {
+    margin-top: 0;
+    color: #1d70b8;
+}
+
+// Priority inset text styling
+.ds_inset-text--priority {
+    border-left-color: #1d70b8;
+    background-color: #e5f0f8;
+    margin-bottom: 32px;
+}

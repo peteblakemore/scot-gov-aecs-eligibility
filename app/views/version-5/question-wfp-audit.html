@@ -31,10 +31,19 @@
         </div>
 
         <div class="ds_layout__content">
-            <form method="post">
+            <form action="/version-5/question-wfp-audit" method="post">
+                <input type="hidden" name="data[version]" value="5">
+                <input type="hidden" name="data[holding-number]" value="{{ data['holding-number'] }}">
                 <div class="ds_question">
                     <fieldset>
                         <legend class="ds_!_margin-bottom--4">Have you completed a Whole Farm Plan audit in the last 3 years?</legend>
+
+                        {% from "govuk/components/details/macro.njk" import govukDetails %}
+
+                        {{ govukDetails({
+                        summaryText: "Why we're asking this",
+                        text: "If you've completed a Whole Farm Plan audit in the last 3 years, we can show you results that help address the recommendations in the audit. The audit must be within 3 years, because some schemes require recent audits to ensure environmental and sustainability standards are being met."
+                        }) }}
 
                         <div class="ds_field-group">
                             <div class="ds_radio">

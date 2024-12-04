@@ -24,9 +24,12 @@
 {% block main %}
 <div class="ds_wrapper">
     <main id="main-content" class="ds_layout  ds_layout--question-page">
+
+        {% block mainContent %}
         <div class="ds_layout__content">
-            <form action="/version-5/question-wfp-audit" method="post">
-                <input type="hidden" name="data[version]" value="5">
+            
+            {# Set the action attribute to the next page in your form's journey #}
+            <form action="scheme-options-results" method="post">
                 <div class="ds_question">
                     <fieldset>
                         <legend class="ds_page-header">
@@ -40,16 +43,30 @@
                             <p class="ds_hint-text">For example, 002/0023</p>
                             <div class="ds_input__wrapper">
                                 <input id="holding-number" 
-                                       name="data[holding-number]"
+                                       name="holding-number" 
                                        type="text" 
                                        class="ds_input  ds_input--fixed-10">
                             </div>
                         </div>
+                        
                     </fieldset>
                 </div>
-                <button class="ds_button" type="submit">Continue</button>
+                <div class="button-group">
+                    <button class="ds_button  ds_button--has-icon">
+                        Next
+                        <svg class="ds_icon" aria-hidden="true" role="img"><use href="{{ assetPath }}/images/icons/icons.stack.svg#chevron_right"></use></svg>
+                    </button>
+                </div>
             </form>
+
+            
+
+
         </div>
+        {% endblock %}
+        
     </main>
 </div>
+
+
 {% endblock %}

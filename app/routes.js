@@ -37,19 +37,37 @@ router.get('/version-5/scheme-options-results_holding-number', function(req, res
 });
 
 // Handle question-location submission
-router.post('/version-4/question-wfp-audit', function (req, res) {
-    // Store the holding number
-    req.session.data['holding-number'] = req.body.data['holding-number'];
-    req.session.data['version'] = req.body.data['version'];
-    
-    res.render('version-4/question-wfp-audit');
+router.post('/version-5/question-wfp-audit', function (req, res) {
+    // Coming from question-location
+    if (req.body.data['holding-number']) {
+        req.session.data['holding-number'] = req.body.data['holding-number'];
+        return res.render('version-5/question-wfp-audit');
+    }
+
+    // Coming from question-wfp-audit itself
+    if (req.body.data['audit']) {
+        req.session.data['audit'] = req.body.data['audit'];
+        req.session.data['wfp-audit'] = req.body.data['wfp-audit'];
+
+        if (req.body.data['audit'] === 'yes') {
+            return res.redirect('/version-5/question-improve-areas');
+        } else {
+            return res.redirect('/version-5/scheme-options-results_holding-number');
+        }
+    }
+
+    // If we get here something went wrong
+    res.redirect('/version-5/question-location');
 });
 
-// Handle WFP audit submission
-router.post('/version-4/scheme-options-results_holding-number', function (req, res) {
-    // Store the audit data
-    req.session.data['audit'] = req.body.data['audit'];
-    req.session.data['wfp-audit'] = req.body.data['wfp-audit'];
-    
-    res.render('version-4/scheme-options-results_holding-number');
+router.post('/version-5/question-improve-areas', function (req, res) {
+    req.session.data['improve-areas'] = req.body.data['improve-areas'];
+    res.redirect('/version-5/scheme-options-results_holding-number');
+});
+
+router.get('/version-5/scheme-options-results_holding-number', function (req, res) {
+    if (!req.session.data['holding-number']) {
+        return res.redirect('/version-5/question-location');
+    }
+    res.render('version-5/scheme-options-results_holding-number');
 });

@@ -250,6 +250,12 @@
 // Priority scheme label styling
 .ds_task-list__task-details {
     display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.ds_task-list__task-header {
+    display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
@@ -258,6 +264,7 @@
 .ds_task-list__task-heading {
     margin: 0;
     padding-right: 16px;
+    flex: 1;
 }
 
 .ds_scheme-priority-label {
@@ -266,7 +273,6 @@
     background: #1d70b8;
     color: white;
     padding: 4px 8px;
-    border-radius: 3px;
     font-weight: normal;
     white-space: nowrap;
 }
@@ -296,4 +302,15 @@
     border-left-color: #1d70b8;
     background-color: #e5f0f8;
     margin-bottom: 32px;
+}
+
+// Add spacing for audit recommendations
+.ds_task-list__task-recommendations {
+    margin-top: 16px;  // Adds space above the audit recommendations
+}
+
+// Add spacing for audit labels
+.ds_label {
+    margin-top: 16px;  // Adds space above the related audit labels
+    display: block;    // Ensures the margin is applied correctly
 }

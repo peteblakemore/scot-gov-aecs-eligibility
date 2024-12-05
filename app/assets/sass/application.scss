@@ -166,17 +166,16 @@
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
+    margin-top: 4px;
 }
 
 .ds_scheme-label {
+    display: inline-block;
     background: #f8f8f8;
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 14px;
     color: #333333;
-    display: inline-block;
-    margin-right: 4px;
-    margin-bottom: 4px;
 }
 
 // Remove the comma after each label
@@ -311,6 +310,22 @@
 
 // Add spacing for audit labels
 .ds_label {
-    margin-top: 16px;  // Adds space above the related audit labels
-    display: block;    // Ensures the margin is applied correctly
+    display: block;
+    margin-top: 16px;
+}
+
+// Add scheme description and funding styles
+.ds_scheme-description {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    color: #333;
+    font-size: 16px;
+}
+
+.ds_scheme-funding {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #2b8cc4;
+    font-size: 16px;
 }

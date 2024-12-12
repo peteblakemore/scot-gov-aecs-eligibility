@@ -7,12 +7,15 @@
     <main id="main-content" class="ds_layout  ds_layout--article">
         <div class="ds_layout__header">
             <header class="ds_page-header">
+                <a class="ds_back-link" href="brn-registration">Back</a>
                 <h1 class="ds_page-header__title">Do you own the land or have a secure tenancy agreement for the duration of the AECS contract?</h1>
             </header>
         </div>
 
         <div class="ds_layout__content">
-            <form action="existing-commitments" method="post">
+            <form method="post">
+                <input type="hidden" name="nextPage" value="existing-commitments">
+                
                 <div class="ds_question">
                     <fieldset>
                         <div class="ds_hint-text">
@@ -20,22 +23,22 @@
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="land-owner" name="landControl" type="radio" value="owner">
+                            <input class="ds_radio__input" id="land-owner" name="landControl" type="radio" value="owner" {{ checked("landControl", "owner") }}>
                             <label class="ds_radio__label" for="land-owner">Yes, I own the land</label>
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="land-tenant" name="landControl" type="radio" value="tenant">
+                            <input class="ds_radio__input" id="land-tenant" name="landControl" type="radio" value="tenant" {{ checked("landControl", "tenant") }}>
                             <label class="ds_radio__label" for="land-tenant">Yes, I have a secure tenancy agreement</label>
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="land-contractual" name="landControl" type="radio" value="contractual">
+                            <input class="ds_radio__input" id="land-contractual" name="landControl" type="radio" value="contractual" {{ checked("landControl", "contractual") }}>
                             <label class="ds_radio__label" for="land-contractual">No, I operate under a contractual licence</label>
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="land-no" name="landControl" type="radio" value="no">
+                            <input class="ds_radio__input" id="land-no" name="landControl" type="radio" value="no" {{ checked("landControl", "no") }}>
                             <label class="ds_radio__label" for="land-no">No</label>
                         </div>
                     </fieldset>

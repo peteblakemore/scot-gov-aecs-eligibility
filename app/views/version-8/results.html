@@ -12,33 +12,56 @@
         </div>
 
         <div class="ds_layout__content">
-            <div class="ds_inset-text ds_inset-text--priority">
-                <div class="ds_inset-text__text">
-                    <strong>You appear to be eligible for AECS funding</strong><br>
-                    Based on your answers, you could apply for AECS funding.
+            {% if isEligible %}
+                <div class="ds_inset-text ds_inset-text--priority">
+                    <div class="ds_inset-text__text">
+                        <strong>You appear to be eligible for AECS funding</strong><br>
+                        Based on your answers, you could apply for AECS funding.
+                    </div>
                 </div>
-            </div>
 
-            <h2>Next steps</h2>
-            <p>To proceed with your application, you should:</p>
-            <ol class="ds_list">
-                <li>Review the full <a href="#">AECS guidance</a></li>
-                <li>Contact your local RPID office for detailed advice</li>
-                <li>Begin gathering your supporting documentation</li>
-                <li>Use the AECS targeting tool to confirm available options for your holding</li>
-            </ol>
+                <h2>Next steps</h2>
+                <p>To proceed with your application, you should:</p>
+                <ol class="ds_list">
+                    <li>Review the full <a href="#">AECS guidance</a></li>
+                    <li>Contact your local RPID office for detailed advice</li>
+                    <li>Begin gathering your supporting documentation</li>
+                    <li>Use the AECS targeting tool to confirm available options for your holding</li>
+                </ol>
 
-            <h2>Important reminders</h2>
-            <ul class="ds_list">
-                <li>You can only submit one AECS application per year (with some exceptions)</li>
-                <li>Don't start any works until you have a signed contract and authority to proceed</li>
-                <li>Ensure all required assessments are completed before applying</li>
-            </ul>
+                <h2>Important reminders</h2>
+                <ul class="ds_list">
+                    <li>Don't start any works until you have a signed contract and authority to proceed</li>
+                    <li>Ensure all required assessments are completed before applying</li>
+                </ul>
 
-            <div class="ds_button-group">
-                <a href="#" class="ds_button">Start your application</a>
-                <a href="#" class="ds_button  ds_button--secondary">Download your results</a>
-            </div>
+                <div class="ds_button-group">
+                    <a href="#" class="ds_button">Start your application</a>
+                </div>
+            {% else %}
+                <div class="ds_inset-text ds_inset-text--priority">
+                    <div class="ds_inset-text__text">
+                        <strong>You may not be eligible for AECS funding</strong><br>
+                        Based on your answers, you may not be able to apply for AECS funding at this time.
+                    </div>
+                </div>
+
+                <h2>Why am I not eligible?</h2>
+                <p>This could be because:</p>
+                <ul class="ds_list">
+                    <li>Your land is not in Scotland</li>
+                    <li>You're not registered with Rural Payments and Services</li>
+                    <li>You don't have the required land control</li>
+                    <li>You have conflicting commitments</li>
+                    <li>You're not able to complete the required assessments</li>
+                </ul>
+
+                <p>For more information about AECS eligibility:</p>
+                <ul class="ds_list">
+                    <li>Read the <a href="#">full guidance on AECS</a></li>
+                    <li>Contact your local RPID office</li>
+                </ul>
+            {% endif %}
 
             <p class="ds_!_margin-top--4">
                 <a href="start">Check another holding</a>

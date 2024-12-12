@@ -3,64 +3,95 @@
 {% block pageTitle %}Check your answers - {{ serviceName }}{% endblock %}
 
 {% block main %}
+<style>
+    .ds_summary-list__key {
+        text-align: left;
+    }
+</style>
+
 <div class="ds_wrapper">
     <main id="main-content" class="ds_layout  ds_layout--article">
         <div class="ds_layout__header">
             <header class="ds_page-header">
-                <h1 class="ds_page-header__title">Check your answers</h1>
+                <a class="ds_back-link" href="environmental-assessment">Back</a>
+                <h1 class="ds_page-header__title">Check your answers before getting your results</h1>
             </header>
         </div>
 
         <div class="ds_layout__content">
-            <div class="ds_summary">
-                <dl class="ds_summary-list">
-                    <div class="ds_summary-list__group">
-                        <dt class="ds_summary-list__key">Location</dt>
-                        <dd class="ds_summary-list__value">Your land is in Scotland</dd>
-                        <dd class="ds_summary-list__action">
-                            <a href="location">Change</a>
-                        </dd>
-                    </div>
-                    <div class="ds_summary-list__group">
-                        <dt class="ds_summary-list__key">Registration</dt>
-                        <dd class="ds_summary-list__value">You are registered with Rural Payments and Services</dd>
-                        <dd class="ds_summary-list__action">
-                            <a href="brn-registration">Change</a>
-                        </dd>
-                    </div>
-                    <div class="ds_summary-list__group">
-                        <dt class="ds_summary-list__key">Land control</dt>
-                        <dd class="ds_summary-list__value">You own or have secure tenancy of the land</dd>
-                        <dd class="ds_summary-list__action">
-                            <a href="land-control">Change</a>
-                        </dd>
-                    </div>
-                    <div class="ds_summary-list__group">
-                        <dt class="ds_summary-list__key">Existing commitments</dt>
-                        <dd class="ds_summary-list__value">Your land is free from conflicting commitments</dd>
-                        <dd class="ds_summary-list__action">
-                            <a href="existing-commitments">Change</a>
-                        </dd>
-                    </div>
-                    <div class="ds_summary-list__group">
-                        <dt class="ds_summary-list__key">Designated sites</dt>
-                        <dd class="ds_summary-list__value">No designated sites on your land</dd>
-                        <dd class="ds_summary-list__action">
-                            <a href="designated-sites">Change</a>
-                        </dd>
-                    </div>
-                    <div class="ds_summary-list__group">
-                        <dt class="ds_summary-list__key">Environmental assessments</dt>
-                        <dd class="ds_summary-list__value">You are prepared to complete required assessments</dd>
-                        <dd class="ds_summary-list__action">
-                            <a href="environmental-assessment">Change</a>
-                        </dd>
-                    </div>
-                </dl>
-            </div>
+            <h2>Your eligibility details</h2>
 
-            <form action="../results" method="post">
-                <button type="submit" class="ds_button">Continue</button>
+            <table class="ds_summary-list">
+                <tbody>
+                    <tr class="ds_summary-list__item">
+                        <th class="ds_summary-list__key">Location</th>
+                        <td class="ds_summary-list__value">
+                            {% if data.location == "yes" %}
+                                Your land is in Scotland
+                            {% else %}
+                                Your land is not in Scotland
+                            {% endif %}
+                        </td>
+                        <td class="ds_summary-list__action">
+                            <a href="location">Change<span class="visually-hidden"> location</span></a>
+                        </td>
+                    </tr>
+
+                    <tr class="ds_summary-list__item">
+                        <th class="ds_summary-list__key">Registration</th>
+                        <td class="ds_summary-list__value">
+                            {% if data.registration == "yes" %}
+                                You are registered with Rural Payments and Services
+                            {% else %}
+                                You are not registered with Rural Payments and Services
+                            {% endif %}
+                        </td>
+                        <td class="ds_summary-list__action">
+                            <a href="brn-registration">Change<span class="visually-hidden"> registration status</span></a>
+                        </td>
+                    </tr>
+
+                    <tr class="ds_summary-list__item">
+                        <th class="ds_summary-list__key">Land control</th>
+                        <td class="ds_summary-list__value">You own the land</td>
+                        <td class="ds_summary-list__action">
+                            <a href="land-control">Change<span class="visually-hidden"> land control status</span></a>
+                        </td>
+                    </tr>
+
+                    <tr class="ds_summary-list__item">
+                        <th class="ds_summary-list__key">Existing commitments</th>
+                        <td class="ds_summary-list__value">Your land is free from conflicting commitments</td>
+                        <td class="ds_summary-list__action">
+                            <a href="existing-commitments">Change<span class="visually-hidden"> existing commitments</span></a>
+                        </td>
+                    </tr>
+
+                    <tr class="ds_summary-list__item">
+                        <th class="ds_summary-list__key">Designated sites</th>
+                        <td class="ds_summary-list__value">No designated sites on your land</td>
+                        <td class="ds_summary-list__action">
+                            <a href="designated-sites">Change<span class="visually-hidden"> designated sites status</span></a>
+                        </td>
+                    </tr>
+
+                    <tr class="ds_summary-list__item">
+                        <th class="ds_summary-list__key">Environmental assessments</th>
+                        <td class="ds_summary-list__value">You are prepared to complete required assessments</td>
+                        <td class="ds_summary-list__action">
+                            <a href="environmental-assessment">Change<span class="visually-hidden"> environmental assessments</span></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>Now check your results</h2>
+
+            <p>By continuing you confirm that, to the best of your knowledge, the details you provided are correct.</p>
+
+            <form method="post">
+                <input type="hidden" name="nextPage" value="../results">
+                <button class="ds_button">Continue</button>
             </form>
         </div>
     </main>

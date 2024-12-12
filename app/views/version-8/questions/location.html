@@ -7,21 +7,24 @@
     <main id="main-content" class="ds_layout  ds_layout--article">
         <div class="ds_layout__header">
             <header class="ds_page-header">
+                <a class="ds_back-link" href="../start">Back</a>
                 <h1 class="ds_page-header__title">Is your land situated in Scotland?</h1>
             </header>
         </div>
 
         <div class="ds_layout__content">
-            <form action="brn-registration" method="post">
+            <form method="post">
+                <input type="hidden" name="nextPage" value="brn-registration">
+                
                 <div class="ds_question">
                     <fieldset>
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="location-yes" name="location" type="radio" value="yes">
+                            <input class="ds_radio__input" id="location-yes" name="location" type="radio" value="yes" {{ checked("location", "yes") }}>
                             <label class="ds_radio__label" for="location-yes">Yes</label>
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="location-no" name="location" type="radio" value="no">
+                            <input class="ds_radio__input" id="location-no" name="location" type="radio" value="no" {{ checked("location", "no") }}>
                             <label class="ds_radio__label" for="location-no">No</label>
                         </div>
                     </fieldset>

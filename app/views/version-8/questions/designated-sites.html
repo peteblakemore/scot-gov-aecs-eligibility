@@ -7,12 +7,15 @@
     <main id="main-content" class="ds_layout  ds_layout--article">
         <div class="ds_layout__header">
             <header class="ds_page-header">
+                <a class="ds_back-link" href="existing-commitments">Back</a>
                 <h1 class="ds_page-header__title">Is any part of your land within or adjacent to designated sites?</h1>
             </header>
         </div>
 
         <div class="ds_layout__content">
-            <form action="environmental-assessment" method="post">
+            <form method="post">
+                <input type="hidden" name="nextPage" value="environmental-assessment">
+                
                 <div class="ds_question">
                     <fieldset>
                         <div class="ds_hint-text">
@@ -20,22 +23,22 @@
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="sites-yes-consulted" name="designatedSites" type="radio" value="yes-consulted">
+                            <input class="ds_radio__input" id="sites-yes-consulted" name="designatedSites" type="radio" value="yes-consulted" {{ checked("designatedSites", "yes-consulted") }}>
                             <label class="ds_radio__label" for="sites-yes-consulted">Yes, and I have consulted with NatureScot</label>
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="sites-yes-not-consulted" name="designatedSites" type="radio" value="yes-not-consulted">
+                            <input class="ds_radio__input" id="sites-yes-not-consulted" name="designatedSites" type="radio" value="yes-not-consulted" {{ checked("designatedSites", "yes-not-consulted") }}>
                             <label class="ds_radio__label" for="sites-yes-not-consulted">Yes, but I have not yet consulted with NatureScot</label>
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="sites-no" name="designatedSites" type="radio" value="no">
+                            <input class="ds_radio__input" id="sites-no" name="designatedSites" type="radio" value="no" {{ checked("designatedSites", "no") }}>
                             <label class="ds_radio__label" for="sites-no">No</label>
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="sites-not-sure" name="designatedSites" type="radio" value="not-sure">
+                            <input class="ds_radio__input" id="sites-not-sure" name="designatedSites" type="radio" value="not-sure" {{ checked("designatedSites", "not-sure") }}>
                             <label class="ds_radio__label" for="sites-not-sure">I'm not sure</label>
                         </div>
                     </fieldset>

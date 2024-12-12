@@ -7,12 +7,15 @@
     <main id="main-content" class="ds_layout  ds_layout--article">
         <div class="ds_layout__header">
             <header class="ds_page-header">
+                <a class="ds_back-link" href="location">Back</a>
                 <h1 class="ds_page-header__title">Are you registered with the Scottish Government's Rural Payments and Services system?</h1>
             </header>
         </div>
 
         <div class="ds_layout__content">
-            <form action="land-control" method="post">
+            <form method="post">
+                <input type="hidden" name="nextPage" value="land-control">
+                
                 <div class="ds_question">
                     <fieldset>
                         <div class="ds_hint-text">
@@ -20,12 +23,12 @@
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="registration-yes" name="registration" type="radio" value="yes">
+                            <input class="ds_radio__input" id="registration-yes" name="registration" type="radio" value="yes" {{ checked("registration", "yes") }}>
                             <label class="ds_radio__label" for="registration-yes">Yes</label>
                         </div>
 
                         <div class="ds_radio">
-                            <input class="ds_radio__input" id="registration-no" name="registration" type="radio" value="no">
+                            <input class="ds_radio__input" id="registration-no" name="registration" type="radio" value="no" {{ checked("registration", "no") }}>
                             <label class="ds_radio__label" for="registration-no">No</label>
                         </div>
                     </fieldset>

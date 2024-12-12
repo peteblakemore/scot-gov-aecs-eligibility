@@ -1,0 +1,68 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Check your answers - {{ serviceName }}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">Check your answers</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <div class="ds_summary">
+                <dl class="ds_summary-list">
+                    <div class="ds_summary-list__group">
+                        <dt class="ds_summary-list__key">Location</dt>
+                        <dd class="ds_summary-list__value">Your land is in Scotland</dd>
+                        <dd class="ds_summary-list__action">
+                            <a href="location">Change</a>
+                        </dd>
+                    </div>
+                    <div class="ds_summary-list__group">
+                        <dt class="ds_summary-list__key">Registration</dt>
+                        <dd class="ds_summary-list__value">You are registered with Rural Payments and Services</dd>
+                        <dd class="ds_summary-list__action">
+                            <a href="brn-registration">Change</a>
+                        </dd>
+                    </div>
+                    <div class="ds_summary-list__group">
+                        <dt class="ds_summary-list__key">Land control</dt>
+                        <dd class="ds_summary-list__value">You own or have secure tenancy of the land</dd>
+                        <dd class="ds_summary-list__action">
+                            <a href="land-control">Change</a>
+                        </dd>
+                    </div>
+                    <div class="ds_summary-list__group">
+                        <dt class="ds_summary-list__key">Existing commitments</dt>
+                        <dd class="ds_summary-list__value">Your land is free from conflicting commitments</dd>
+                        <dd class="ds_summary-list__action">
+                            <a href="existing-commitments">Change</a>
+                        </dd>
+                    </div>
+                    <div class="ds_summary-list__group">
+                        <dt class="ds_summary-list__key">Designated sites</dt>
+                        <dd class="ds_summary-list__value">No designated sites on your land</dd>
+                        <dd class="ds_summary-list__action">
+                            <a href="designated-sites">Change</a>
+                        </dd>
+                    </div>
+                    <div class="ds_summary-list__group">
+                        <dt class="ds_summary-list__key">Environmental assessments</dt>
+                        <dd class="ds_summary-list__value">You are prepared to complete required assessments</dd>
+                        <dd class="ds_summary-list__action">
+                            <a href="environmental-assessment">Change</a>
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+
+            <form action="../results" method="post">
+                <button type="submit" class="ds_button">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %} 

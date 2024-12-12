@@ -1,0 +1,35 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Is your land situated in Scotland? - {{ serviceName }}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">Is your land situated in Scotland?</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <form action="brn-registration" method="post">
+                <div class="ds_question">
+                    <fieldset>
+                        <div class="ds_radio">
+                            <input class="ds_radio__input" id="location-yes" name="location" type="radio" value="yes">
+                            <label class="ds_radio__label" for="location-yes">Yes</label>
+                        </div>
+
+                        <div class="ds_radio">
+                            <input class="ds_radio__input" id="location-no" name="location" type="radio" value="no">
+                            <label class="ds_radio__label" for="location-no">No</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <button type="submit" class="ds_button">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %} 

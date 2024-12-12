@@ -1,0 +1,49 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Designated sites - {{ serviceName }}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">Is any part of your land within or adjacent to designated sites?</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <form action="environmental-assessment" method="post">
+                <div class="ds_question">
+                    <fieldset>
+                        <div class="ds_hint-text">
+                            <p>This includes Sites of Special Scientific Interest (SSSI), Special Protection Areas, or Special Areas of Conservation</p>
+                        </div>
+
+                        <div class="ds_radio">
+                            <input class="ds_radio__input" id="sites-yes-consulted" name="designatedSites" type="radio" value="yes-consulted">
+                            <label class="ds_radio__label" for="sites-yes-consulted">Yes, and I have consulted with NatureScot</label>
+                        </div>
+
+                        <div class="ds_radio">
+                            <input class="ds_radio__input" id="sites-yes-not-consulted" name="designatedSites" type="radio" value="yes-not-consulted">
+                            <label class="ds_radio__label" for="sites-yes-not-consulted">Yes, but I have not yet consulted with NatureScot</label>
+                        </div>
+
+                        <div class="ds_radio">
+                            <input class="ds_radio__input" id="sites-no" name="designatedSites" type="radio" value="no">
+                            <label class="ds_radio__label" for="sites-no">No</label>
+                        </div>
+
+                        <div class="ds_radio">
+                            <input class="ds_radio__input" id="sites-not-sure" name="designatedSites" type="radio" value="not-sure">
+                            <label class="ds_radio__label" for="sites-not-sure">I'm not sure</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <button type="submit" class="ds_button">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %} 

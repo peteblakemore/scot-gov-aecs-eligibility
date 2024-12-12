@@ -1,0 +1,50 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}AECS eligibility checker{% endblock %}
+
+{# Use an empty siteBrandingTitle block to only show the Scottish Government logo for site branding #}
+{% block siteBrandingTitle %}
+<div class="ds_site-branding__title">
+    AECS eligibility checker
+</div>
+{% endblock %}
+
+{# Use an empty siteSearch block to hide the search from the header #}
+{% block siteSearch %}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+
+        {% block mainHeader %}
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">AECS eligibility checker</h1>
+            </header>
+        </div>
+        {% endblock %}
+
+        {% block mainContent %}
+        <div class="ds_layout__content">
+
+            <p>Use this service to quickly check if you might be eligible for the Agri-Environment Climate Scheme (AECS) before investing time and money in a full application.</p>
+
+            <p>You'll need:</p>
+            <ul class="ds_list">
+                <li>details about your land ownership or tenancy</li>
+                <li>information about any existing scheme commitments</li>
+            </ul>
+
+            <div class="button-group">
+                <a href="questions/location" class="ds_button ds_button--has-icon" data-button="button-next">
+                    Start now
+                    <svg class="ds_icon" aria-hidden="true" role="img"><use href="/plugin-assets/%40scottish-government%2Fdesign-system/dist/images/icons/icons.stack.svg#chevron_right"></use></svg>
+                </a>
+            </div>
+
+        </div>
+        {% endblock %}
+
+    </main>
+</div>
+{% endblock %}

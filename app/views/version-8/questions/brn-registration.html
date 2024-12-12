@@ -1,0 +1,39 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Registration status - {{ serviceName }}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">Are you registered with the Scottish Government's Rural Payments and Services system?</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <form action="land-control" method="post">
+                <div class="ds_question">
+                    <fieldset>
+                        <div class="ds_hint-text">
+                            <p>You need to be registered and have a Business Reference Number (BRN)</p>
+                        </div>
+
+                        <div class="ds_radio">
+                            <input class="ds_radio__input" id="registration-yes" name="registration" type="radio" value="yes">
+                            <label class="ds_radio__label" for="registration-yes">Yes</label>
+                        </div>
+
+                        <div class="ds_radio">
+                            <input class="ds_radio__input" id="registration-no" name="registration" type="radio" value="no">
+                            <label class="ds_radio__label" for="registration-no">No</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <button type="submit" class="ds_button">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %} 

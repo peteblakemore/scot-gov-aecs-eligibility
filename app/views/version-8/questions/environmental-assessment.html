@@ -1,0 +1,48 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Environmental assessments - {{ serviceName }}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">Which of these assessments are you prepared to complete?</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <form action="../results" method="post">
+                <div class="ds_question">
+                    <fieldset>
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="assessment-fea" name="assessments" type="checkbox" value="fea">
+                            <label class="ds_checkbox__label" for="assessment-fea">Farm Environment Assessment (FEA)</label>
+                            <div class="ds_hint-text">Required for most applications</div>
+                        </div>
+
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="assessment-diffuse" name="assessments" type="checkbox" value="diffuse-pollution">
+                            <label class="ds_checkbox__label" for="assessment-diffuse">Diffuse Pollution Assessment</label>
+                            <div class="ds_hint-text">Required for water quality-related options</div>
+                        </div>
+
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="assessment-steading" name="assessments" type="checkbox" value="steading">
+                            <label class="ds_checkbox__label" for="assessment-steading">Diffuse Pollution Steading Assessment</label>
+                            <div class="ds_hint-text">May be required depending on your options</div>
+                        </div>
+
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="assessment-none" name="assessments" type="checkbox" value="none">
+                            <label class="ds_checkbox__label" for="assessment-none">None of the above</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <button type="submit" class="ds_button">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %} 

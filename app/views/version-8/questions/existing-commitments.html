@@ -1,0 +1,45 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Existing commitments - {{ serviceName }}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">Check all that apply to your land</h1>
+            </header>
+        </div>
+
+        <div class="ds_layout__content">
+            <form action="designated-sites" method="post">
+                <div class="ds_question">
+                    <fieldset>
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="commitments-free" name="commitments" type="checkbox" value="free">
+                            <label class="ds_checkbox__label" for="commitments-free">The land is free from existing scheme commitments that might conflict with AECS</label>
+                        </div>
+
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="commitments-statutory" name="commitments" type="checkbox" value="statutory">
+                            <label class="ds_checkbox__label" for="commitments-statutory">The proposed works are beyond any statutory or legislative obligations</label>
+                        </div>
+
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="commitments-not-started" name="commitments" type="checkbox" value="not-started">
+                            <label class="ds_checkbox__label" for="commitments-not-started">The proposed works have not started and will not start until contract approval</label>
+                        </div>
+
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="commitments-none" name="commitments" type="checkbox" value="none">
+                            <label class="ds_checkbox__label" for="commitments-none">None of the above</label>
+                        </div>
+                    </fieldset>
+                </div>
+
+                <button type="submit" class="ds_button">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %} 

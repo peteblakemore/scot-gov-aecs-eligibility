@@ -155,6 +155,7 @@
 .ds_task-list__task-status-container {
     display: flex;
     gap: 0.5rem;
+    align-items: flex-start !important;
 }
 
 .ds_task-list__task-status--latest {
@@ -328,4 +329,33 @@
     font-weight: bold;
     color: #2b8cc4;
     font-size: 16px;
+}
+
+// Adjust task header layout
+.ds_task-list__task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+}
+
+.ds_task-list__task-status-container {
+    margin-left: 16px;
+    flex-shrink: 0;
+}
+
+.govuk-details {
+    margin-top: 16px;
+}
+
+.govuk-details__text {
+    padding: 15px;
+    padding-left: 20px;
+    border-left: 4px solid #b1b4b6;
+}
+
+// Add this to your existing styles
+.ds_task-list__task-description strong:contains("Quote") + br + text,
+.ds_task-list__task-description strong:contains("Quote") ~ text {
+    font-style: italic;
 }

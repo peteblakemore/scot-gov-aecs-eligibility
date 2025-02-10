@@ -434,18 +434,49 @@
 <!-- Move the script here, after the main content -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // First check if user selected "no" for audit
+        // Get data from sessionStorage
         const auditAnswer = sessionStorage.getItem('audit-answer');
-        
-        // Get the audit data from sessionStorage
         const auditData = sessionStorage.getItem('wfp-audit');
-        const selectedWfpAudits = auditData ? JSON.parse(auditData) : [];
-        
-        // Get the improvements data
         const storedImprovements = sessionStorage.getItem('audit-improvements');
+        const selectedWfpAudits = auditData ? JSON.parse(auditData) : [];
         const improvements = storedImprovements ? JSON.parse(storedImprovements) : {};
 
-        // Define complete audit mappings
+        // Define both mappings
+        const auditRecommendationGroups = {
+            'Carbon': [
+                'Livestock Emissions',
+                'Crop Soil Management'
+            ],
+            'Biodiversity': [
+                'Habitat Management',
+                'Species Conservation',
+                'Grassland Management',
+                'Water Linked Biodiversity'
+            ],
+            'Soil Management': [
+                'Soil Organic Matter',
+                'Soil Structure',
+                'Nutrient Management',
+                'Soil Biodiversity',
+                'Soil Testing'
+            ],
+            'Animal Health and Welfare': [
+                'Routine Health Checks',
+                'Nutrition Plans',
+                'Living Conditions',
+                'Disease Prevention',
+                'Welfare Training'
+            ],
+            'Integrated Pest Management Plan': [
+                'Monitoring',
+                'Biological Controls',
+                'Cultural Techniques',
+                'Chemical Strategies',
+                'Record Keeping'
+            ]
+        };
+
+        // Keep the audit mappings for filtering schemes
         const auditMappings = {
             'Carbon': [
                 'Wild Bird Seed for Farmland Birds',
@@ -514,75 +545,86 @@
         };
 
         // Create and add the filter UI
-        if (auditData) {
-            const selectedAudits = JSON.parse(auditData);
-            if (selectedAudits.length > 0) {
-                const auditBox = document.createElement('div');
-                auditBox.className = 'ds_filter-group';
-                const allSchemes = document.querySelectorAll('.ds_task-list__task').length;
+        if (storedImprovements) {
+            const auditBox = document.createElement('div');
+            auditBox.className = 'ds_filter-group';
+            const allSchemes = document.querySelectorAll('.ds_task-list__task').length;
 
-                auditBox.innerHTML = `
-                    <h3 class="ds_filter-group__title">Filter by audit type</h3>
-                    <div class="ds_checkboxes">
-                        <div class="ds_checkbox">
-                            <input class="ds_checkbox__input" id="filter-all" type="checkbox" name="filter" value="all" checked>
-                            <label class="ds_checkbox__label" for="filter-all">All schemes (${allSchemes})</label>
-                        </div>
-                        ${selectedAudits.map(audit => `
+            let filterHTML = `
+                <h3 class="ds_filter-group__title">Filter by improvement areas</h3>
+                <div class="ds_checkboxes">
+                    <div class="ds_checkbox">
+                        <input class="ds_checkbox__input" id="filter-all" type="checkbox" name="filter" value="all" checked>
+                        <label class="ds_checkbox__label" for="filter-all">All schemes (${allSchemes})</label>
+                    </div>`;
+
+            // Add improvement areas for each selected audit
+            Object.entries(improvements).forEach(([audit, selectedImprovements]) => {
+                if (selectedImprovements.length > 0) {
+                    filterHTML += `<h4 class="ds_filter-group__subtitle">${audit}</h4>`;
+                    selectedImprovements.forEach(improvement => {
+                        filterHTML += `
                             <div class="ds_checkbox">
-                                <input class="ds_checkbox__input" id="filter-${audit.toLowerCase().replace(/\s+/g, '-')}" type="checkbox" name="filter" value="${audit}">
-                                <label class="ds_checkbox__label" for="filter-${audit.toLowerCase().replace(/\s+/g, '-')}">${audit} (${auditMappings[audit].length})</label>
-                            </div>
-                        `).join('')}
-                    </div>
-                `;
-
-                document.getElementById('filter-container').appendChild(auditBox);
-
-                // Add filter functionality
-                const checkboxes = document.querySelectorAll('.ds_checkbox__input');
-                const allCheckbox = document.getElementById('filter-all');
-
-                function updateVisibility() {
-                    const selectedFilters = Array.from(checkboxes)
-                        .filter(cb => cb.checked && cb.value !== 'all')
-                        .map(cb => cb.value);
-
-                    const showAll = allCheckbox.checked;
-
-                    document.querySelectorAll('.ds_task-list__task').forEach(task => {
-                        const taskName = task.querySelector('.ds_task-list__task-heading a').textContent.trim();
-                        if (showAll) {
-                            task.style.display = '';
-                        } else {
-                            const isVisible = selectedFilters.some(filter => 
-                                auditMappings[filter].includes(taskName)
-                            );
-                            task.style.display = isVisible ? '' : 'none';
-                        }
-                    });
-
-                    // Hide empty sections
-                    document.querySelectorAll('.ds_task-list-group__section').forEach(section => {
-                        const hasVisibleTasks = Array.from(section.querySelectorAll('.ds_task-list__task'))
-                            .some(task => task.style.display !== 'none');
-                        section.style.display = hasVisibleTasks ? '' : 'none';
+                                <input class="ds_checkbox__input" id="filter-${improvement.toLowerCase().replace(/\s+/g, '-')}" 
+                                       type="checkbox" name="filter" value="${improvement}" 
+                                       data-audit="${audit}">
+                                <label class="ds_checkbox__label" for="filter-${improvement.toLowerCase().replace(/\s+/g, '-')}">
+                                    ${improvement}
+                                </label>
+                            </div>`;
                     });
                 }
+            });
 
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener('change', function() {
-                        if (this.value === 'all') {
-                            checkboxes.forEach(cb => {
-                                if (cb !== this) cb.checked = false;
-                            });
-                        } else {
-                            allCheckbox.checked = false;
-                        }
-                        updateVisibility();
-                    });
+            filterHTML += `</div>`;
+            auditBox.innerHTML = filterHTML;
+            document.getElementById('filter-container').appendChild(auditBox);
+
+            // Add filter functionality
+            const checkboxes = document.querySelectorAll('.ds_checkbox__input');
+            const allCheckbox = document.getElementById('filter-all');
+
+            function updateVisibility() {
+                const selectedFilters = Array.from(checkboxes)
+                    .filter(cb => cb.checked && cb.value !== 'all')
+                    .map(cb => ({ value: cb.value, audit: cb.dataset.audit }));
+
+                const showAll = allCheckbox.checked;
+                const noResultsMessage = document.querySelector('.ds_no-results');
+
+                document.querySelectorAll('.ds_task-list__task').forEach(task => {
+                    const taskName = task.querySelector('.ds_task-list__task-heading a').textContent.trim();
+                    if (showAll) {
+                        task.style.display = '';
+                    } else {
+                        const isVisible = selectedFilters.some(filter => {
+                            // Check if the task is related to the audit and matches the selected improvement area
+                            return auditMappings[filter.audit]?.includes(taskName);
+                        });
+                        task.style.display = isVisible ? '' : 'none';
+                    }
+                });
+
+                // Hide empty sections
+                document.querySelectorAll('.ds_task-list-group__section').forEach(section => {
+                    const hasVisibleTasks = Array.from(section.querySelectorAll('.ds_task-list__task'))
+                        .some(task => task.style.display !== 'none');
+                    section.style.display = hasVisibleTasks ? '' : 'none';
                 });
             }
+
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    if (this.value === 'all') {
+                        checkboxes.forEach(cb => {
+                            if (cb !== this) cb.checked = false;
+                        });
+                    } else {
+                        allCheckbox.checked = false;
+                    }
+                    updateVisibility();
+                });
+            });
         }
 
         // Get and display the holding number

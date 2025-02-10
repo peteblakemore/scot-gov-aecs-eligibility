@@ -59,7 +59,15 @@ module.exports = {
       'Managing Steading Drainage and Rural Sustainable Drainage Systems',
       'Pesticide Handling Facilities'
     ],
-    'Air Quality': [
+    'Animal Health and Welfare': [
+      'Species-rich Grassland Management',
+      'Lowland Bog Management',
+      'Management of Buffer Areas for Fens and Lowland Bogs',
+      'Managing Steading Drainage and Rural Sustainable Drainage Systems',
+      'Organic Farming: Conversion',
+      'Organic Farming: Maintenance'
+    ],
+    'Integrated Pest Management Plan': [
       'Species-rich Grassland Management',
       'Lowland Bog Management',
       'Management of Buffer Areas for Fens and Lowland Bogs',

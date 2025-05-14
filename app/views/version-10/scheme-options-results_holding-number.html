@@ -30,16 +30,6 @@
                             </div>
                             <p class="scheme-description">{{ scheme.description }}</p>
                             <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
-                            {% if scheme.relatedOptions %}
-                                <div class="related-options">
-                                    <h4>Related options</h4>
-                                    <ul>
-                                        {% for related in scheme.relatedOptions %}
-                                            <li>{{ related }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -63,16 +53,6 @@
                             </div>
                             <p class="scheme-description">{{ scheme.description }}</p>
                             <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
-                            {% if scheme.relatedOptions %}
-                                <div class="related-options">
-                                    <h4>Related options</h4>
-                                    <ul>
-                                        {% for related in scheme.relatedOptions %}
-                                            <li>{{ related }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -96,16 +76,6 @@
                             </div>
                             <p class="scheme-description">{{ scheme.description }}</p>
                             <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
-                            {% if scheme.relatedOptions %}
-                                <div class="related-options">
-                                    <h4>Related options</h4>
-                                    <ul>
-                                        {% for related in scheme.relatedOptions %}
-                                            <li>{{ related }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -129,16 +99,6 @@
                             </div>
                             <p class="scheme-description">{{ scheme.description }}</p>
                             <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
-                            {% if scheme.relatedOptions %}
-                                <div class="related-options">
-                                    <h4>Related options</h4>
-                                    <ul>
-                                        {% for related in scheme.relatedOptions %}
-                                            <li>{{ related }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -162,16 +122,6 @@
                             </div>
                             <p class="scheme-description">{{ scheme.description }}</p>
                             <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
-                            {% if scheme.relatedOptions %}
-                                <div class="related-options">
-                                    <h4>Related options</h4>
-                                    <ul>
-                                        {% for related in scheme.relatedOptions %}
-                                            <li>{{ related }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -195,16 +145,6 @@
                             </div>
                             <p class="scheme-description">{{ scheme.description }}</p>
                             <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
-                            {% if scheme.relatedOptions %}
-                                <div class="related-options">
-                                    <h4>Related options</h4>
-                                    <ul>
-                                        {% for related in scheme.relatedOptions %}
-                                            <li>{{ related }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -228,16 +168,6 @@
                             </div>
                             <p class="scheme-description">{{ scheme.description }}</p>
                             <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
-                            {% if scheme.relatedOptions %}
-                                <div class="related-options">
-                                    <h4>Related options</h4>
-                                    <ul>
-                                        {% for related in scheme.relatedOptions %}
-                                            <li>{{ related }}</li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            {% endif %}
                         </div>
                     {% endif %}
                 {% endfor %}
@@ -248,9 +178,12 @@
 
 <div class="ds_fixed-button-bar" id="fixed-button-bar">
     <div class="ds_wrapper">
-        <button class="ds_button" type="submit" form="schemes-form">
-            Calculate funding for selected options
-        </button>
+        <div class="button-bar-content">
+            <button class="ds_button" type="submit" form="schemes-form">
+                Calculate funding for selected options
+            </button>
+            <a href="#" class="ds_link" onclick="unselectAll(event)">Clear all options</a>
+        </div>
     </div>
 </div>
 
@@ -282,22 +215,6 @@
         color: #1d70b8;
     }
 
-    .related-options {
-        margin-top: 1rem;
-        padding-top: 1rem;
-        border-top: 1px solid #ddd;
-    }
-
-    .related-options h4 {
-        margin-bottom: 0.5rem;
-        font-size: 1rem;
-    }
-
-    .related-options ul {
-        margin: 0;
-        padding-left: 1.5rem;
-    }
-
     .ds_fixed-button-bar {
         position: sticky;
         bottom: 0;
@@ -305,5 +222,30 @@
         padding: 1rem 0;
         box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
     }
+
+    .button-bar-content {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    .ds_link {
+        color: #0065bd;
+        text-decoration: underline;
+    }
+
+    .ds_button {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
 </style>
+
+<script>
+    function unselectAll(e) {
+        e.preventDefault();
+        document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
+</script>
 {% endblock %}

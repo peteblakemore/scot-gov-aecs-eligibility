@@ -25,11 +25,42 @@
                         <div class="ds_task-list__task-details">
                             <div class="ds_task-list__task-header">
                                 <h3 class="ds_task-list__task-heading">
-                                    <a class="ds_task-list__task-link" href="version-8/start">Version 8 - Eligibility checker</a>
+                                    <a class="ds_task-list__task-link" href="version-9/start">Version 9 - funding and complementary options</a>
                                 </h3>
                                 <div class="ds_task-list__task-status-container">
                                     <div class="ds_task-list__task-status ds_task-list__task-status--latest" aria-hidden="true">Latest</div>
                                     <div class="ds_task-list__task-status" aria-hidden="true">In progress</div>
+                                </div>
+                            </div>
+                            
+                            <details class="govuk-details" data-module="govuk-details">
+                                <summary class="govuk-details__summary">
+                                    <span class="govuk-details__summary-text">
+                                        Problem being solved
+                                    </span>
+                                </summary>
+                                <div class="govuk-details__text">
+                                    <p class="ds_task-list__task-description">
+                                        <strong>Objective:</strong><br>
+                                        Farmers currently have to read and consider a lot of information to find out if they are eligible for AECS. Enabling them to check their eligibility quickly and easily will help them to make a more informed decision, more quickly.
+                                    </p>
+                                    <p class="ds_task-list__task-description">
+                                        <strong>Quote from user research:</strong><br>
+                                        <i>"Can appear a bit daunting to engage with the schemes."</i>
+                                    </p>
+                                </div>
+                            </details>
+                        </div>
+                    </li>
+
+                    <li class="ds_task-list__task" id="version8">
+                        <div class="ds_task-list__task-details">
+                            <div class="ds_task-list__task-header">
+                                <h3 class="ds_task-list__task-heading">
+                                    <a class="ds_task-list__task-link" href="version-8/start">Version 8 - Eligibility checker</a>
+                                </h3>
+                                <div class="ds_task-list__task-status-container">
+                                    <div class="ds_task-list__task-status ds_task-list__task-status--archived" aria-hidden="true">Archived</div>
                                 </div>
                             </div>
                             
@@ -278,5 +309,13 @@
 
   </div>
 </div>
+
+<style>
+.ds_task-list__task-status--archived {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+}
+</style>
 
 {% endblock %}

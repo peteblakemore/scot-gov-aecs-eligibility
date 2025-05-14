@@ -1,0 +1,245 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Task list{% endblock %}
+
+{% block bodyClass %}govuk-frontend-supported{% endblock %}
+
+{% block head %}
+<style>
+    .ds_funding-table {
+        margin-top: 8px;
+        font-size: 0.9em;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .ds_funding-table td {
+        padding: 4px 8px 4px 0;
+        border: none;
+        vertical-align: top;
+        color: #333;
+        font-weight: normal !important;
+    }
+
+    .ds_funding-table td:first-child {
+        padding-right: 16px;
+    }
+
+    .ds_funding-table td:last-child {
+        text-align: right;
+    }
+
+    .ds_funding-table tr:first-child td {
+        border-bottom: 1px solid #f2f2f2;
+        padding-bottom: 8px;
+    }
+
+    .ds_funding-table tr:last-child td {
+        padding-top: 8px;
+    }
+
+    .ds_related-options {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #f2f2f2;
+    }
+
+    .ds_related-options__title {
+        font-size: 1em;
+        margin-bottom: 8px;
+        color: #333;
+    }
+
+    .ds_related-options__list {
+        margin: 0;
+        padding: 0 0 0 20px;  /* Add left padding for bullets */
+        list-style-type: disc;  /* Use bullet points */
+        color: #333;
+    }
+
+    .ds_related-options__list li {
+        margin-bottom: 4px;
+    }
+
+    .ds_inset-text {
+        border-left: 4px solid #b3b3b3;
+        margin: 32px 0;
+        padding: 16px 16px 16px 24px;
+        background-color: #ffffff;
+    }
+
+    .ds_inset-text__text {
+        margin: 0;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    /* Remove any existing margin/padding that might affect positioning */
+    .ds_wrapper {
+        padding: 0 15px;
+    }
+
+    .ds_page-header {
+        margin-bottom: 0;
+    }
+
+    /* Add container width control */
+    .ds_layout__content {
+        max-width: 720px;  /* Standard content width from Design System */
+        margin: 0 auto;
+    }
+
+    /* Add new funding illustration styles */
+    .ds_funding-illustration {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #f2f2f2;
+    }
+
+    h4.ds_funding-illustration__title {
+        font-size: 1em;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: bold !important;
+    }
+
+    /* Super specific selector for table cells */
+    .ds_task-list__task .ds_funding-illustration table.ds_funding-table td {
+        font-weight: 400 !important;
+    }
+
+    /* Keep the heading bold */
+    .ds_task-list__task .ds_funding-illustration h4.ds_funding-illustration__title {
+        font-weight: 700;
+    }
+
+    /* Add these new styles */
+    .ds_funding-values {
+        margin-top: 8px;
+        font-weight: 400;
+    }
+
+    .ds_funding-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+    }
+
+    .ds_funding-label {
+        padding-right: 16px;
+        color: #333;
+    }
+
+    .ds_funding-amount {
+        color: #333;
+        text-align: right;
+    }
+
+    /* Make all text in funding values normal weight */
+    .ds_funding-values * {
+        font-weight: normal !important;
+    }
+
+    /* Override Design System's bold font weight */
+    .ds_task-list__task .ds_label {
+        font-weight: 400 !important;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <header class="ds_page-header">
+        <h1 class="ds_page-header__title">Scheme options for your holding</h1>
+    </header>
+
+    <div class="ds_layout__content">
+        <div class="ds_inset-text">
+            <p>Based on holding number <strong>{{ data.data['holding-number'] }}</strong>, there are <strong>36 schemes</strong> you may be able to apply for, provided you meet the eligibility criteria. The results show potential funding based on your holding size of <strong>170 hectares</strong>.</p>
+        </div>
+
+        <ul class="ds_task-list-group">
+            {% for sectionTitle, schemeNames in sections %}
+            <li class="ds_task-list-group__section">
+                <h2 class="ds_task-list-heading">{{ sectionTitle }}</h2>
+                <ul class="ds_task-list">
+                    {% for schemeName in schemeNames %}
+                    {% set scheme = schemeDetails[schemeName] %}
+                    {% if scheme %}
+                    <li class="ds_task-list__task">
+                        <div class="ds_task-list__task-details">
+                            <h3 class="ds_task-list__task-heading">
+                                <a class="ds_task-list__task-link" href="{{ scheme.url }}">{{ schemeName }}</a>
+                            </h3>
+                            <p class="ds_scheme-description">{{ scheme.description }}</p>
+                            <div class="ds_label">
+                                {%- if scheme.funding and scheme.funding.indexOf('/ha') > -1 -%}
+                                    {% set rate = scheme.funding | replace('£','') | replace('/ha/year','') | float %}
+                                    {% set hectares = 170 %}
+                                    {% set totalFunding = (rate * hectares) | round %}
+                                    {% set tenPercent = (totalFunding * 0.1) | round %}
+                                    
+                                    {% set totalFormatted = totalFunding | string %}
+                                    {% if totalFormatted.length > 3 %}
+                                        {% set totalFormatted = totalFormatted.slice(0, -3) + ',' + totalFormatted.slice(-3) %}
+                                    {% endif %}
+                                    
+                                    {% set tenPercentFormatted = tenPercent | string %}
+                                    {% if tenPercentFormatted.length > 3 %}
+                                        {% set tenPercentFormatted = tenPercentFormatted.slice(0, -3) + ',' + tenPercentFormatted.slice(-3) %}
+                                    {% endif %}
+                                    
+                                    <div class="ds_funding-illustration">
+                                        <h4 class="ds_funding-illustration__title">Funding illustration</h4>
+                                        <table class="ds_funding-table">
+                                            <tr>
+                                                <td>Per hectare per year:</td>
+                                                <td>{{ scheme.funding }}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Full holding (170 ha):</td>
+                                                <td>£{{ totalFormatted }}/year</td>
+                                            </tr>
+                                            <tr>
+                                                <td>10% of holding (17 ha):</td>
+                                                <td>£{{ tenPercentFormatted }}/year</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                {%- endif -%}
+                            </div>
+                            
+                            {% if scheme.relatedOptions and scheme.relatedOptions.length > 0 %}
+                            <div class="ds_related-options">
+                                <h4 class="ds_related-options__title">Related options</h4>
+                                <ul class="ds_related-options__list">
+                                    {% for relatedName in scheme.relatedOptions %}
+                                        {% if schemeDetails[relatedName] %}
+                                        <li>{{ relatedName }}</li>
+                                        {% endif %}
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </li>
+            {% endfor %}
+        </ul>
+
+        {% include "includes/step-by-step-link.njk" %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get and display the holding number
+        const params = new URLSearchParams(window.location.search);
+        const holdingNumber = params.get('holding') || sessionStorage.getItem('holding') || '';
+        document.getElementById('holding-number').textContent = holdingNumber;
+    });
+</script>
+{% endblock %}

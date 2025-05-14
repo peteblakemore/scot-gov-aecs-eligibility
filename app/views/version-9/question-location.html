@@ -1,0 +1,55 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}AECS eligibility checker{% endblock %}
+
+{# Use an empty siteBrandingTitle block to only show the Scottish Government logo for site branding #}
+{% block siteBrandingTitle %}
+<div class="ds_site-branding__title">
+    {{ serviceName }}
+</div>
+{% endblock %}
+
+{# Use an empty siteSearch block to hide the search from the header #}
+{% block siteSearch %}{% endblock %}
+
+
+{# Back link - in place of breadcrumbs #}
+{% block breadcrumbs %}
+<div class="ds_wrapper">
+    <a class="ds_back-link" href="/start">Back</a>
+</div>
+{% endblock %}
+
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--question-page">
+        <div class="ds_layout__content">
+            <form action="scheme-options-results_holding-number" method="post">
+                <input type="hidden" name="data[version]" value="5">
+                <div class="ds_question">
+                    <fieldset>
+                        <legend class="ds_page-header">
+                            <h1 class="ds_page-header__title">
+                                Enter your holding number
+                            </h1>
+                        </legend>
+
+                        <div class="ds_question__content">
+                            <label class="ds_label" for="holding-number">Holding number</label>
+                            <p class="ds_hint-text">For example, 002/0023</p>
+                            <div class="ds_input__wrapper">
+                                <input id="holding-number" 
+                                       name="data[holding-number]"
+                                       type="text" 
+                                       class="ds_input  ds_input--fixed-10">
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <button class="ds_button" type="submit">Continue</button>
+            </form>
+        </div>
+    </main>
+</div>
+{% endblock %}

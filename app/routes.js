@@ -43,5 +43,6 @@ router.get('/version-8/results', (req, res) => {
 // Add your routes here
 require('./routes/version-5/routes')(router);
 require('./routes/version-7/routes')(router);
+require('./routes/version-9/routes')(router);
 
 module.exports = router;

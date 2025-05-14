@@ -1,0 +1,272 @@
+{
+  "Arable": {
+    "description": "Support for arable farming practices",
+    "funding": "£123/ha/year",
+    "url": "#",
+    "relatedOptions": ["Grassland", "Wetlands"]
+  },
+  "Grassland": {
+    "description": "Support for grassland management",
+    "funding": "£156/ha/year",
+    "url": "#",
+    "relatedOptions": ["Arable", "Wetlands"]
+  },
+  "Wetlands": {
+    "description": "Support for wetland conservation",
+    "funding": "£178/ha/year",
+    "url": "#",
+    "relatedOptions": ["Grassland", "Arable"]
+  },
+  "Hedgerows": {
+    "description": "Support for hedgerow maintenance and enhancement",
+    "funding": "£145/ha/year",
+    "url": "#",
+    "relatedOptions": ["Grassland", "Woodland"]
+  },
+  "Woodland": {
+    "description": "Support for woodland management",
+    "funding": "£167/ha/year",
+    "url": "#",
+    "relatedOptions": ["Hedgerows"]
+  },
+  "Water Quality": {
+    "description": "Support for improving water quality",
+    "funding": "£190/ha/year",
+    "url": "#",
+    "relatedOptions": ["Wetlands"]
+  },
+  "Arable grass margins": {
+    "description": "Create grass margins around arable fields to support biodiversity and protect water quality",
+    "funding": "£891/ha/year",
+    "url": "#",
+    "relatedOptions": ["Grass strips in arable fields", "Retention of winter stubbles"]
+  },
+  "Grass strips in arable fields": {
+    "description": "Create grass strips through arable fields to prevent soil erosion and protect water quality",
+    "funding": "£751/ha/year",
+    "url": "#",
+    "relatedOptions": ["Arable grass margins", "Retention of winter stubbles"]
+  },
+  "Retention of winter stubbles": {
+    "description": "Leave stubble in fields over winter to provide food and habitat for wildlife",
+    "funding": "£84/ha/year",
+    "url": "#",
+    "relatedOptions": ["Arable grass margins", "Grass strips in arable fields"]
+  },
+  "Wild Bird Seed for Farmland Birds": {
+    "description": "Provides food resources for farmland birds during winter months.",
+    "funding": "£341/ha/year",
+    "url": "#",
+    "relatedOptions": ["Forage Brassica Crops for Farmland Birds", "Retention of Winter Stubbles for Wildlife and Water Quality", "Grass Strips in Arable Fields"]
+  },
+  "Forage Brassica Crops for Farmland Birds": {
+    "description": "Establishes brassica crops to provide forage for birds.",
+    "funding": "£259/ha/year",
+    "url": "#",
+    "relatedOptions": ["Wild Bird Seed for Farmland Birds", "Retention of Winter Stubbles for Wildlife and Water Quality"]
+  },
+  "Stubbles Followed by Green Manure in an Arable Rotation": {
+    "description": "Leaves stubble over winter, followed by green manure to improve soil health.",
+    "funding": "£249/ha/year",
+    "url": "#",
+    "relatedOptions": ["Retention of Winter Stubbles for Wildlife and Water Quality", "Converting Arable at Risk of Erosion or Flooding to Low-input Grassland"]
+  },
+  "Retention of Winter Stubbles for Wildlife and Water Quality": {
+    "description": "Retains stubble fields through winter to benefit wildlife and reduce runoff.",
+    "funding": "£140/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Beetle Banks": {
+    "description": "Creates grassy banks in arable fields to support predator insects.",
+    "funding": "£495/ha/year",
+    "url": "#",
+    "relatedOptions": ["Grass Strips in Arable Fields", "Water Margins in Arable Fields"]
+  },
+  "Grass Strips in Arable Fields": {
+    "description": "Creates grass strips to reduce erosion and provide wildlife habitat.",
+    "funding": "£495/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Water Margins in Arable Fields": {
+    "description": "Creates buffer zones alongside watercourses to protect water quality.",
+    "funding": "£495/ha/year",
+    "url": "#",
+    "relatedOptions": ["Water Margins in Grassland Fields", "Rural Sustainable Drainage Systems – Wetland", "Rural Sustainable Drainage Systems – Retention Pond"]
+  },
+  "Species-rich Grassland Management": {
+    "description": "Maintain and enhance diverse habitats.",
+    "funding": "£259/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Water Margins in Grassland Fields": {
+    "description": "Establishes protective buffer strips along watercourses.",
+    "funding": "£495/ha/year",
+    "url": "#",
+    "relatedOptions": ["Water Margins in Arable Fields", "Alternative Watering", "Livestock Crossing"]
+  },
+  "Wader and Wildlife Mown Grassland": {
+    "description": "Manages grassland to benefit waders and other wildlife.",
+    "funding": "£285/ha/year",
+    "url": "#",
+    "relatedOptions": ["Wader Grazed Grassland", "Species-rich Grassland Management"]
+  },
+  "Wader Grazed Grassland": {
+    "description": "Promotes grazing regimes that support wader populations.",
+    "funding": "£285/ha/year",
+    "url": "#",
+    "relatedOptions": ["Wader and Wildlife Mown Grassland", "Species-rich Grassland Management"]
+  },
+  "Heath Management (Coastal, Serpentine, Lowland and Special Interest)": {
+    "description": "Encourages the management of heathland habitats.",
+    "funding": "£274/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Wetland Management": {
+    "description": "Supports the maintenance of wetland ecosystems.",
+    "funding": "£78/ha/year",
+    "url": "#",
+    "relatedOptions": ["Lowland Bog Management", "Management of Buffer Areas for Fens and Lowland Bogs", "Rural Sustainable Drainage Systems – Wetland"]
+  },
+  "Lowland Bog Management": {
+    "description": "Aims to preserve lowland bog habitats.",
+    "funding": "£164/ha/year",
+    "url": "#",
+    "relatedOptions": ["Management of Buffer Areas for Fens and Lowland Bogs", "Wetland Management"]
+  },
+  "Management of Buffer Areas for Fens and Lowland Bogs": {
+    "description": "Establishes buffer zones to protect sensitive wetland areas.",
+    "funding": "£440/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Management or Restoration of Hedgerows": {
+    "description": "Supports the upkeep and restoration of hedgerow networks.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Habitat Mosaic Management": {
+    "description": "Encourages management of diverse habitat types within a landscape.",
+    "funding": "£90/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Managing Scrub of Conservation Value": {
+    "description": "Promotes management of scrubland beneficial to wildlife.",
+    "funding": "£74/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Ancient Wood Pasture": {
+    "description": "Supports conservation of historic wood pasture systems.",
+    "funding": "£46/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Conservation Management of Small Units": {
+    "description": "Assists small landholdings in implementing conservation practices.",
+    "funding": "£365/ha/year",
+    "url": "#",
+    "relatedOptions": ["Cattle Management on Small Units (Introduction/Retention)"]
+  },
+  "Cattle Management on Small Units (Introduction/Retention)": {
+    "description": "Encourages cattle grazing to manage habitats.",
+    "funding": "£45/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Control of Invasive Non-native Plant Species": {
+    "description": "Supports efforts to remove invasive plant species.",
+    "funding": "£324/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Converting Arable at Risk of Erosion or Flooding to Low-input Grassland": {
+    "description": "Encourages conversion to grassland to reduce erosion and flood risk.",
+    "funding": "£371/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Rural Sustainable Drainage Systems – Swales": {
+    "description": "Channels water flow and promotes infiltration to reduce runoff.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Rural Sustainable Drainage Systems – Wetland": {
+    "description": "Slows water movement and filters runoff to improve water quality.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": ["Rural Sustainable Drainage Systems – Retention Pond", "Rural Sustainable Drainage Systems – Sediment Traps and Bunds", "Rural Sustainable Drainage Systems – Swales"]
+  },
+  "Water-use Efficiency – Irrigation Lagoon": {
+    "description": "Supports water storage for irrigation and flood risk mitigation.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Alternative Watering": {
+    "description": "Provides clean water sources away from watercourses for livestock.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Hard Standings for Troughs and Gateways": {
+    "description": "Prevents soil compaction and reduces erosion at high traffic areas.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Livestock Crossing": {
+    "description": "Reduces bank erosion and sedimentation with suitable crossings.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Livestock Tracks": {
+    "description": "Improves access while reducing soil compaction and erosion.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Managing Steading Drainage and Rural Sustainable Drainage Systems": {
+    "description": "Manages runoff and reduces flood risk around farm infrastructure.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": ["Rural Sustainable Drainage Systems – Wetland", "Rural Sustainable Drainage Systems – Retention Pond", "Pesticide Handling Facilities"]
+  },
+  "Pesticide Handling Facilities": {
+    "description": "Reduces pesticide contamination to protect water quality.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Rural Sustainable Drainage Systems – Retention Pond": {
+    "description": "Supports creation of ponds to manage runoff and improve water quality.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Rural Sustainable Drainage Systems – Sediment Traps and Bunds": {
+    "description": "Captures soil and slows runoff to protect water quality.",
+    "funding": "£0/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  },
+  "Organic Farming: Conversion": {
+    "description": "Supports the transition to organic farming methods.",
+    "funding": "£220-£330/ha/year",
+    "url": "#",
+    "relatedOptions": ["Organic Farming: Maintenance"]
+  },
+  "Organic Farming: Maintenance": {
+    "description": "Supports ongoing organic farming practices.",
+    "funding": "£55-£200/ha/year",
+    "url": "#",
+    "relatedOptions": []
+  }
+} 

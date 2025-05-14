@@ -1,0 +1,217 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Selected schemes{% endblock %}
+
+{% block main %}
+<!-- Temporary debug info at top of page -->
+<div style="background: #f8f8f8; padding: 1rem; margin-bottom: 2rem; font-family: monospace; font-size: 12px;">
+    <p>Selected schemes: {{ data['selected-schemes'] | dump }}</p>
+</div>
+
+<div class="ds_wrapper">
+    <header class="ds_page-header">
+        <h1 class="ds_page-header__title">Calculate your funding</h1>
+    </header>
+
+    <div class="calculation-grid">
+        <div class="schemes-column">
+            {% if data['selected-schemes'] %}
+                <h2 class="options-heading">Your selected options</h2>
+                
+                {% for scheme in data['selected-schemes'] %}
+                    {% if scheme and scheme != '_unchecked' %}
+                        <div class="ds_scheme-section" data-rate="{{ schemeDetails[scheme].funding | replace('£','') | replace('/ha/year','') }}">
+                            <h3>{{ scheme }}</h3>
+                            {% if schemeDetails[scheme] %}
+                                <p>Rate: {{ schemeDetails[scheme].funding }}</p>
+                                
+                                <div class="scheme-controls">
+                                    <div class="control-group">
+                                        <label class="ds_label" for="percentage-{{ loop.index }}">Percentage of holding</label>
+                                        <input class="ds_input" type="number" 
+                                               id="percentage-{{ loop.index }}" 
+                                               name="percentage-{{ loop.index }}" 
+                                               min="1" max="100" value="10"
+                                               data-scheme="{{ scheme }}">
+                                        <span class="ds_hint-text">This equals <span id="hectares-{{ loop.index }}">17</span> hectares</span>
+                                    </div>
+                                    
+                                    <div class="control-group">
+                                        <label class="ds_label" for="years-{{ loop.index }}">Number of years</label>
+                                        <input class="ds_input" type="number" 
+                                               id="years-{{ loop.index }}" 
+                                               name="years-{{ loop.index }}" 
+                                               min="1" max="5" value="1">
+                                    </div>
+                                </div>
+                                
+                                <p class="scheme-total">Total for this option: <strong>£<span id="total-{{ loop.index }}">0</span></strong></p>
+                            {% else %}
+                                <!-- Debug info for missing schemes -->
+                                <p style="color: red">Scheme details not found in database</p>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No schemes were selected. <a href="javascript:history.back()">Go back to select schemes</a></p>
+            {% endif %}
+        </div>
+        
+        <div class="totals-column">
+            <div class="totals-box">
+                <h2>Funding summary</h2>
+                <div id="scheme-totals">
+                    <!-- Individual scheme totals will be listed here -->
+                </div>
+                <div class="grand-total">
+                    <h3>Total funding</h3>
+                    <p class="total-amount">£<span id="grand-total">0</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .calculation-grid {
+        display: grid;
+        grid-template-columns: 66.67% 33.33%;
+        gap: 2rem;
+        max-width: 100%;
+        margin: 0 auto;
+        padding: 0 1rem;
+    }
+
+    .options-heading {
+        margin-bottom: 2rem;
+    }
+
+    .schemes-column {
+        padding-right: 2rem;
+    }
+
+    .totals-column {
+        margin-top: 5.5rem; /* Aligns with first option box */
+    }
+
+    .ds_scheme-section {
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background-color: #f8f8f8;
+        border-radius: 4px;
+    }
+    
+    .ds_scheme-section h3 {
+        margin-top: 0;
+        color: #333;
+    }
+
+    .scheme-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+        margin: 1rem 0;
+    }
+
+    .control-group {
+        margin-bottom: 1rem;
+    }
+
+    .ds_input {
+        width: 100%;
+        max-width: 150px;
+    }
+
+    .totals-box {
+        background: #f8f8f8;
+        padding: 1.5rem;
+        border-radius: 4px;
+        position: sticky;
+        top: 2rem;
+    }
+
+    .grand-total {
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 2px solid #333;
+    }
+
+    .total-amount {
+        font-size: 1.5rem;
+        font-weight: bold;
+    }
+
+    .scheme-total {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #ddd;
+    }
+
+    .scheme-summary {
+        margin-bottom: 1rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .scheme-summary:last-child {
+        border-bottom: none;
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const totalHectares = 170;
+        const schemeSections = document.querySelectorAll('.ds_scheme-section');
+        
+        function updateCalculations() {
+            let grandTotal = 0;
+            const schemeTotals = [];
+            
+            schemeSections.forEach((section, index) => {
+                const rate = parseFloat(section.dataset.rate) || 0;
+                const percentageInput = section.querySelector('input[name^="percentage"]');
+                const yearsInput = section.querySelector('input[name^="years"]');
+                const hectaresSpan = document.getElementById(`hectares-${index + 1}`);
+                const totalSpan = document.getElementById(`total-${index + 1}`);
+                
+                const percentage = parseFloat(percentageInput.value) || 0;
+                const years = parseFloat(yearsInput.value) || 0;
+                const hectares = (totalHectares * percentage / 100);
+                
+                hectaresSpan.textContent = hectares.toFixed(1);
+                const schemeTotal = rate * hectares * years;
+                totalSpan.textContent = schemeTotal.toLocaleString();
+                
+                grandTotal += schemeTotal;
+                
+                // Store scheme total for summary
+                schemeTotals.push({
+                    name: section.querySelector('h3').textContent,
+                    total: schemeTotal
+                });
+            });
+            
+            // Update grand total
+            document.getElementById('grand-total').textContent = grandTotal.toLocaleString();
+            
+            // Update scheme totals list
+            const schemeTotalsList = document.getElementById('scheme-totals');
+            schemeTotalsList.innerHTML = schemeTotals.map(scheme => `
+                <div class="scheme-summary">
+                    <p>${scheme.name}</p>
+                    <p>£${scheme.total.toLocaleString()}</p>
+                </div>
+            `).join('');
+        }
+
+        // Add event listeners to all inputs
+        document.querySelectorAll('input[type="number"]').forEach(input => {
+            input.addEventListener('input', updateCalculations);
+        });
+
+        // Initial calculation
+        updateCalculations();
+    });
+</script>
+{% endblock %}

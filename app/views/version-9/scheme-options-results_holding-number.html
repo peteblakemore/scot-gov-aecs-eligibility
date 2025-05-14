@@ -26,7 +26,7 @@
     }
 
     .ds_funding-table td:last-child {
-        text-align: right;
+        text-align: righ  t;
     }
 
     .ds_funding-table tr:first-child td {
@@ -144,6 +144,20 @@
     .ds_task-list__task .ds_label {
         font-weight: 400 !important;
     }
+
+    /* Add border to scheme selection */
+    .ds_task-list__task {
+        border-top: 1px solid #f2f2f2;
+        padding-top: 16px;
+        margin-top: 16px;
+    }
+
+    /* Remove top margin/border from first item in list */
+    .ds_task-list__task:first-child {
+        border-top: none;
+        margin-top: 0;
+        padding-top: 0;
+    }
 </style>
 {% endblock %}
 
@@ -173,39 +187,43 @@
                             </h3>
                             <p class="ds_scheme-description">{{ scheme.description }}</p>
                             <div class="ds_label">
-                                {%- if scheme.funding and scheme.funding.indexOf('/ha') > -1 -%}
-                                    {% set rate = scheme.funding | replace('£','') | replace('/ha/year','') | float %}
-                                    {% set hectares = 170 %}
-                                    {% set totalFunding = (rate * hectares) | round %}
-                                    {% set tenPercent = (totalFunding * 0.1) | round %}
-                                    
-                                    {% set totalFormatted = totalFunding | string %}
-                                    {% if totalFormatted.length > 3 %}
-                                        {% set totalFormatted = totalFormatted.slice(0, -3) + ',' + totalFormatted.slice(-3) %}
+                                {%- if scheme.funding -%}
+                                    {% if scheme.funding === '£0/ha/year' %}
+                                        <p>Funding rate to be confirmed</p>
+                                    {% else %}
+                                        {% set rate = scheme.funding | replace('£','') | replace('/ha/year','') | float %}
+                                        {% set hectares = 170 %}
+                                        {% set totalFunding = (rate * hectares) | round %}
+                                        {% set tenPercent = (totalFunding * 0.1) | round %}
+                                        
+                                        {% set totalFormatted = totalFunding | string %}
+                                        {% if totalFormatted.length > 3 %}
+                                            {% set totalFormatted = totalFormatted.slice(0, -3) + ',' + totalFormatted.slice(-3) %}
+                                        {% endif %}
+                                        
+                                        {% set tenPercentFormatted = tenPercent | string %}
+                                        {% if tenPercentFormatted.length > 3 %}
+                                            {% set tenPercentFormatted = tenPercentFormatted.slice(0, -3) + ',' + tenPercentFormatted.slice(-3) %}
+                                        {% endif %}
+                                        
+                                        <div class="ds_funding-illustration">
+                                            <h4 class="ds_funding-illustration__title">Funding illustration</h4>
+                                            <table class="ds_funding-table">
+                                                <tr>
+                                                    <td>Per hectare per year:</td>
+                                                    <td>{{ scheme.funding }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Full holding (170 ha):</td>
+                                                    <td>£{{ totalFormatted }}/year</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>10% of holding (17 ha):</td>
+                                                    <td>£{{ tenPercentFormatted }}/year</td>
+                                                </tr>
+                                            </table>
+                                        </div>
                                     {% endif %}
-                                    
-                                    {% set tenPercentFormatted = tenPercent | string %}
-                                    {% if tenPercentFormatted.length > 3 %}
-                                        {% set tenPercentFormatted = tenPercentFormatted.slice(0, -3) + ',' + tenPercentFormatted.slice(-3) %}
-                                    {% endif %}
-                                    
-                                    <div class="ds_funding-illustration">
-                                        <h4 class="ds_funding-illustration__title">Funding illustration</h4>
-                                        <table class="ds_funding-table">
-                                            <tr>
-                                                <td>Per hectare per year:</td>
-                                                <td>{{ scheme.funding }}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Full holding (170 ha):</td>
-                                                <td>£{{ totalFormatted }}/year</td>
-                                            </tr>
-                                            <tr>
-                                                <td>10% of holding (17 ha):</td>
-                                                <td>£{{ tenPercentFormatted }}/year</td>
-                                            </tr>
-                                        </table>
-                                    </div>
                                 {%- endif -%}
                             </div>
                             

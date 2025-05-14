@@ -1,0 +1,328 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Task list{% endblock %}
+
+{% block bodyClass %}govuk-frontend-supported{% endblock %}
+
+{% block head %}
+<style>
+    .ds_funding-table {
+        margin-top: 8px;
+        font-size: 0.9em;
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .ds_funding-table td {
+        padding: 4px 8px 4px 0;
+        border: none;
+        vertical-align: top;
+        color: #333;
+        font-weight: normal !important;
+    }
+
+    .ds_funding-table td:first-child {
+        padding-right: 16px;
+    }
+
+    .ds_funding-table td:last-child {
+        text-align: right;
+    }
+
+    .ds_funding-table tr:first-child td {
+        border-bottom: 1px solid #f2f2f2;
+        padding-bottom: 8px;
+    }
+
+    .ds_funding-table tr:last-child td {
+        padding-top: 8px;
+    }
+
+    .ds_related-options {
+        margin-top: 16px;
+        margin-bottom: 1em;  /* Add bottom margin */
+        padding-top: 16px;
+        border-top: 1px solid #f2f2f2;
+    }
+
+    .ds_related-options__title {
+        font-size: 1em;
+        margin-bottom: 8px;
+        color: #333;
+    }
+
+    .ds_related-options__list {
+        margin: 0;
+        padding: 0 0 0 20px;  /* Add left padding for bullets */
+        list-style-type: disc;  /* Use bullet points */
+        color: #333;
+    }
+
+    .ds_related-options__list li {
+        margin-bottom: 4px;
+    }
+
+    .ds_inset-text {
+        border-left: 4px solid #b3b3b3;
+        margin: 32px 0;
+        padding: 16px 16px 16px 24px;
+        background-color: #ffffff;
+    }
+
+    .ds_inset-text__text {
+        margin: 0;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    /* Remove any existing margin/padding that might affect positioning */
+    .ds_wrapper {
+        padding: 0 15px;
+    }
+
+    .ds_page-header {
+        margin-bottom: 0;
+    }
+
+    /* Add container width control */
+    .ds_layout__content {
+        max-width: 720px;  /* Standard content width from Design System */
+        margin: 0 auto;
+    }
+
+    /* Add new funding illustration styles */
+    .ds_funding-illustration {
+        margin-top: 16px;
+        padding-top: 16px;
+        border-top: 1px solid #f2f2f2;
+    }
+
+    h4.ds_funding-illustration__title {
+        font-size: 1em;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: bold !important;
+    }
+
+    /* Super specific selector for table cells */
+    .ds_task-list__task .ds_funding-illustration table.ds_funding-table td {
+        font-weight: 400 !important;
+    }
+
+    /* Keep the heading bold */
+    .ds_task-list__task .ds_funding-illustration h4.ds_funding-illustration__title {
+        font-weight: 700;
+    }
+
+    /* Add these new styles */
+    .ds_funding-values {
+        margin-top: 8px;
+        font-weight: 400;
+    }
+
+    .ds_funding-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 4px 0;
+    }
+
+    .ds_funding-label {
+        padding-right: 16px;
+        color: #333;
+    }
+
+    .ds_funding-amount {
+        color: #333;
+        text-align: right;
+    }
+
+    /* Make all text in funding values normal weight */
+    .ds_funding-values * {
+        font-weight: normal !important;
+    }
+
+    /* Override Design System's bold font weight */
+    .ds_task-list__task .ds_label {
+        font-weight: 400 !important;
+    }
+
+    .scheme-select {
+        margin-top: 32px;
+        padding: 16px;
+        background: #f8f8f8;
+        border-radius: 4px;
+        border: 1px solid #b3b3b3;
+        border-top: 1px solid #f2f2f2;  /* Add horizontal line matching other dividers */
+    }
+
+    .ds_checkbox {
+        position: relative;
+        padding-left: 0;
+    }
+
+    .ds_checkbox__input {
+        position: absolute;
+        left: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+        width: 25px;
+        height: 25px;
+        margin: 0;
+    }
+
+    .ds_checkbox__label {
+        display: block;
+        background: #0065bd;
+        color: #ffffff;
+        padding: 12px 24px 12px 48px;
+        text-align: center;
+        min-height: 48px;
+        cursor: pointer;
+    }
+
+    .ds_checkbox__input:checked + .ds_checkbox__label {
+        background: #002d54;
+    }
+
+    /* Remove custom button styles and use Design System classes instead */
+    .visually-hidden {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0 0 0 0);
+        border: 0;
+    }
+
+    .ds_fixed-button-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        background: white;
+        padding: 16px 0;
+        box-shadow: 0 -2px 4px rgba(0,0,0,0.1);
+        z-index: 9999; /* Increased z-index */
+        /* display: none; Remove this line temporarily */
+    }
+
+    .ds_fixed-button-bar .ds_wrapper {
+        max-width: 720px;
+        margin: 0 auto;
+        padding: 0 15px;
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Add padding to prevent content being hidden behind the button bar */
+    body {
+        margin-bottom: 80px;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <header class="ds_page-header">
+        <h1 class="ds_page-header__title">Scheme options for your holding</h1>
+    </header>
+
+    <div class="ds_layout__content">
+        <div class="ds_inset-text">
+            <p>Based on holding number <strong>{{ data.data['holding-number'] }}</strong>, there are <strong>36 schemes</strong> you may be able to apply for, provided you meet the eligibility criteria.</p>
+        </div>
+
+        <form action="/version-10/selected-schemes" method="POST" id="schemes-form">
+            <ul class="ds_task-list-group">
+                {% for schemeName, scheme in schemeDetails %}
+                <li class="ds_task-list-group__section">
+                    <h2 class="ds_task-list-heading">{{ schemeName }}</h2>
+                    <ul class="ds_task-list">
+                        <li class="ds_task-list__task">
+                            <div class="ds_task-list__task-details">
+                                <div class="govuk-checkboxes__item">
+                                    <input class="govuk-checkboxes__input" id="scheme-{{ loop.index }}" name="selected-schemes" type="checkbox" value="{{ schemeName }}">
+                                    <label class="govuk-checkboxes__label" for="scheme-{{ loop.index }}">
+                                        <h3 class="ds_task-list__task-heading">{{ schemeName }}</h3>
+                                    </label>
+                                </div>
+                                <p class="ds_scheme-description">{{ scheme.description }}</p>
+                                <p><a href="{{ scheme.url }}" target="_blank" rel="noopener noreferrer">View guidance for this scheme option</a></p>
+                                <div class="ds_label">
+                                    {%- if scheme.funding -%}
+                                        {% if scheme.funding === '£0/ha/year' %}
+                                            <p>Funding rate to be confirmed</p>
+                                        {% else %}
+                                            <div class="ds_funding-illustration">
+                                                <table class="ds_funding-table">
+                                                    <tr>
+                                                        <td>Per hectare per year:</td>
+                                                        <td>{{ scheme.funding }}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        {% endif %}
+                                    {%- endif -%}
+                                </div>
+                                
+                                {% if scheme.relatedOptions and scheme.relatedOptions.length > 0 %}
+                                <div class="ds_related-options">
+                                    <h4 class="ds_related-options__title">Related options</h4>
+                                    <ul class="ds_related-options__list">
+                                        {% for relatedName in scheme.relatedOptions %}
+                                            {% if schemeDetails[relatedName] %}
+                                            <li>{{ relatedName }}</li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+        </form>
+
+        {% include "includes/step-by-step-link.njk" %}
+    </div>
+</div>
+
+<div class="ds_fixed-button-bar" id="fixed-button-bar">
+    <div class="ds_wrapper">
+        <button class="ds_button" type="submit" form="schemes-form">
+            Calculate funding for selected options
+        </button>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttonBar = document.getElementById('fixed-button-bar');
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        
+        // For testing - log if the elements are found
+        console.log('Button bar:', buttonBar);
+        console.log('Checkboxes:', checkboxes.length);
+        
+        function updateButtonVisibility() {
+            const anyChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+            console.log('Checked boxes:', anyChecked); // Debug log
+            buttonBar.style.display = anyChecked ? 'block' : 'none';
+        }
+
+        // Add event listeners to all checkboxes
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', updateButtonVisibility);
+        });
+
+        // Initial check
+        updateButtonVisibility();
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,57 @@
+{
+  "Arable": [
+    "Wild Bird Seed for Farmland Birds",
+    "Forage Brassica Crops for Farmland Birds",
+    "Stubbles Followed by Green Manure in an Arable Rotation",
+    "Retention of Winter Stubbles for Wildlife and Water Quality",
+    "Beetle Banks",
+    "Grass Strips in Arable Fields",
+    "Water Margins in Arable Fields"
+  ],
+  "Grassland": [
+    "Species-rich Grassland Management",
+    "Water Margins in Grassland Fields",
+    "Wader and Wildlife Mown Grassland",
+    "Wader Grazed Grassland"
+  ],
+  "Upland, peatland, moorland and heath": [
+    "Heath Management (Coastal, Serpentine, Lowland and Special Interest)"
+  ],
+  "Wetland and bogs": [
+    "Wetland Management",
+    "Lowland Bog Management",
+    "Management of Buffer Areas for Fens and Lowland Bogs"
+  ],
+  "Farm habitats and features": [
+    "Management or Restoration of Hedgerows",
+    "Habitat Mosaic Management",
+    "Managing Scrub of Conservation Value",
+    "Ancient Wood Pasture"
+  ],
+  "Small units": [
+    "Conservation Management of Small Units",
+    "Cattle Management on Small Units (Introduction/Retention)"
+  ],
+  "Control of invasive non-native species": [
+    "Control of Invasive Non-native Plant Species"
+  ],
+  "Managing water quality and flood risk": [
+    "Converting Arable at Risk of Erosion or Flooding to Low-input Grassland",
+    "Rural Sustainable Drainage Systems – Swales",
+    "Rural Sustainable Drainage Systems – Wetland",
+    "Water-use Efficiency – Irrigation Lagoon",
+    "Alternative Watering",
+    "Hard Standings for Troughs and Gateways",
+    "Livestock Crossing",
+    "Livestock Tracks",
+    "Managing Steading Drainage and Rural Sustainable Drainage Systems",
+    "Pesticide Handling Facilities",
+    "Rural Sustainable Drainage Systems – Retention Pond",
+    "Rural Sustainable Drainage Systems – Sediment Traps and Bunds"
+  ],
+  "Organic farming": [
+    "Organic Farming: Conversion",
+    "Organic Farming: Maintenance"
+  ],
+  "Water Quality": ["Retention of winter stubbles"]
+} 

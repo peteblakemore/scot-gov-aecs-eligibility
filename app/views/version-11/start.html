@@ -1,0 +1,48 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}AECS eligibility checker{% endblock %}
+
+{# Use an empty siteBrandingTitle block to only show the Scottish Government logo for site branding #}
+{% block siteBrandingTitle %}
+<div class="ds_site-branding__title">
+    {{ serviceName }}
+</div>
+{% endblock %}
+
+{# Use an empty siteSearch block to hide the search from the header #}
+{% block siteSearch %}{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper">
+    <main id="main-content" class="ds_layout  ds_layout--article">
+
+        {% block mainHeader %}
+        <div class="ds_layout__header">
+            <header class="ds_page-header">
+                <h1 class="ds_page-header__title">{{ serviceName }}</h1>
+            </header>
+        </div>
+        {% endblock %}
+
+        {% block mainContent %}
+        <div class="ds_layout__content">
+
+            <p>This service helps farmers, land managers and crofters find out which AECS options they may be able to apply for.</p>
+            <p>You will also be able to see how much funding you could get for each option.</p>
+        
+            <p>You'll need your holding number.</p>
+            <br >
+
+            <div class="button-group">
+                <a href="question-location" class="ds_button ds_button--has-icon" data-button="button-next">
+                    Start now
+                    <svg class="ds_icon" aria-hidden="true" role="img"><use href="/plugin-assets/%40scottish-government%2Fdesign-system/dist/images/icons/icons.stack.svg#chevron_right"></use></svg>
+                </a>
+            </div>
+
+        </div>
+        {% endblock %}
+
+    </main>
+</div>
+{% endblock %}

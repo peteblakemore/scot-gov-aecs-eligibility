@@ -1,6 +1,9 @@
 const govukPrototypeKit = require('govuk-prototype-kit');
 const router = govukPrototypeKit.requests.setupRouter();
 
+// Add version routes
+require('./routes/version-11/routes')(router);
+
 // Add this near the top of the file
 const eligibilityChecks = {
   isEligible: (data) => {

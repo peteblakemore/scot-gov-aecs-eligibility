@@ -1,0 +1,564 @@
+{% extends "sg-prototype-templates/layouts/_base-layout.njk" %}
+
+{% block pageTitle %}Scheme options for your farm{% endblock %}
+
+{% block bodyClass %}govuk-frontend-supported version-11{% endblock %}
+
+{% block head %}
+<style>
+    /* Version 11 specific styles */
+    .version-11 .ds_task-list__task {
+        background-color: #f8f8f8 !important;
+        padding: 1.5rem !important;
+        margin-bottom: 1.5rem !important;
+        border-radius: 4px !important;
+        border: none !important;
+        position: relative !important;
+    }
+
+    .version-11 .ds_task-list__task--priority {
+        border: 0.25rem solid #fdd522 !important;
+        padding: 1.25rem !important;
+    }
+
+    .version-11 .ds_task-list__task-details {
+        margin-bottom: 0 !important;
+        position: relative !important;
+    }
+
+    .version-11 .ds_checkbox {
+        margin-bottom: 0 !important;
+        padding-left: 40px !important;
+        position: relative !important;
+        padding-right: 150px !important; /* Make room for priority label */
+    }
+
+    .version-11 .ds_priority-scheme {
+        display: inline-block !important;
+        background-color: #0065bd !important;
+        color: white !important;
+        padding: 4px 8px !important;
+        border-radius: 2px !important;
+        font-size: 0.9em !important;
+        font-weight: bold !important;
+        position: absolute !important;
+        right: 1.5rem !important;
+    }
+
+    .version-11 .scheme-description {
+        margin: 0.75rem 0 !important;
+        padding-left: 1.5rem !important;
+        color: #333 !important;
+    }
+
+    .version-11 .scheme-rate {
+        margin: 0.75rem 0 0.5rem !important;
+        padding-left: 1.5rem !important;
+        color: #0065bd !important;
+        font-weight: bold !important;
+    }
+
+    .version-11 .ds_audit-tags {
+        margin-top: 1rem !important;
+        padding-left: 1.5rem !important;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 0.5rem !important;
+    }
+
+    .version-11 .ds_audit-tag {
+        display: inline-block !important;
+        background-color: #f2f2f2 !important;
+        padding: 4px 8px !important;
+        border-radius: 2px !important;
+        font-size: 0.9em !important;
+        color: #333 !important;
+    }
+
+    /* Page layout styles */
+    .version-11 .ds_page__content {
+        display: flex;
+        gap: 32px;
+        margin-bottom: 2rem;
+    }
+
+    .version-11 .ds_layout__content--narrow {
+        flex: 0 0 33.333%;
+        padding-right: 32px;
+        border-right: 1px solid #b3b3b3;
+    }
+
+    .version-11 .ds_layout__content--wide {
+        flex: 0 0 66.666%;
+    }
+
+    /* Filter styles */
+    .version-11 .ds_filter-group {
+        background: #ffffff;
+        margin-top: 2rem;
+    }
+
+    .version-11 .ds_filter-group__title {
+        font-size: 1.1rem;
+        font-weight: bold;
+        margin: 0 0 1.5rem 0;
+        color: #333333;
+    }
+
+    .version-11 .ds_filter-group__subtitle {
+        font-size: 1rem;
+        font-weight: bold;
+        margin: 1.5rem 0 1rem;
+        color: #333333;
+    }
+
+    .version-11 .ds_checkboxes {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    /* Button bar styles */
+    .version-11 .ds_fixed-button-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 1rem 0;
+        border-top: 1px solid #b3b3b3;
+        z-index: 100;
+    }
+
+    .version-11 .button-bar-content {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+    }
+
+    /* Task list styles */
+    .version-11 .ds_task-list-group {
+        margin-bottom: 3rem;
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .version-11 .ds_task-list-group__section {
+        margin-bottom: 3rem;
+    }
+
+    .version-11 .ds_task-list-heading {
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid #333;
+        width: 100%;
+    }
+
+    .version-11 .ds_task-list {
+        list-style: none;
+        padding-left: 0;
+    }
+
+    .version-11 .ds_task-list__task-heading {
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+    }
+
+    .version-11 .ds_task-list__task-link {
+        color: #0065bd;
+        text-decoration: underline;
+        font-weight: bold;
+    }
+
+    /* Checkbox styles */
+    .version-11 .ds_checkbox__input {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 30px;
+        height: 30px;
+        z-index: 1;
+        margin: 0;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .version-11 .ds_checkbox__label {
+        font-size: 1rem;
+        line-height: 30px;
+        cursor: pointer;
+        padding: 0 10px;
+        display: block;
+    }
+
+    .version-11 .ds_checkbox__label:before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 28px;
+        height: 28px;
+        border: 2px solid #333333;
+        background: white;
+    }
+
+    .version-11 .ds_checkbox__label:after {
+        content: '';
+        position: absolute;
+        left: 7px;
+        top: 7px;
+        width: 14px;
+        height: 7px;
+        border: solid;
+        border-width: 0 0 3px 3px;
+        border-color: #333333;
+        transform: rotate(-45deg);
+        opacity: 0;
+    }
+
+    .version-11 .ds_checkbox__input:checked + .ds_checkbox__label:after {
+        opacity: 1;
+    }
+
+    .version-11 .ds_checkbox__input:focus + .ds_checkbox__label:before {
+        outline: 3px solid transparent;
+        outline-offset: 3px;
+        box-shadow: 0 0 0 3px #fdd522;
+    }
+
+    /* Notification styles */
+    .version-11 .ds_notification {
+        border-left: 4px solid #0065bd;
+        padding: 15px;
+        background-color: #f8f8f8;
+        margin-bottom: 30px;
+        border-top: 1px solid #e5e5e5;
+        border-right: 1px solid #e5e5e5;
+        border-bottom: 1px solid #e5e5e5;
+    }
+
+    .version-11 .ds_notification__title {
+        font-size: 1.1em;
+        font-weight: 700;
+        margin-bottom: 15px;
+        color: #333333;
+    }
+
+    .version-11 .ds_notification__body {
+        color: #333333;
+    }
+
+    /* Keep filter sticky */
+    .version-11 #filter-container .ds_notification {
+        position: sticky;
+        top: 24px;
+    }
+
+    .version-11 #filter-container .ds_filter-group {
+        position: sticky;
+        top: 24px;
+    }
+
+    /* Inset text styles */
+    .version-11 .ds_inset-text {
+        border-left: 4px solid #b3b3b3;
+        margin: 0 0 2rem 0;
+        padding: 1rem;
+    }
+
+    .version-11 .ds_inset-text__text {
+        margin: 0;
+        padding: 0;
+    }
+
+    /* Add padding at bottom to account for fixed button bar */
+    .version-11 main {
+        padding-bottom: 80px;
+    }
+
+    /* Link styles */
+    .version-11 .ds_link {
+        color: #0065bd;
+        text-decoration: underline;
+    }
+
+    /* Button styles */
+    .version-11 .ds_button {
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block main %}
+<div class="ds_wrapper version-11">
+    <header class="ds_page-header">
+        <h1 class="ds_page-header__title">Scheme options for your farm</h1>
+    </header>
+
+    <div class="ds_inset-text">
+        <div class="ds_inset-text__text">
+            Based on holding number {{ data.data['holding-number'] }}, there are {{ totalSchemes }} schemes you may be able to apply for, provided you meet the eligibility criteria.
+        </div>
+    </div>
+
+    <div class="ds_page__content">
+        <div class="ds_layout__content--narrow">
+            <div id="filter-container">
+                <div class="ds_filter-group">
+                    <h2 class="ds_filter-group__title">Filters</h2>
+                    
+                    <div class="ds_checkboxes">
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="filter-priority" type="checkbox" name="filter" value="priority">
+                            <label class="ds_checkbox__label" for="filter-priority">Priority in your area</label>
+                        </div>
+
+                        <h3 class="ds_filter-group__subtitle">Carbon recommendations</h3>
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="filter-livestock" type="checkbox" name="filter" value="livestock-emissions">
+                            <label class="ds_checkbox__label" for="filter-livestock">Livestock Emissions</label>
+                        </div>
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="filter-crop-soil" type="checkbox" name="filter" value="crop-soil-management">
+                            <label class="ds_checkbox__label" for="filter-crop-soil">Crop and Soil Management</label>
+                        </div>
+
+                        <h3 class="ds_filter-group__subtitle">Biodiversity recommendations</h3>
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="filter-habitat" type="checkbox" name="filter" value="habitat-management">
+                            <label class="ds_checkbox__label" for="filter-habitat">Habitat Management</label>
+                        </div>
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="filter-species" type="checkbox" name="filter" value="species-conservation">
+                            <label class="ds_checkbox__label" for="filter-species">Species Conservation</label>
+                        </div>
+                        <div class="ds_checkbox">
+                            <input class="ds_checkbox__input" id="filter-grassland" type="checkbox" name="filter" value="grassland-management">
+                            <label class="ds_checkbox__label" for="filter-grassland">Grassland Management</label>
+                        </div>
+                    </div>
+
+                    <div class="ds_button-group">
+                        <a href="#" class="ds_link" onclick="clearFilters(event)">Clear filters</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ds_layout__content--wide">
+            <form action="/version-11/selected-schemes" method="POST" id="schemes-form">
+                <div id="no-results-message" class="ds_notification" style="display: none;">
+                    <div class="ds_notification__content">
+                        <p class="ds_notification__body">No scheme options match your selected filters. Try selecting different filters or click 'Clear filters' to see all available options.</p>
+                    </div>
+                </div>
+
+                <ul class="ds_task-list-group">
+                    {% if schemesByCategory.arable.length > 0 %}
+                    <li class="ds_task-list-group__section">
+                        <h2 class="ds_task-list-heading">Arable Options</h2>
+                        <ul class="ds_task-list">
+                            {% for scheme in schemesByCategory.arable %}
+                            <li class="ds_task-list__task {{ 'ds_task-list__task--priority' if scheme.isPriority }}">
+                                <div class="ds_task-list__task-details">
+                                    <div class="ds_checkbox">
+                                        <input class="ds_checkbox__input" 
+                                               id="scheme-{{ loop.index }}" 
+                                               name="selected-schemes" 
+                                               type="checkbox" 
+                                               value="{{ scheme.name }}">
+                                        <label class="ds_checkbox__label" for="scheme-{{ loop.index }}">
+                                            {{ scheme.name }}
+                                        </label>
+                                    </div>
+                                    {% if scheme.isPriority %}
+                                        <span class="ds_priority-scheme">Priority in your area</span>
+                                    {% endif %}
+                                    <p class="scheme-description">{{ scheme.description }}</p>
+                                    <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
+
+                                    {% if scheme.relatedOptions and scheme.relatedOptions.length > 0 %}
+                                        <div class="ds_related-options">
+                                            <h3 class="ds_related-options__title">Complementary options</h3>
+                                            <ul class="ds_related-options__list">
+                                                {% for option in scheme.relatedOptions %}
+                                                    <li>{{ option }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
+                                        <div class="ds_audit-tags">
+                                            {% for audit in scheme.relatedAudits %}
+                                                <span class="ds_audit-tag">{{ audit }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if schemesByCategory.grassland.length > 0 %}
+                    <li class="ds_task-list-group__section">
+                        <h2 class="ds_task-list-heading">Grassland Options</h2>
+                        <ul class="ds_task-list">
+                            {% for scheme in schemesByCategory.grassland %}
+                            <li class="ds_task-list__task {{ 'ds_task-list__task--priority' if scheme.isPriority }}">
+                                <div class="ds_task-list__task-details">
+                                    <div class="ds_checkbox">
+                                        <input class="ds_checkbox__input" 
+                                               id="scheme-{{ loop.index }}" 
+                                               name="selected-schemes" 
+                                               type="checkbox" 
+                                               value="{{ scheme.name }}">
+                                        <label class="ds_checkbox__label" for="scheme-{{ loop.index }}">
+                                            {{ scheme.name }}
+                                        </label>
+                                    </div>
+                                    {% if scheme.isPriority %}
+                                        <span class="ds_priority-scheme">Priority in your area</span>
+                                    {% endif %}
+                                    <p class="scheme-description">{{ scheme.description }}</p>
+                                    <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
+
+                                    {% if scheme.relatedOptions and scheme.relatedOptions.length > 0 %}
+                                        <div class="ds_related-options">
+                                            <h3 class="ds_related-options__title">Complementary options</h3>
+                                            <ul class="ds_related-options__list">
+                                                {% for option in scheme.relatedOptions %}
+                                                    <li>{{ option }}</li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    {% endif %}
+
+                                    {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
+                                        <div class="ds_audit-tags">
+                                            {% for audit in scheme.relatedAudits %}
+                                                <span class="ds_audit-tag">{{ audit }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+                </ul>
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="ds_fixed-button-bar">
+    <div class="ds_wrapper">
+        <div class="button-bar-content">
+            <button class="ds_button" type="submit" form="schemes-form">
+                Calculate funding for selected options
+            </button>
+            <a href="#" class="ds_link" onclick="unselectAll(event)">Clear all options</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function clearFilters(event) {
+        event.preventDefault();
+        document.querySelectorAll('.ds_checkbox__input[name="filter"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        updateVisibility();
+    }
+
+    function unselectAll(event) {
+        event.preventDefault();
+        document.querySelectorAll('.ds_checkbox__input[name="selected-schemes"]').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
+
+    function updateVisibility() {
+        const selectedFilters = Array.from(document.querySelectorAll('.ds_checkbox__input[name="filter"]:checked')).map(cb => cb.value);
+        const schemeTasks = document.querySelectorAll('.ds_task-list__task');
+        let hasVisibleSchemes = false;
+
+        schemeTasks.forEach(task => {
+            let shouldShow = true;
+
+            // If no filters are selected, show everything
+            if (selectedFilters.length === 0) {
+                shouldShow = true;
+            } else {
+                // Check if ANY of the selected filters match
+                shouldShow = selectedFilters.some(filter => {
+                    if (filter === 'priority') {
+                        // Check if this is a priority scheme
+                        return task.classList.contains('ds_task-list__task--priority');
+                    } else {
+                        // Check audit tags
+                        const schemeName = task.querySelector('.ds_checkbox__label').textContent.trim();
+                        const matchingSchemes = auditSchemeMapping[filter] || [];
+                        return matchingSchemes.includes(schemeName);
+                    }
+                });
+            }
+
+            task.style.display = shouldShow ? 'block' : 'none';
+            if (shouldShow) hasVisibleSchemes = true;
+        });
+
+        // Show/hide no results message
+        const noResultsMessage = document.getElementById('no-results-message');
+        noResultsMessage.style.display = hasVisibleSchemes ? 'none' : 'block';
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Define which schemes belong to which audit recommendations
+        auditSchemeMapping = {
+            'livestock-emissions': [
+                'Species-rich Grassland Management',
+                'Wader Grazed Grassland',
+                'Wader and Wildlife Mown Grassland',
+                'Cattle Management on Small Units'
+            ],
+            'crop-soil-management': [
+                'Stubbles Followed by Green Manure in an Arable Rotation',
+                'Converting Arable at Risk of Erosion or Flooding to Low-input Grassland',
+                'Retention of Winter Stubbles for Wildlife and Water Quality',
+                'Grass Strips in Arable Fields'
+            ],
+            'habitat-management': [
+                'Heath Management (Coastal, Serpentine, Lowland and Special Interest)',
+                'Habitat Mosaic Management',
+                'Managing Scrub of Conservation Value',
+                'Ancient Wood Pasture',
+                'Species-rich Grassland Management',
+                'Management of Buffer Areas for Fens and Lowland Bogs'
+            ],
+            'species-conservation': [
+                'Wild Bird Seed for Farmland Birds',
+                'Forage Brassica Crops for Farmland Birds',
+                'Wader and Wildlife Mown Grassland',
+                'Wader Grazed Grassland'
+            ],
+            'grassland-management': [
+                'Species-rich Grassland Management',
+                'Water Margins in Grassland Fields',
+                'Wader and Wildlife Mown Grassland',
+                'Wader Grazed Grassland'
+            ]
+        };
+
+        // Add event listeners to all filter checkboxes
+        document.querySelectorAll('.ds_checkbox__input[name="filter"]').forEach(checkbox => {
+            checkbox.addEventListener('change', updateVisibility);
+        });
+    });
+</script>
+
+{% endblock %}

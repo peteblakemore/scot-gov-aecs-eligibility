@@ -13,7 +13,6 @@
         margin-bottom: 1.5rem !important;
         border-radius: 4px !important;
         border: none !important;
-        position: relative !important;
     }
 
     .version-11 .ds_task-list__task--priority {
@@ -23,14 +22,28 @@
 
     .version-11 .ds_task-list__task-details {
         margin-bottom: 0 !important;
-        position: relative !important;
     }
 
     .version-11 .ds_checkbox {
         margin-bottom: 0 !important;
         padding-left: 40px !important;
         position: relative !important;
-        padding-right: 150px !important; /* Make room for priority label */
+    }
+
+    .version-11 .ds_checkbox__input {
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+    }
+
+    .version-11 .ds_checkbox__label {
+        display: inline-block !important;
+        padding-right: 8px !important;
+    }
+
+    .version-11 .ds_task-list__task--priority .ds_checkbox__label {
+        width: 65% !important;
+        display: inline-block !important;
     }
 
     .version-11 .ds_priority-scheme {
@@ -41,14 +54,14 @@
         border-radius: 2px !important;
         font-size: 0.9em !important;
         font-weight: bold !important;
-        position: absolute !important;
-        right: 1.5rem !important;
+        vertical-align: top !important;
     }
 
     .version-11 .scheme-description {
         margin: 0.75rem 0 !important;
         padding-left: 1.5rem !important;
         color: #333 !important;
+        clear: both !important;
     }
 
     .version-11 .scheme-rate {
@@ -120,20 +133,41 @@
 
     /* Button bar styles */
     .version-11 .ds_fixed-button-bar {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: white;
-        padding: 1rem 0;
-        border-top: 1px solid #b3b3b3;
-        z-index: 100;
+        position: fixed !important;
+        bottom: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        background: white !important;
+        padding: 1rem 0 !important;
+        border-top: 1px solid #b3b3b3 !important;
+        box-shadow: 0 -2px 5px rgba(0,0,0,0.1) !important;
+        z-index: 1000 !important;
+    }
+
+    .version-11 .ds_fixed-button-bar .ds_wrapper {
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 0 15px !important;
     }
 
     .version-11 .button-bar-content {
-        display: flex;
-        align-items: center;
-        gap: 24px;
+        display: flex !important;
+        align-items: center !important;
+        gap: 24px !important;
+    }
+
+    /* Add padding to main content to prevent overlap with fixed button bar */
+    .version-11 .ds_wrapper {
+        padding-bottom: 80px !important;
+    }
+
+    /* Ensure the wrapper maintains proper width */
+    .version-11 .ds_wrapper {
+        width: 100% !important;
+        max-width: 1200px !important;
+        margin: 0 auto !important;
+        padding: 0 15px !important;
     }
 
     /* Task list styles */
@@ -271,11 +305,6 @@
         padding: 0;
     }
 
-    /* Add padding at bottom to account for fixed button bar */
-    .version-11 main {
-        padding-bottom: 80px;
-    }
-
     /* Link styles */
     .version-11 .ds_link {
         color: #0065bd;
@@ -285,6 +314,16 @@
     /* Button styles */
     .version-11 .ds_button {
         margin: 0;
+    }
+
+    .version-11 {
+        position: relative;
+    }
+
+    .ds_scheme-options-container {
+        flex: 1 1 auto;
+        overflow-y: auto;
+        margin-bottom: 80px;
     }
 </style>
 {% endblock %}
@@ -363,11 +402,11 @@
                                 <div class="ds_task-list__task-details">
                                     <div class="ds_checkbox">
                                         <input class="ds_checkbox__input" 
-                                               id="scheme-{{ loop.index }}" 
+                                               id="scheme-arable-{{ loop.index }}" 
                                                name="selected-schemes" 
                                                type="checkbox" 
                                                value="{{ scheme.name }}">
-                                        <label class="ds_checkbox__label" for="scheme-{{ loop.index }}">
+                                        <label class="ds_checkbox__label" for="scheme-arable-{{ loop.index }}" {% if scheme.isPriority %}style="width: 65%"{% endif %}>
                                             {{ scheme.name }}
                                         </label>
                                     </div>
@@ -376,17 +415,6 @@
                                     {% endif %}
                                     <p class="scheme-description">{{ scheme.description }}</p>
                                     <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
-
-                                    {% if scheme.relatedOptions and scheme.relatedOptions.length > 0 %}
-                                        <div class="ds_related-options">
-                                            <h3 class="ds_related-options__title">Complementary options</h3>
-                                            <ul class="ds_related-options__list">
-                                                {% for option in scheme.relatedOptions %}
-                                                    <li>{{ option }}</li>
-                                                {% endfor %}
-                                            </ul>
-                                        </div>
-                                    {% endif %}
 
                                     {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
                                         <div class="ds_audit-tags">
@@ -411,11 +439,11 @@
                                 <div class="ds_task-list__task-details">
                                     <div class="ds_checkbox">
                                         <input class="ds_checkbox__input" 
-                                               id="scheme-{{ loop.index }}" 
+                                               id="scheme-grassland-{{ loop.index }}" 
                                                name="selected-schemes" 
                                                type="checkbox" 
                                                value="{{ scheme.name }}">
-                                        <label class="ds_checkbox__label" for="scheme-{{ loop.index }}">
+                                        <label class="ds_checkbox__label" for="scheme-grassland-{{ loop.index }}" {% if scheme.isPriority %}style="width: 65%"{% endif %}>
                                             {{ scheme.name }}
                                         </label>
                                     </div>
@@ -425,16 +453,190 @@
                                     <p class="scheme-description">{{ scheme.description }}</p>
                                     <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
 
-                                    {% if scheme.relatedOptions and scheme.relatedOptions.length > 0 %}
-                                        <div class="ds_related-options">
-                                            <h3 class="ds_related-options__title">Complementary options</h3>
-                                            <ul class="ds_related-options__list">
-                                                {% for option in scheme.relatedOptions %}
-                                                    <li>{{ option }}</li>
-                                                {% endfor %}
-                                            </ul>
+                                    {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
+                                        <div class="ds_audit-tags">
+                                            {% for audit in scheme.relatedAudits %}
+                                                <span class="ds_audit-tag">{{ audit }}</span>
+                                            {% endfor %}
                                         </div>
                                     {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if schemesByCategory.wetland.length > 0 %}
+                    <li class="ds_task-list-group__section">
+                        <h2 class="ds_task-list-heading">Wetland Options</h2>
+                        <ul class="ds_task-list">
+                            {% for scheme in schemesByCategory.wetland %}
+                            <li class="ds_task-list__task {{ 'ds_task-list__task--priority' if scheme.isPriority }}">
+                                <div class="ds_task-list__task-details">
+                                    <div class="ds_checkbox">
+                                        <input class="ds_checkbox__input" 
+                                               id="scheme-wetland-{{ loop.index }}" 
+                                               name="selected-schemes" 
+                                               type="checkbox" 
+                                               value="{{ scheme.name }}">
+                                        <label class="ds_checkbox__label" for="scheme-wetland-{{ loop.index }}" {% if scheme.isPriority %}style="width: 65%"{% endif %}>
+                                            {{ scheme.name }}
+                                        </label>
+                                    </div>
+                                    {% if scheme.isPriority %}
+                                        <span class="ds_priority-scheme">Priority in your area</span>
+                                    {% endif %}
+                                    <p class="scheme-description">{{ scheme.description }}</p>
+                                    <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
+
+                                    {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
+                                        <div class="ds_audit-tags">
+                                            {% for audit in scheme.relatedAudits %}
+                                                <span class="ds_audit-tag">{{ audit }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if schemesByCategory.upland.length > 0 %}
+                    <li class="ds_task-list-group__section">
+                        <h2 class="ds_task-list-heading">Upland Options</h2>
+                        <ul class="ds_task-list">
+                            {% for scheme in schemesByCategory.upland %}
+                            <li class="ds_task-list__task {{ 'ds_task-list__task--priority' if scheme.isPriority }}">
+                                <div class="ds_task-list__task-details">
+                                    <div class="ds_checkbox">
+                                        <input class="ds_checkbox__input" 
+                                               id="scheme-upland-{{ loop.index }}" 
+                                               name="selected-schemes" 
+                                               type="checkbox" 
+                                               value="{{ scheme.name }}">
+                                        <label class="ds_checkbox__label" for="scheme-upland-{{ loop.index }}" {% if scheme.isPriority %}style="width: 65%"{% endif %}>
+                                            {{ scheme.name }}
+                                        </label>
+                                    </div>
+                                    {% if scheme.isPriority %}
+                                        <span class="ds_priority-scheme">Priority in your area</span>
+                                    {% endif %}
+                                    <p class="scheme-description">{{ scheme.description }}</p>
+                                    <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
+
+                                    {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
+                                        <div class="ds_audit-tags">
+                                            {% for audit in scheme.relatedAudits %}
+                                                <span class="ds_audit-tag">{{ audit }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if schemesByCategory.habitats.length > 0 %}
+                    <li class="ds_task-list-group__section">
+                        <h2 class="ds_task-list-heading">Farm Habitats and Features</h2>
+                        <ul class="ds_task-list">
+                            {% for scheme in schemesByCategory.habitats %}
+                            <li class="ds_task-list__task {{ 'ds_task-list__task--priority' if scheme.isPriority }}">
+                                <div class="ds_task-list__task-details">
+                                    <div class="ds_checkbox">
+                                        <input class="ds_checkbox__input" 
+                                               id="scheme-habitats-{{ loop.index }}" 
+                                               name="selected-schemes" 
+                                               type="checkbox" 
+                                               value="{{ scheme.name }}">
+                                        <label class="ds_checkbox__label" for="scheme-habitats-{{ loop.index }}" {% if scheme.isPriority %}style="width: 65%"{% endif %}>
+                                            {{ scheme.name }}
+                                        </label>
+                                    </div>
+                                    {% if scheme.isPriority %}
+                                        <span class="ds_priority-scheme">Priority in your area</span>
+                                    {% endif %}
+                                    <p class="scheme-description">{{ scheme.description }}</p>
+                                    <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
+
+                                    {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
+                                        <div class="ds_audit-tags">
+                                            {% for audit in scheme.relatedAudits %}
+                                                <span class="ds_audit-tag">{{ audit }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if schemesByCategory.water.length > 0 %}
+                    <li class="ds_task-list-group__section">
+                        <h2 class="ds_task-list-heading">Water Quality and Management</h2>
+                        <ul class="ds_task-list">
+                            {% for scheme in schemesByCategory.water %}
+                            <li class="ds_task-list__task {{ 'ds_task-list__task--priority' if scheme.isPriority }}">
+                                <div class="ds_task-list__task-details">
+                                    <div class="ds_checkbox">
+                                        <input class="ds_checkbox__input" 
+                                               id="scheme-water-{{ loop.index }}" 
+                                               name="selected-schemes" 
+                                               type="checkbox" 
+                                               value="{{ scheme.name }}">
+                                        <label class="ds_checkbox__label" for="scheme-water-{{ loop.index }}" {% if scheme.isPriority %}style="width: 65%"{% endif %}>
+                                            {{ scheme.name }}
+                                        </label>
+                                    </div>
+                                    {% if scheme.isPriority %}
+                                        <span class="ds_priority-scheme">Priority in your area</span>
+                                    {% endif %}
+                                    <p class="scheme-description">{{ scheme.description }}</p>
+                                    <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
+
+                                    {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
+                                        <div class="ds_audit-tags">
+                                            {% for audit in scheme.relatedAudits %}
+                                                <span class="ds_audit-tag">{{ audit }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                    {% endif %}
+
+                    {% if schemesByCategory.organic.length > 0 %}
+                    <li class="ds_task-list-group__section">
+                        <h2 class="ds_task-list-heading">Organic Farming</h2>
+                        <ul class="ds_task-list">
+                            {% for scheme in schemesByCategory.organic %}
+                            <li class="ds_task-list__task {{ 'ds_task-list__task--priority' if scheme.isPriority }}">
+                                <div class="ds_task-list__task-details">
+                                    <div class="ds_checkbox">
+                                        <input class="ds_checkbox__input" 
+                                               id="scheme-organic-{{ loop.index }}" 
+                                               name="selected-schemes" 
+                                               type="checkbox" 
+                                               value="{{ scheme.name }}">
+                                        <label class="ds_checkbox__label" for="scheme-organic-{{ loop.index }}" {% if scheme.isPriority %}style="width: 65%"{% endif %}>
+                                            {{ scheme.name }}
+                                        </label>
+                                    </div>
+                                    {% if scheme.isPriority %}
+                                        <span class="ds_priority-scheme">Priority in your area</span>
+                                    {% endif %}
+                                    <p class="scheme-description">{{ scheme.description }}</p>
+                                    <p class="scheme-rate">Rate: {{ scheme.funding }}</p>
 
                                     {% if scheme.relatedAudits and scheme.relatedAudits.length > 0 %}
                                         <div class="ds_audit-tags">

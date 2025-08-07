@@ -1,3 +1,4 @@
 {
-  "serviceName": "AECS options checker"
+  "serviceName": "AECS options checker",
+  "useAuth": false
 }
